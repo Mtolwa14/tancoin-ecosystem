@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,979 +5,285 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#0b0e11">
 <title>TANCOIN EXCHANGE PRO</title>
-
 <style>
-:root{
---bg:#0b0e11;--panel:#181a20;--panel2:#20242c;
---yellow:#f0b90b;--text:#eaecef;--muted:#848e9c;
---green:#0ecb81;--red:#f6465d;--border:#292d35
-}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}
-button,input,select{font:inherit}
-button{cursor:pointer}
-.topbar{height:65px;display:flex;align-items:center;justify-content:space-between;padding:0 22px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--bg);z-index:10}
-.logo{font-size:21px;font-weight:800;color:var(--yellow)}
-.logo span{color:white}
-.toplinks,.actions{display:flex;gap:18px;align-items:center}
-.toplinks a{color:var(--text);text-decoration:none;font-size:13px}
-.toplinks a:hover,.active{color:var(--yellow)!important}
-.btn{border:0;border-radius:5px;padding:10px 15px;font-weight:700;background:var(--yellow);color:#111}
-.btn.dark{background:var(--panel2);color:var(--text)}
-.btn:disabled{opacity:.5;cursor:not-allowed}
-.layout{display:flex;min-height:calc(100vh - 65px)}
-.sidebar{width:220px;padding:22px 14px;border-right:1px solid var(--border)}
-.side-title{font-size:11px;color:var(--muted);margin:18px 12px 8px}
-.navitem{display:block;padding:12px;border-radius:6px;color:var(--muted);text-decoration:none;font-size:14px;margin-bottom:3px}
-.navitem:hover,.navitem.active{background:#29251a;color:var(--yellow)!important}
-main{flex:1;min-width:0;padding:25px;max-width:1500px;margin:auto;width:100%}
-h1{font-size:25px;margin:0 0 8px}
-h2{font-size:19px;margin:0}
-h3{font-size:15px}
-.sub{color:var(--muted);font-size:13px}
-.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:24px 0}
-.card{background:var(--panel);border:1px solid var(--border);border-radius:9px;padding:19px;margin-bottom:15px}
-.label{color:var(--muted);font-size:13px;margin-bottom:12px}
-.value{font-size:23px;font-weight:700}
-.quick{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:20px 0 28px}
-.quick button{background:var(--panel);border:1px solid var(--border);color:var(--text);padding:15px 6px;border-radius:8px;font-weight:700}
-.quick b{display:block;color:var(--yellow);font-size:20px;margin-bottom:8px}
-.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:25px 0 15px;flex-wrap:wrap}
-.tabs{display:flex;gap:18px;overflow:auto}
-.tab{background:none;border:0;color:var(--muted);padding:8px 0;white-space:nowrap}
-.tab.active{color:var(--yellow);border-bottom:2px solid var(--yellow)}
-.search,.field{background:var(--bg);border:1px solid var(--border);color:var(--text);padding:12px;border-radius:6px;width:100%;outline:none}
-.field:focus,.search:focus{border-color:var(--yellow)}
-.field-label{display:block;color:var(--muted);font-size:12px;margin:13px 0 6px}
-.table-wrap{overflow-x:auto;background:var(--panel);border:1px solid var(--border);border-radius:8px}
-table{width:100%;border-collapse:collapse;min-width:650px}
-th,td{text-align:right;padding:14px 16px;border-bottom:1px solid var(--border);font-size:13px}
-th{color:var(--muted);font-weight:500}
-th:first-child,td:first-child{text-align:left}
-.coin{display:flex;align-items:center;gap:10px}
-.coin img{width:27px;height:27px;border-radius:50%}
-.coin strong{font-size:14px}
-.coin small{color:var(--muted);margin-left:5px}
-.up{color:var(--green)}.down{color:var(--red)}
-.status{font-size:12px;color:var(--muted)}
-.page{display:none}.page.active{display:block}
-.market-summary{display:flex;gap:22px;flex-wrap:wrap;margin:20px 0}
-.market-summary div{font-size:13px;color:var(--muted)}
-.market-summary strong{display:block;color:var(--text);font-size:16px;margin-top:7px}
-.placeholder{padding:30px 20px;text-align:center;color:var(--muted);background:var(--panel);border:1px solid var(--border);border-radius:8px}
-.notice{padding:12px;border:1px solid #51431c;background:#29251a;color:#e8c75b;border-radius:6px;font-size:12px;line-height:1.5;margin:12px 0}
-.success{color:var(--green)}.error{color:var(--red)}
-.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.row>*{flex:1}
-.tan-logo{width:34px;height:34px;border-radius:50%;background:linear-gradient(145deg,#ffe58a,#d69b00);display:inline-flex;align-items:center;justify-content:center;color:#17120a;font-weight:900;border:2px solid #f9d45c;box-shadow:0 0 12px #f0b90b44}
-.tan-coin{display:flex;align-items:center;gap:10px}
-.copyline{display:flex;gap:8px;align-items:center}
-.copyline input{min-width:0}
-.small{font-size:11px;color:var(--muted)}
-#tcAuth{display:none;position:fixed;inset:0;background:#000c;z-index:9999;align-items:center;justify-content:center;padding:15px}
-.authbox{background:var(--panel);border:1px solid #333;border-radius:12px;padding:25px;width:100%;max-width:410px}
-.authbox input{display:block;width:100%;padding:13px;margin:12px 0;background:var(--bg);border:1px solid #333;color:white;border-radius:6px}
-.authbtn{width:100%;padding:13px;background:var(--yellow);color:#111;border:0;border-radius:6px;font-weight:bold;margin-top:10px}
-.switch{background:none;border:0;color:var(--yellow);margin-top:15px}
-.close{float:right;background:none;border:0;color:white;font-size:24px}
-#tcAuthMsg{font-size:13px;color:var(--yellow);line-height:1.5;margin-top:12px;overflow-wrap:anywhere}
+:root{--bg:#0b0e11;--panel:#181a20;--panel2:#20242c;--yellow:#f0b90b;--text:#eaecef;--muted:#848e9c;--green:#0ecb81;--red:#f6465d;--border:#292d35}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}button,input,select{font:inherit}button{cursor:pointer}
+.topbar{min-height:64px;display:flex;align-items:center;justify-content:space-between;gap:15px;padding:10px 22px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--bg);z-index:50}
+.logo{font-size:21px;font-weight:800;color:var(--yellow);white-space:nowrap}.logo span{color:white}
+.toplinks,.actions{display:flex;gap:15px;align-items:center}.toplinks a{color:var(--text);text-decoration:none;font-size:13px}.toplinks a:hover,.active{color:var(--yellow)!important}
+.btn{border:0;border-radius:6px;padding:10px 15px;font-weight:700;background:var(--yellow);color:#111}.btn.dark{background:var(--panel2);color:var(--text);border:1px solid var(--border)}.btn:disabled{opacity:.5;cursor:not-allowed}
+.modebar{display:flex;align-items:center;gap:8px;padding:12px 22px;background:#111419;border-bottom:1px solid var(--border);position:sticky;top:64px;z-index:40}
+.modebtn{border:0;border-radius:6px;padding:11px 25px;background:transparent;color:var(--muted);font-weight:800}.modebtn.active{background:var(--yellow);color:#111!important}
+.modehint{margin-left:auto;color:var(--muted);font-size:12px}
+.layout{display:flex;min-height:calc(100vh - 120px)}.sidebar{width:220px;padding:20px 14px;border-right:1px solid var(--border)}
+.side-title{font-size:11px;color:var(--muted);margin:18px 12px 8px}.navitem{display:block;padding:11px 12px;border-radius:6px;color:var(--muted);text-decoration:none;font-size:14px;margin-bottom:3px}.navitem:hover,.navitem.active{background:#29251a;color:var(--yellow)!important}
+main{flex:1;min-width:0;padding:24px;max-width:1600px;margin:auto;width:100%}h1{font-size:25px;margin:0 0 8px}h2{font-size:19px;margin:0}h3{font-size:15px}.sub{color:var(--muted);font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:22px 0}.card{background:var(--panel);border:1px solid var(--border);border-radius:9px;padding:18px;margin-bottom:14px}.label{color:var(--muted);font-size:13px;margin-bottom:10px}.value{font-size:23px;font-weight:700}
+.quick{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:20px 0 28px}.quick button{background:var(--panel);border:1px solid var(--border);color:var(--text);padding:14px 5px;border-radius:8px;font-weight:700}.quick b{display:block;color:var(--yellow);font-size:20px;margin-bottom:7px}
+.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:24px 0 14px;flex-wrap:wrap}.tabs{display:flex;gap:18px;overflow:auto}.tab{background:none;border:0;color:var(--muted);padding:9px 0;white-space:nowrap}.tab.active{color:var(--yellow);border-bottom:2px solid var(--yellow)}
+.search,.field{background:var(--bg);border:1px solid var(--border);color:var(--text);padding:12px;border-radius:6px;width:100%;outline:none}.field:focus,.search:focus{border-color:var(--yellow)}.field-label{display:block;color:var(--muted);font-size:12px;margin:13px 0 6px}
+.table-wrap{overflow-x:auto;background:var(--panel);border:1px solid var(--border);border-radius:8px}table{width:100%;border-collapse:collapse;min-width:650px}th,td{text-align:right;padding:13px 15px;border-bottom:1px solid var(--border);font-size:13px}th{color:var(--muted);font-weight:500}th:first-child,td:first-child{text-align:left}
+.coin{display:flex;align-items:center;gap:10px}.coin img{width:27px;height:27px;border-radius:50%}.coin strong{font-size:14px}.coin small{color:var(--muted);margin-left:5px}.up{color:var(--green)}.down{color:var(--red)}
+.page{display:none}.page.active{display:block}.market-summary{display:flex;gap:22px;flex-wrap:wrap;margin:18px 0}.market-summary div{font-size:13px;color:var(--muted)}.market-summary strong{display:block;color:var(--text);font-size:16px;margin-top:7px}
+.placeholder{padding:28px 20px;text-align:center;color:var(--muted);background:var(--panel);border:1px solid var(--border);border-radius:8px}.notice{padding:12px;border:1px solid #51431c;background:#29251a;color:#e8c75b;border-radius:6px;font-size:12px;line-height:1.5;margin:12px 0}.success{color:var(--green)}.error{color:var(--red)}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.row>*{flex:1;min-width:0}
+.tan-logo{width:34px;height:34px;border-radius:50%;background:linear-gradient(145deg,#ffe58a,#d69b00);display:inline-flex;align-items:center;justify-content:center;color:#17120a;font-weight:900;border:2px solid #f9d45c}.tan-coin{display:flex;align-items:center;gap:10px}.copyline{display:flex;gap:8px;align-items:center}.copyline input{min-width:0}.small{font-size:11px;color:var(--muted)}
+#tcAuth{display:none;position:fixed;inset:0;background:#000c;z-index:9999;align-items:center;justify-content:center;padding:15px}.authbox{background:var(--panel);border:1px solid #333;border-radius:12px;padding:25px;width:100%;max-width:410px}.authbox input{display:block;width:100%;padding:13px;margin:12px 0;background:var(--bg);border:1px solid #333;color:white;border-radius:6px}.authbtn{width:100%;padding:13px;background:var(--yellow);color:#111;border:0;border-radius:6px;font-weight:bold;margin-top:10px}.switch{background:none;border:0;color:var(--yellow);margin-top:15px}.close{float:right;background:none;border:0;color:white;font-size:24px}#tcAuthMsg{font-size:13px;color:var(--yellow);line-height:1.5;margin-top:12px;overflow-wrap:anywhere}
+.coin-picker{position:relative;width:100%;min-width:0}.coin-results{position:absolute;top:calc(100% + 5px);left:0;right:0;max-height:260px;overflow-y:auto;background:#20242c;border:1px solid #444;border-radius:7px;z-index:100;box-shadow:0 8px 25px #0009}.coin-option{width:100%;display:flex;justify-content:space-between;align-items:center;gap:10px;text-align:left;padding:12px;border:0;border-bottom:1px solid #343943;background:transparent;color:white}.coin-option:hover{background:#343943}.coin-option small{color:var(--muted)}.coin-option .symbol{color:var(--yellow);font-weight:bold}.coin-results:empty{display:none}.convert-pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}.selected-coin{font-size:12px;color:var(--muted);margin-top:7px}
+.stock-tabs{display:flex;gap:10px;margin:20px 0}.stock-tabs button{background:var(--panel2);border:1px solid var(--border);padding:10px 18px;color:var(--text);border-radius:6px}.stock-tabs button.active{background:var(--yellow);color:#111}
 .bottomnav{display:none}
-
-/* GLOBAL COIN SEARCH */
-.coin-picker{position:relative;width:100%;min-width:0}
-.coin-picker input{width:100%}
-.coin-results{
- position:absolute;top:calc(100% + 5px);left:0;right:0;
- max-height:280px;overflow-y:auto;background:#20242c;
- border:1px solid #444;border-radius:7px;z-index:100;
- box-shadow:0 8px 25px #0009
-}
-.coin-option{
- width:100%;display:flex;justify-content:space-between;align-items:center;
- gap:10px;text-align:left;padding:12px;border:0;
- border-bottom:1px solid #343943;background:transparent;color:white
-}
-.coin-option:hover{background:#343943}
-.coin-option strong{font-size:13px}
-.coin-option small{color:var(--muted);font-size:11px}
-.coin-option .symbol{color:var(--yellow);font-weight:bold}
-.coin-results:empty{display:none}
-.convert-pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.convert-search-label{font-size:12px;color:var(--muted);margin:8px 0}
-.selected-coin{display:flex;align-items:center;gap:8px;margin-top:7px;font-size:12px;color:var(--muted)}
-.selected-coin .tan-logo{width:25px;height:25px;font-size:12px}
-
-@media(max-width:900px){
-.sidebar{display:none}.grid{grid-template-columns:repeat(2,1fr)}
-main{padding:20px 14px 90px}.toplinks{display:none}
-.bottomnav{display:flex;position:fixed;bottom:0;left:0;right:0;background:#181a20;border-top:1px solid var(--border);justify-content:space-around;padding:10px 3px;z-index:20}
-.bottomnav a{color:var(--muted);text-decoration:none;font-size:11px;text-align:center}
-.bottomnav span{display:block;font-size:18px;margin-bottom:4px}
-}
-@media(max-width:480px){
-.topbar{padding:0 10px}.logo{font-size:16px}
-.actions{gap:5px}.actions .btn{padding:9px 8px;font-size:11px}
-.grid{gap:9px}.card{padding:14px}.value{font-size:19px}
-.quick{gap:6px}.quick button{font-size:10px;padding:12px 3px}
-.quick b{font-size:17px}
-.convert-pair{grid-template-columns:1fr}
-}
+@media(max-width:900px){.sidebar{display:none}.grid{grid-template-columns:repeat(2,1fr)}main{padding:18px 14px 90px}.toplinks{display:none}.bottomnav{display:flex;position:fixed;bottom:0;left:0;right:0;background:#181a20;border-top:1px solid var(--border);justify-content:space-around;padding:9px 3px;z-index:60}.bottomnav a{color:var(--muted);text-decoration:none;font-size:11px;text-align:center}.bottomnav span{display:block;font-size:18px;margin-bottom:4px}.modebar{top:60px;padding:9px 12px}.modehint{display:none}}
+@media(max-width:480px){.topbar{padding:0 10px;min-height:60px}.logo{font-size:16px}.actions{gap:5px}.actions .btn{padding:9px 8px;font-size:11px}.grid{gap:8px}.card{padding:13px}.value{font-size:19px}.quick{gap:6px}.quick button{font-size:10px;padding:11px 2px}.quick b{font-size:17px}.convert-pair{grid-template-columns:1fr}.modebtn{padding:10px 18px}}
 </style>
 </head>
-
 <body>
-
 <header class="topbar">
  <div class="logo">TANCOIN <span>EXCHANGE</span></div>
  <nav class="toplinks">
-  <a href="#" data-page="home" class="active">Home</a>
-  <a href="#" data-page="markets">Markets</a>
-  <a href="#" data-page="convert">Convert</a>
-  <a href="#" data-page="trade">Trade</a>
-  <a href="#" data-page="assets">Assets</a>
+  <a href="#" data-page="home" class="active">Home</a><a href="#" data-page="markets">Markets</a><a href="#" data-page="convert">Convert</a><a href="#" data-page="trade">Trade</a><a href="#" data-page="assets">Assets</a>
  </nav>
- <div class="actions">
-  <button class="btn dark" id="loginButton">Log In</button>
-  <button class="btn" id="registerButton">Register</button>
- </div>
+ <div class="actions"><button class="btn dark" id="loginButton">Log In</button><button class="btn" id="registerButton">Register</button></div>
 </header>
+
+<!-- PRIMARY BINANCE-STYLE MODE SWITCH -->
+<div class="modebar">
+ <button class="modebtn active" id="exchangeMode" type="button" onclick="setMainMode('exchange')">EXCHANGE</button>
+ <button class="modebtn" id="walletModeTop" type="button" onclick="setMainMode('wallet')">WALLET</button>
+ <span class="modehint">TANCOIN EXCHANGE PRO</span>
+</div>
 
 <div class="layout">
 <aside class="sidebar">
- <div class="side-title">MENU</div>
+ <div class="side-title">EXCHANGE</div>
  <a class="navitem active" href="#" data-page="home">⌂ &nbsp; Dashboard</a>
- <a class="navitem" href="#" data-page="markets">▥ &nbsp; Markets</a>
+ <a class="navitem" href="#" data-page="markets">▥ &nbsp; Crypto Markets</a>
  <a class="navitem" href="#" data-page="convert">⇄ &nbsp; Convert</a>
- <a class="navitem" href="#" data-page="trade">⇅ &nbsp; Trade</a>
+ <a class="navitem" href="#" data-page="trade">⇅ &nbsp; Spot Trade</a>
  <a class="navitem" href="#" data-page="futures">⌁ &nbsp; Futures</a>
+ <a class="navitem" href="#" data-page="stocks">▤ &nbsp; TDSE / TSTOCKS</a>
  <div class="side-title">ACCOUNT</div>
- <a class="navitem" href="#" data-page="assets">▣ &nbsp; Assets</a>
+ <a class="navitem" href="#" data-page="assets">▣ &nbsp; Assets & Wallet</a>
  <a class="navitem" href="#" data-page="account">♙ &nbsp; My Account</a>
  <a class="navitem" href="#" data-page="kyc">◈ &nbsp; Identity Verification</a>
- <div class="side-title">REWARDS</div>
- <a class="navitem" href="#" data-page="referral">♧ &nbsp; Referral</a>
- <a class="navitem" href="#" data-page="assets">◈ &nbsp; Earn</a>
+ <div class="side-title">REWARDS</div><a class="navitem" href="#" data-page="referral">♧ &nbsp; Referral</a>
 </aside>
-
 <main>
-
 <section class="page active" id="home">
- <h1>Overview</h1>
- <div class="sub">Welcome to TANCOIN EXCHANGE PRO</div>
+ <h1>Overview</h1><div class="sub">Welcome to TANCOIN EXCHANGE PRO</div>
  <div class="grid">
   <div class="card"><div class="label">Estimated Balance</div><div class="value">$0.00</div><div class="sub">Account balance</div></div>
   <div class="card"><div class="label">Today's PNL</div><div class="value">$0.00</div><div class="sub">Trading not connected</div></div>
   <div class="card"><div class="label">Total Assets</div><div class="value">0.00</div><div class="sub">Wallet assets</div></div>
-  <div class="card"><div class="label">Market Status</div><div class="value up">LIVE</div><div class="sub">Public market data</div></div>
+  <div class="card"><div class="label">Market Data</div><div class="value">PUBLIC</div><div class="sub">CoinGecko feed</div></div>
  </div>
  <div class="quick">
-  <button onclick="showPage('assets')"><b>＋</b>Deposit</button>
-  <button onclick="showPage('assets')"><b>⇧</b>Withdraw</button>
-  <button onclick="showPage('trade')"><b>⇄</b>Trade</button>
-  <button onclick="showPage('convert')"><b>⇅</b>Convert</button>
-  <button onclick="showPage('referral')"><b>♧</b>Referral</button>
+  <button onclick="showPage('assets')"><b>＋</b>Deposit</button><button onclick="showPage('assets')"><b>⇧</b>Withdraw</button><button onclick="showPage('trade')"><b>⇄</b>Trade</button><button onclick="showPage('convert')"><b>⇅</b>Convert</button><button onclick="showPage('referral')"><b>♧</b>Referral</button>
  </div>
  <div class="section-head"><h2>Market Overview</h2><button class="btn dark" onclick="showPage('markets')">More Markets →</button></div>
- <div class="market-summary">
-  <div>Coins loaded<strong id="coinCount">Loading...</strong></div>
-  <div>Data source<strong>CoinGecko</strong></div>
-  <div>Last updated<strong id="lastUpdate">--</strong></div>
- </div>
- <div class="table-wrap">
-  <table><thead><tr><th>Name</th><th>Price</th><th>24h Change</th><th>Market Cap</th></tr></thead>
-  <tbody id="homeRows"><tr><td colspan="4">Loading live market...</td></tr></tbody></table>
- </div>
+ <div class="market-summary"><div>Coins loaded<strong id="coinCount">Loading...</strong></div><div>Source<strong>CoinGecko</strong></div><div>Last updated<strong id="lastUpdate">--</strong></div></div>
+ <div class="table-wrap"><table><thead><tr><th>Name</th><th>Price</th><th>24h Change</th><th>Market Cap</th></tr></thead><tbody id="homeRows"><tr><td colspan="4">Loading market...</td></tr></tbody></table></div>
 </section>
 
 <section class="page" id="markets">
- <h1>Markets</h1><div class="sub">Live public cryptocurrency market data</div>
+ <h1>Crypto Markets</h1><div class="sub">Public cryptocurrency market data. Prices may be subject to provider rate limits.</div>
  <div class="market-summary"><div>Coins<strong id="marketCount">--</strong></div><div>Currency<strong>USD</strong></div><div>Refresh<strong>60 seconds</strong></div></div>
- <div class="section-head">
-  <div class="tabs">
-   <button class="tab active" data-filter="all">All</button>
-   <button class="tab" data-filter="gainers">Gainers</button>
-   <button class="tab" data-filter="losers">Losers</button>
-  </div>
-  <input id="search" class="search" style="max-width:260px" placeholder="Search coin or symbol">
- </div>
- <div class="table-wrap">
-  <table><thead><tr><th>Name</th><th>Price</th><th>24h Change</th><th>24h Volume</th><th>Market Cap</th></tr></thead>
-  <tbody id="marketRows"><tr><td colspan="5">Loading market...</td></tr></tbody></table>
-  <div id="marketMessage" class="status" style="padding:12px">Connecting...</div>
- </div>
- <div class="card" style="margin-top:15px">
-  <div class="tan-coin"><span class="tan-logo">T</span><div><b>TANCOIN</b><div class="small">TAN · Native exchange asset</div></div></div>
-  <div class="notice">TANCOIN logo and asset identity are displayed here. A live TAN price will appear only after verified market data is connected.</div>
- </div>
+ <div class="section-head"><div class="tabs"><button class="tab active" data-filter="all">All</button><button class="tab" data-filter="gainers">Gainers</button><button class="tab" data-filter="losers">Losers</button></div><input id="search" class="search" style="max-width:260px" placeholder="Search coin or symbol"></div>
+ <div class="table-wrap"><table><thead><tr><th>Name</th><th>Price</th><th>24h Change</th><th>24h Volume</th><th>Market Cap</th></tr></thead><tbody id="marketRows"><tr><td colspan="5">Loading market...</td></tr></tbody></table><div id="marketMessage" class="small" style="padding:12px">Connecting...</div></div>
+ <div class="card" style="margin-top:15px"><div class="tan-coin"><span class="tan-logo">T</span><div><b>TANCOIN</b><div class="small">TAN · Native exchange asset</div></div></div><div class="notice">A TAN price will only be shown after verified market data or a confirmed trading pair is connected.</div></div>
 </section>
 
-<!-- UPDATED GLOBAL CONVERT -->
 <section class="page" id="convert">
- <h1>Convert</h1>
- <div class="sub">Search and estimate conversions between CoinGecko-listed cryptocurrencies</div>
-
- <div class="card" style="max-width:700px;margin-top:22px">
-  <div class="label">From</div>
-  <div class="convert-pair">
-   <div class="coin-picker">
-    <input id="fromSearch" class="field" autocomplete="off" placeholder="Search any coin e.g. Bitcoin, BTC">
-    <div id="fromResults" class="coin-results"></div>
-    <div class="selected-coin" id="fromSelected">Selected: Bitcoin (BTC)</div>
-   </div>
+ <h1>Convert</h1><div class="sub">Search CoinGecko-listed cryptocurrencies and preview indicative conversions.</div>
+ <div class="card" style="max-width:720px;margin-top:20px">
+  <div class="label">From</div><div class="convert-pair">
+   <div class="coin-picker"><input id="fromSearch" class="field" autocomplete="off" placeholder="Search coin e.g. Bitcoin, BTC"><div id="fromResults" class="coin-results"></div><div class="selected-coin" id="fromSelected">Selected: Bitcoin (BTC)</div></div>
    <input id="convertAmount" class="field" type="number" min="0" step="any" placeholder="Amount">
   </div>
-
-  <div style="text-align:center;margin:18px 0">
-   <button class="btn dark" id="swapCoins" type="button">↓ ↑ Swap coins</button>
-  </div>
-
-  <div class="label">To</div>
-  <div class="coin-picker">
-   <input id="toSearch" class="field" autocomplete="off" placeholder="Search any coin e.g. Ethereum, ETH">
-   <div id="toResults" class="coin-results"></div>
-   <div class="selected-coin" id="toSelected">Selected: Tether (USDT)</div>
-  </div>
-
-  <div class="card" style="margin-top:18px;background:var(--bg)">
-   <div class="label">Estimated receive amount</div>
-   <div class="value" id="convertResult">0.00</div>
-   <div class="sub" id="convertRate">Enter an amount to calculate</div>
-  </div>
-
-  <div class="notice">
-   Search the CoinGecko coin catalogue by name or symbol. Prices are indicative public market estimates only. TANCOIN does not yet have a verified live market price. No actual conversion or transfer is executed.
-  </div>
-
-  <div class="small" id="coinCatalogStatus">Coin catalogue has not loaded yet.</div>
-  <button class="btn" id="previewConvert" style="width:100%;margin-top:15px" type="button">Preview Conversion</button>
-  <div id="convertMessage" class="status" style="margin-top:12px"></div>
+  <div style="text-align:center;margin:16px 0"><button class="btn dark" id="swapCoins" type="button">↓ ↑ Swap coins</button></div>
+  <div class="label">To</div><div class="coin-picker"><input id="toSearch" class="field" autocomplete="off" placeholder="Search coin e.g. Ethereum, ETH"><div id="toResults" class="coin-results"></div><div class="selected-coin" id="toSelected">Selected: Tether (USDT)</div></div>
+  <div class="card" style="margin-top:18px;background:var(--bg)"><div class="label">Estimated receive amount</div><div class="value" id="convertResult">0.00</div><div class="sub" id="convertRate">Enter an amount to calculate</div></div>
+  <div class="notice">Indicative estimate only. This does not execute a conversion, transfer funds or guarantee an execution price. TANCOIN has no verified public price yet.</div>
+  <div class="small" id="coinCatalogStatus">Coin catalogue has not loaded yet.</div><button class="btn" id="previewConvert" style="width:100%;margin-top:15px" type="button">Preview Conversion</button><div id="convertMessage" class="small" style="margin-top:12px"></div>
  </div>
 </section>
 
-<section class="page" id="trade">
- <h1>Trade</h1><div class="sub">Spot trading interface</div>
- <div class="placeholder" style="margin-top:25px">
-  <h2>Spot Trading</h2>
-  <p>Live market prices are available in Markets.</p>
-  <p>Real trading requires a matching engine, liquidity and secure backend.</p>
-  <button class="btn" onclick="showPage('markets')">View Markets</button>
- </div>
-</section>
+<section class="page" id="trade"><h1>Spot Trading</h1><div class="sub">Trading terminal</div><div class="placeholder" style="margin-top:22px"><h2>Trading is not activated</h2><p>Real orders require a matching engine, liquidity provider, custody/ledger controls, risk management and compliance integration.</p><button class="btn" onclick="showPage('markets')">View Markets</button></div></section>
+<section class="page" id="futures"><h1>Futures</h1><div class="sub">Derivatives trading</div><div class="placeholder" style="margin-top:22px"><h2>Futures not activated</h2><p>Futures must not accept orders until liquidation, margin, funding, risk and matching systems are implemented and tested.</p></div></section>
 
-<section class="page" id="futures">
- <h1>Futures</h1><div class="sub">TANCOIN Futures Trading</div>
- <div class="placeholder" style="margin-top:25px">
-  <h2>Futures Trading</h2><p>Futures trading is not activated yet.</p>
-  <p>A real trading engine and risk controls are required before orders can be placed.</p>
+<section class="page" id="stocks">
+ <h1>Stock Markets</h1><div class="sub">Tanzanian and international securities market information</div>
+ <div class="stock-tabs"><button class="active" data-stock="tdse">TDSE</button><button data-stock="tstocks">TSTOCKS</button></div>
+ <div id="tdsePanel">
+  <div class="card"><h2>TDSE — Tanzania Stock Exchange</h2><p class="sub">Tanzanian listed shares and exchange-traded funds.</p><div class="notice">Official DSE market data is not yet connected in this website. Do not treat displayed information as live prices or use this page to place orders. Connect an authorized DSE data source/API before publishing prices.</div><p class="small">Official market information: <a href="https://www.dse.co.tz/" target="_blank" rel="noopener" style="color:var(--yellow)">Dar es Salaam Stock Exchange website</a></p></div>
+ </div>
+ <div id="tstocksPanel" style="display:none">
+  <div class="card"><h2>TSTOCKS — International Stocks</h2><p class="sub">International listed companies and securities.</p><div class="notice">International stock data and trading are not connected yet. Binance bStocks availability, where applicable, does not mean TANCOIN owns, lists, or provides access to those securities. Availability and legal eligibility depend on the licensed provider and jurisdiction.</div><p class="small">Connect a licensed market-data provider and broker before displaying executable quotes or enabling orders.</p></div>
  </div>
 </section>
 
 <section class="page" id="assets">
- <h1>Assets</h1><div class="sub">Manage Exchange and Web3 wallets</div>
- <div class="tabs" style="margin:25px 0">
-  <button class="tab active" onclick="walletMode('exchange',this)">Exchange Wallet</button>
-  <button class="tab" onclick="walletMode('web3',this)">Web3 Wallet</button>
- </div>
- <div class="card" id="exchangeWallet">
-  <div class="label">Estimated Total Balance</div><div class="value">$0.00</div>
-  <p class="sub">Your actual balance will appear after the secure wallet backend is connected.</p>
-  <div class="tan-coin" style="margin:18px 0"><span class="tan-logo">T</span><div><b>TANCOIN</b><div class="small">TAN balance: Not connected</div></div></div>
-  <button class="btn" onclick="alert('Deposit service is not connected yet.')">Deposit</button>
-  <button class="btn dark" onclick="alert('Withdrawal service is not connected yet.')">Withdraw</button>
- </div>
- <div class="card" id="web3Wallet" style="display:none">
-  <h2>Web3 Wallet</h2><p class="sub">Non-custodial wallet interface.</p>
-  <p>Your private keys and recovery phrase must remain under your control.</p>
-  <button class="btn" onclick="alert('Secure Web3 wallet creation is not connected yet.')">Create Wallet</button>
- </div>
+ <h1>Assets & Wallet</h1><div class="sub">Manage your Exchange account and non-custodial Web3 wallet.</div>
+ <div class="tabs" style="margin:22px 0"><button class="tab active" onclick="walletMode('exchange',this)">Exchange Wallet</button><button class="tab" onclick="walletMode('web3',this)">Web3 Wallet</button></div>
+ <div class="card" id="exchangeWallet"><div class="label">Estimated Total Balance</div><div class="value">$0.00</div><p class="sub">Actual balances will appear after wallet ledger and deposit/withdrawal services are connected.</p><div class="tan-coin" style="margin:18px 0"><span class="tan-logo">T</span><div><b>TANCOIN</b><div class="small">TAN balance: Not connected</div></div></div><button class="btn" onclick="alert('Deposit service is not connected yet.')">Deposit</button> <button class="btn dark" onclick="alert('Withdrawal service is not connected yet.')">Withdraw</button></div>
+ <div class="card" id="web3Wallet" style="display:none"><h2>Web3 Wallet</h2><p class="sub">Non-custodial wallet mode.</p><p>Wallet creation, key generation, secure backup and transaction signing are not yet implemented. Never enter a recovery phrase into this website.</p><button class="btn" disabled>Create Wallet — Not Available</button></div>
 </section>
 
-<section class="page" id="account">
- <h1>My Account</h1><div class="sub">Your TANCOIN account information</div>
- <div class="card" style="margin-top:22px">
-  <div class="label">Account ID</div>
-  <div class="copyline"><input class="field" id="accountCode" readonly placeholder="Login to view your Account ID"><button class="btn dark" id="copyAccount">Copy</button></div>
-  <div class="small">Short account ID using letters and numbers. Your internal Supabase UID is not displayed.</div>
-  <div class="label" style="margin-top:20px">Full Name</div><div id="accountName">--</div>
-  <div class="label" style="margin-top:16px">Email</div><div id="accountEmail">--</div>
-  <div class="label" style="margin-top:16px">Email status</div><div id="emailStatus">--</div>
-  <div style="margin-top:20px"><button class="btn dark" onclick="showPage('referral')">My Referral</button> <button class="btn dark" onclick="showPage('kyc')">KYC Verification</button></div>
-  <div id="accountMessage" class="status" style="margin-top:12px"></div>
- </div>
+<section class="page" id="account"><h1>My Account</h1><div class="sub">Your TANCOIN account information</div><div class="card" style="margin-top:20px">
+ <div class="label">Account ID</div><div class="copyline"><input class="field" id="accountCode" readonly placeholder="Login to view Account ID"><button class="btn dark" id="copyAccount">Copy</button></div><div class="small">Your internal Supabase UID is not displayed.</div>
+ <div class="label" style="margin-top:18px">Full Name</div><div id="accountName">--</div><div class="label" style="margin-top:15px">Email</div><div id="accountEmail">--</div><div class="label" style="margin-top:15px">Email status</div><div id="emailStatus">--</div>
+ <div style="margin-top:20px"><button class="btn dark" onclick="showPage('referral')">My Referral</button> <button class="btn dark" onclick="showPage('kyc')">KYC Verification</button></div><div id="accountMessage" class="small" style="margin-top:12px"></div>
+</div></section>
+
+<section class="page" id="referral"><h1>Referral Programme</h1><div class="sub">Invite friends to join TANCOIN EXCHANGE</div>
+ <div class="card" style="margin-top:20px"><div class="label">Your Referral Code</div><div class="copyline"><input class="field" id="myReferralCode" readonly placeholder="Login to load referral code"><button class="btn dark" id="copyReferral">Copy</button></div><div class="label" style="margin-top:18px">Your Referral Link</div><div class="copyline"><input class="field" id="myReferralLink" readonly placeholder="Referral link"><button class="btn" id="shareReferral">Share</button></div><div class="notice">Referral rewards depend on the official programme rules and backend activation.</div></div>
+ <div class="card"><h2>Enter Referral Code</h2><p class="sub">Enter the code of the person who invited you.</p><input id="enterReferralCode" class="field" placeholder="Referral code" style="margin:10px 0"><button class="btn" id="applyReferral">Apply Referral Code</button><div id="referralMessage" class="small" style="margin-top:12px"></div></div>
 </section>
 
-<section class="page" id="referral">
- <h1>Referral Programme</h1><div class="sub">Invite friends to join TANCOIN EXCHANGE</div>
- <div class="card" style="margin-top:22px">
-  <div class="label">Your Referral Code</div>
-  <div class="copyline"><input class="field" id="myReferralCode" readonly placeholder="Login to load referral code"><button class="btn dark" id="copyReferral">Copy</button></div>
-  <div class="label" style="margin-top:20px">Your Referral Link</div>
-  <div class="copyline"><input class="field" id="myReferralLink" readonly placeholder="Referral link"><button class="btn" id="shareReferral">Share</button></div>
-  <div class="notice">Share your referral link with friends. Referral rewards are subject to the official programme rules and backend activation.</div>
- </div>
- <div class="card">
-  <h2>Enter Referral Code</h2>
-  <p class="sub">If someone invited you, enter their referral code below.</p>
-  <input id="enterReferralCode" class="field" placeholder="Enter referral code" style="margin:10px 0">
-  <button class="btn" id="applyReferral">Apply Referral Code</button>
-  <div id="referralMessage" class="status" style="margin-top:12px"></div>
- </div>
+<section class="page" id="kyc"><h1>Identity Verification (KYC)</h1><div class="sub">Submit identity documents for review</div>
+ <div class="card" style="margin-top:20px;max-width:740px"><div class="row"><div><b>Verification status</b><div class="small">Latest KYC application</div></div><div id="kycStatus" style="text-align:right">Not submitted</div></div><div id="kycReason" class="small" style="margin-top:8px"></div>
+ <div class="notice">Submit genuine documents only. Files are uploaded to the private tancoin-kyc bucket. Restrict access with Supabase Storage policies and reviewer authorization.</div>
+ <form id="kycForm">
+  <label class="field-label">Full legal name</label><input class="field" id="kycName" required autocomplete="name">
+  <label class="field-label">Date of birth</label><input class="field" id="kycDob" type="date" required>
+  <label class="field-label">Country of residence</label><input class="field" id="kycCountry" value="Tanzania" required>
+  <label class="field-label">Document type</label><select class="field" id="kycDocType" required><option value="">Select document</option><option>National ID</option><option>Passport</option><option>Driving Licence</option></select>
+  <label class="field-label">Document number</label><input class="field" id="kycDocNumber" required>
+  <label class="field-label">Document front photo</label><input class="field" id="kycFront" type="file" accept="image/*" required>
+  <label class="field-label">Document back photo (if applicable)</label><input class="field" id="kycBack" type="file" accept="image/*">
+  <label class="field-label">Selfie photo</label><input class="field" id="kycSelfie" type="file" accept="image/*" required>
+  <button class="btn" id="submitKyc" type="submit" style="width:100%;margin-top:18px">Submit KYC</button><div id="kycMessage" class="small" style="margin-top:12px"></div>
+ </form></div>
 </section>
+</main></div>
 
-<section class="page" id="kyc">
- <h1>Identity Verification (KYC)</h1><div class="sub">Submit identity documents for verification</div>
- <div class="card" style="margin-top:22px;max-width:720px">
-  <div class="row"><div><b>Verification status</b><div class="small">Your latest KYC application</div></div><div id="kycStatus" style="text-align:right">Not submitted</div></div>
-  <div id="kycReason" class="small" style="margin-top:8px"></div>
-  <div class="notice">Submit genuine documents only. Your documents are stored in a private storage bucket. Do not upload another person's identity documents.</div>
-  <form id="kycForm">
-   <label class="field-label">Full legal name</label>
-   <input class="field" id="kycName" required autocomplete="name">
-   <label class="field-label">Date of birth</label>
-   <input class="field" id="kycDob" type="date" required>
-   <label class="field-label">Country of residence</label>
-   <input class="field" id="kycCountry" value="Tanzania" required>
-   <label class="field-label">Document type</label>
-   <select class="field" id="kycDocType" required>
-    <option value="">Select document</option>
-    <option value="National ID">National ID</option>
-    <option value="Passport">Passport</option>
-    <option value="Driving Licence">Driving Licence</option>
-   </select>
-   <label class="field-label">Document number</label>
-   <input class="field" id="kycDocNumber" required>
-   <label class="field-label">Document front photo</label>
-   <input class="field" id="kycFront" type="file" accept="image/*" required>
-   <label class="field-label">Document back photo (if applicable)</label>
-   <input class="field" id="kycBack" type="file" accept="image/*">
-   <label class="field-label">Selfie photo</label>
-   <input class="field" id="kycSelfie" type="file" accept="image/*" required>
-   <button class="btn" id="submitKyc" type="submit" style="width:100%;margin-top:18px">Submit KYC</button>
-   <div id="kycMessage" class="status" style="margin-top:12px"></div>
-  </form>
- </div>
-</section>
+<nav class="bottomnav"><a href="#" data-page="home" class="active"><span>⌂</span>Home</a><a href="#" data-page="markets"><span>▥</span>Markets</a><a href="#" data-page="convert"><span>⇅</span>Convert</a><a href="#" data-page="stocks"><span>▤</span>Stocks</a><a href="#" data-page="assets"><span>▣</span>Wallet</a></nav>
 
-</main>
-</div>
-
-<nav class="bottomnav">
- <a href="#" data-page="home" class="active"><span>⌂</span>Home</a>
- <a href="#" data-page="markets"><span>▥</span>Markets</a>
- <a href="#" data-page="convert"><span>⇅</span>Convert</a>
- <a href="#" data-page="trade"><span>⇄</span>Trade</a>
- <a href="#" data-page="assets"><span>▣</span>Assets</a>
-</nav>
-
-<div id="tcAuth">
- <div class="authbox">
-  <button class="close" id="tcClose">×</button>
-  <h2 style="color:#f0b90b">TANCOIN EXCHANGE</h2>
-  <p class="sub" id="tcHeading">Login to your account</p>
-  <form id="tcForm">
-   <input id="tcName" type="text" placeholder="Full name" autocomplete="name" style="display:none">
-   <input id="tcEmail" type="email" placeholder="Email address" autocomplete="email" required>
-   <input id="tcPassword" type="password" placeholder="Password" autocomplete="current-password" minlength="6" required>
-   <button class="authbtn" id="tcSubmit" type="submit">LOGIN</button>
-  </form>
-  <button class="switch" id="tcSwitch" type="button">Don't have an account? Register</button>
-  <div id="tcAuthMsg" role="status" aria-live="polite"></div>
- </div>
-</div>
+<div id="tcAuth"><div class="authbox"><button class="close" id="tcClose">×</button><h2 style="color:#f0b90b">TANCOIN EXCHANGE</h2><p class="sub" id="tcHeading">Login to your account</p><form id="tcForm"><input id="tcName" type="text" placeholder="Full name" autocomplete="name" style="display:none"><input id="tcEmail" type="email" placeholder="Email address" autocomplete="email" required><input id="tcPassword" type="password" placeholder="Password" autocomplete="current-password" minlength="6" required><button class="authbtn" id="tcSubmit" type="submit">LOGIN</button></form><button class="switch" id="tcSwitch" type="button">Don't have an account? Register</button><div id="tcAuthMsg" role="status" aria-live="polite"></div></div></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-/* SUPABASE CONFIG */
+/* SUPABASE CONFIG — publishable/anon key only; never put service-role keys in browser code. */
 const SUPABASE_URL="https://eqszxaghmljdaegbemaf.supabase.co";
 const SUPABASE_KEY="sb_publishable_mCNmthY2ZGgmPa6Lz_5S4g_wl8wVwHh";
 const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
-/* NAVIGATION */
-let coins=[];
-let activeFilter="all";
-let currentUser=null;
-let currentProfile=null;
-
+let coins=[],activeFilter="all",currentUser=null,currentProfile=null;
 function showPage(page){
- const target=document.getElementById(page);
- if(!target)return;
- document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
- target.classList.add("active");
+ const target=document.getElementById(page);if(!target)return;
+ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));target.classList.add("active");
  document.querySelectorAll("[data-page]").forEach(a=>a.classList.toggle("active",a.dataset.page===page));
  window.scrollTo(0,0);
- if(page==="account"||page==="referral"||page==="kyc")loadAccountData();
+ if(["account","referral","kyc"].includes(page))loadAccountData();
  if(page==="convert")loadCoinCatalog();
 }
-document.querySelectorAll("[data-page]").forEach(link=>{
- link.addEventListener("click",e=>{e.preventDefault();showPage(link.dataset.page)});
-});
-
-/* GENERAL HELPERS */
-function escapeHTML(value){
- return String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+document.querySelectorAll("[data-page]").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();showPage(a.dataset.page)}));
+function setMainMode(mode){
+ document.getElementById("exchangeMode").classList.toggle("active",mode==="exchange");
+ document.getElementById("walletModeTop").classList.toggle("active",mode==="wallet");
+ if(mode==="wallet")showPage("assets");else showPage("home");
 }
-function money(v){
- if(v===null||v===undefined)return "--";
- if(v>=1000)return "$"+v.toLocaleString("en-US",{maximumFractionDigits:2});
- if(v>=1)return "$"+v.toLocaleString("en-US",{maximumFractionDigits:4});
- return "$"+v.toLocaleString("en-US",{maximumFractionDigits:8});
-}
-function compact(v){
- if(v===null||v===undefined)return "--";
- return "$"+Intl.NumberFormat("en-US",{notation:"compact",maximumFractionDigits:2}).format(v);
-}
-
-/* MARKET DATA */
-function coinHTML(c,home=false){
- const change=Number(c.price_change_percentage_24h||0);
- return `<tr><td><div class="coin"><img src="${escapeHTML(c.image)}" alt=""><div><strong>${escapeHTML(c.name)}</strong><small>${escapeHTML(c.symbol.toUpperCase())}</small></div></div></td>
- <td>${money(c.current_price)}</td><td class="${change>=0?"up":"down"}">${change>=0?"+":""}${change.toFixed(2)}%</td>
- ${home?"":`<td>${compact(c.total_volume)}</td>`}<td>${compact(c.market_cap)}</td></tr>`;
-}
+function escapeHTML(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function money(v){if(v==null)return "--";if(v>=1000)return "$"+v.toLocaleString("en-US",{maximumFractionDigits:2});if(v>=1)return "$"+v.toLocaleString("en-US",{maximumFractionDigits:4});return "$"+v.toLocaleString("en-US",{maximumFractionDigits:8});}
+function compact(v){if(v==null)return "--";return "$"+Intl.NumberFormat("en-US",{notation:"compact",maximumFractionDigits:2}).format(v);}
+function coinHTML(c,home=false){const change=Number(c.price_change_percentage_24h||0);return `<tr><td><div class="coin"><img src="${escapeHTML(c.image)}" alt=""><div><strong>${escapeHTML(c.name)}</strong><small>${escapeHTML(c.symbol.toUpperCase())}</small></div></div></td><td>${money(c.current_price)}</td><td class="${change>=0?"up":"down"}">${change>=0?"+":""}${change.toFixed(2)}%</td>${home?"":`<td>${compact(c.total_volume)}</td>`}<td>${compact(c.market_cap)}</td></tr>`;}
 function renderMarkets(){
- const q=document.getElementById("search").value.toLowerCase().trim();
- let list=[...coins];
+ const q=document.getElementById("search").value.toLowerCase().trim();let list=[...coins];
  if(activeFilter==="gainers")list=list.filter(c=>(c.price_change_percentage_24h||0)>0);
  if(activeFilter==="losers")list=list.filter(c=>(c.price_change_percentage_24h||0)<0);
  if(q)list=list.filter(c=>c.name.toLowerCase().includes(q)||c.symbol.toLowerCase().includes(q));
  document.getElementById("marketRows").innerHTML=list.length?list.map(c=>coinHTML(c)).join(""):'<tr><td colspan="5">No matching coins.</td></tr>';
  document.getElementById("homeRows").innerHTML=coins.length?coins.slice(0,10).map(c=>coinHTML(c,true)).join(""):'<tr><td colspan="4">No market data.</td></tr>';
- document.getElementById("coinCount").textContent=coins.length;
- document.getElementById("marketCount").textContent=coins.length;
+ document.getElementById("coinCount").textContent=coins.length;document.getElementById("marketCount").textContent=coins.length;
 }
 async function loadMarket(){
- const msg=document.getElementById("marketMessage");
- msg.textContent="Updating live market data...";
+ const msg=document.getElementById("marketMessage");msg.textContent="Updating public market data...";
  try{
   const url="https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=24h";
-  const r=await fetch(url,{cache:"no-store"});
-  if(!r.ok)throw new Error("Market API error "+r.status);
-  const data=await r.json();
-  if(!Array.isArray(data)||!data.length)throw new Error("No market data");
-  coins=data;renderMarkets();
-  document.getElementById("lastUpdate").textContent=new Date().toLocaleTimeString();
-  msg.textContent="Live public market data loaded.";
- }catch(e){
-  msg.textContent="Market data unavailable. "+e.message;
-  if(!coins.length){
-   document.getElementById("marketRows").innerHTML='<tr><td colspan="5">Market data unavailable.</td></tr>';
-   document.getElementById("homeRows").innerHTML='<tr><td colspan="4">Market data unavailable.</td></tr>';
-  }
- }
+  const r=await fetch(url,{cache:"no-store"});if(!r.ok)throw new Error("Market API error "+r.status);
+  const data=await r.json();if(!Array.isArray(data)||!data.length)throw new Error("No market data");
+  coins=data;renderMarkets();document.getElementById("lastUpdate").textContent=new Date().toLocaleTimeString();msg.textContent="Public market data loaded. Provider limits may apply.";
+ }catch(e){msg.textContent="Market data unavailable: "+e.message;if(!coins.length){document.getElementById("marketRows").innerHTML='<tr><td colspan="5">Market data unavailable.</td></tr>';document.getElementById("homeRows").innerHTML='<tr><td colspan="4">Market data unavailable.</td></tr>';}}
 }
 document.getElementById("search").addEventListener("input",renderMarkets);
-document.querySelectorAll("[data-filter]").forEach(t=>t.addEventListener("click",()=>{
- document.querySelectorAll("[data-filter]").forEach(x=>x.classList.remove("active"));
- t.classList.add("active");activeFilter=t.dataset.filter;renderMarkets();
-}));
+document.querySelectorAll("[data-filter]").forEach(t=>t.addEventListener("click",()=>{document.querySelectorAll("[data-filter]").forEach(x=>x.classList.remove("active"));t.classList.add("active");activeFilter=t.dataset.filter;renderMarkets();}));
 
-/* GLOBAL COIN CATALOGUE AND CONVERT */
-const fromSearch=document.getElementById("fromSearch");
-const toSearch=document.getElementById("toSearch");
-const fromResults=document.getElementById("fromResults");
-const toResults=document.getElementById("toResults");
-const convertAmount=document.getElementById("convertAmount");
-
-let coinCatalog=[];
-let catalogLoaded=false;
-let catalogLoading=false;
-let selectedFrom={id:"bitcoin",name:"Bitcoin",symbol:"BTC"};
-let selectedTo={id:"tether",name:"Tether",symbol:"USDT"};
-let convertPriceCache={};
-let convertRequestNumber=0;
-let searchTimers={from:null,to:null};
-
-function isTan(c){return c&&c.id==="tancoin"}
-
-function updateSelectedLabels(){
- document.getElementById("fromSelected").textContent=
-  "Selected: "+selectedFrom.name+" ("+selectedFrom.symbol.toUpperCase()+")";
- document.getElementById("toSelected").textContent=
-  "Selected: "+selectedTo.name+" ("+selectedTo.symbol.toUpperCase()+")";
- fromSearch.value=selectedFrom.name+" ("+selectedFrom.symbol.toUpperCase()+")";
- toSearch.value=selectedTo.name+" ("+selectedTo.symbol.toUpperCase()+")";
-}
-
+/* GLOBAL CONVERT CATALOGUE */
+const fromSearch=document.getElementById("fromSearch"),toSearch=document.getElementById("toSearch"),fromResults=document.getElementById("fromResults"),toResults=document.getElementById("toResults"),convertAmount=document.getElementById("convertAmount");
+let coinCatalog=[],catalogLoaded=false,catalogLoading=false,selectedFrom={id:"bitcoin",name:"Bitcoin",symbol:"btc"},selectedTo={id:"tether",name:"Tether",symbol:"usdt"},convertPriceCache={},convertRequestNumber=0,searchTimers={from:null,to:null};
+function isTan(c){return c&&c.id==="tancoin";}
+function updateSelectedLabels(){document.getElementById("fromSelected").textContent="Selected: "+selectedFrom.name+" ("+selectedFrom.symbol.toUpperCase()+")";document.getElementById("toSelected").textContent="Selected: "+selectedTo.name+" ("+selectedTo.symbol.toUpperCase()+")";fromSearch.value=selectedFrom.name+" ("+selectedFrom.symbol.toUpperCase()+")";toSearch.value=selectedTo.name+" ("+selectedTo.symbol.toUpperCase()+")";}
 async function loadCoinCatalog(){
- if(catalogLoaded||catalogLoading)return;
- catalogLoading=true;
- const status=document.getElementById("coinCatalogStatus");
- status.textContent="Loading the CoinGecko global coin catalogue...";
- try{
-  const response=await fetch(
-   "https://api.coingecko.com/api/v3/coins/list?include_platform=false",
-   {cache:"force-cache"}
-  );
-  if(!response.ok)throw new Error("Coin catalogue API returned "+response.status);
-  const data=await response.json();
-  if(!Array.isArray(data)||!data.length)throw new Error("Empty coin catalogue");
-
-  coinCatalog=data.filter(c=>c.id&&c.name&&c.symbol);
-  catalogLoaded=true;
-  status.textContent=coinCatalog.length.toLocaleString()+" CoinGecko-listed coins loaded. Search by name, symbol or ID.";
- }catch(error){
-  console.error("Coin catalogue error:",error);
-  status.textContent="Full catalogue could not load. Search will try CoinGecko search API.";
- }finally{
-  catalogLoading=false;
- }
+ if(catalogLoaded||catalogLoading)return;catalogLoading=true;const status=document.getElementById("coinCatalogStatus");status.textContent="Loading global coin catalogue...";
+ try{const r=await fetch("https://api.coingecko.com/api/v3/coins/list?include_platform=false",{cache:"force-cache"});if(!r.ok)throw new Error("Catalogue API returned "+r.status);const d=await r.json();if(!Array.isArray(d)||!d.length)throw new Error("Empty catalogue");coinCatalog=d.filter(c=>c.id&&c.name&&c.symbol);catalogLoaded=true;status.textContent=coinCatalog.length.toLocaleString()+" listed coins loaded.";}
+ catch(e){status.textContent="Catalogue unavailable. Search API will be tried when needed.";}finally{catalogLoading=false;}
 }
-
-function addTanOption(list){
- const tan={id:"tancoin",name:"TANCOIN",symbol:"tan"};
- return [tan,...list.filter(c=>c.id!=="tancoin")];
-}
-
-function coinMatches(query){
- const q=query.toLowerCase().trim();
- if(!q)return [];
- const matches=coinCatalog.filter(c=>
-  c.name.toLowerCase().includes(q)||
-  c.symbol.toLowerCase()===q||
-  c.symbol.toLowerCase().includes(q)||
-  c.id.toLowerCase().includes(q)
- );
- matches.sort((a,b)=>{
-  const as=a.symbol.toLowerCase()===q?0:1;
-  const bs=b.symbol.toLowerCase()===q?0:1;
-  if(as!==bs)return as-bs;
-  const an=a.name.toLowerCase()===q?0:1;
-  const bn=b.name.toLowerCase()===q?0:1;
-  return an-bn;
- });
- return matches.slice(0,30);
-}
-
-async function searchCoinAPI(query){
- const response=await fetch(
-  "https://api.coingecko.com/api/v3/search?query="+encodeURIComponent(query),
-  {cache:"no-store"}
- );
- if(!response.ok)throw new Error("Coin search unavailable");
- const data=await response.json();
- return (data.coins||[]).slice(0,30).map(c=>({
-  id:c.id,name:c.name,symbol:c.symbol
- }));
-}
-
-function drawCoinResults(side,list){
- const box=side==="from"?fromResults:toResults;
- if(!list.length){
-  box.innerHTML='<div class="coin-option"><small>No matching coins found.</small></div>';
-  return;
- }
- box.innerHTML=list.map(c=>`
-  <button type="button" class="coin-option" data-side="${side}" data-coin-id="${escapeHTML(c.id)}" data-coin-name="${escapeHTML(c.name)}" data-coin-symbol="${escapeHTML(c.symbol)}">
-   <span><strong>${escapeHTML(c.name)}</strong><br><small>${escapeHTML(c.id)}</small></span>
-   <span class="symbol">${escapeHTML(c.symbol.toUpperCase())}</span>
-  </button>
- `).join("");
-}
-
-async function searchCoins(side,query){
- const box=side==="from"?fromResults:toResults;
- if(!query.trim()){
-  box.innerHTML="";
-  return;
- }
- if(query.trim().length<2){
-  box.innerHTML='<div class="coin-option"><small>Type at least 2 characters.</small></div>';
-  return;
- }
-
- if(!catalogLoaded&&!catalogLoading)await loadCoinCatalog();
-
- let results=coinMatches(query);
- if(results.length){
-  drawCoinResults(side,addTanOption(results));
-  return;
- }
-
- try{
-  results=await searchCoinAPI(query);
-  drawCoinResults(side,addTanOption(results));
- }catch(error){
-  box.innerHTML='<div class="coin-option"><small>Search temporarily unavailable. Try again later.</small></div>';
- }
-}
-
-function scheduleCoinSearch(side,query){
- clearTimeout(searchTimers[side]);
- searchTimers[side]=setTimeout(()=>searchCoins(side,query),250);
-}
-
-fromSearch.addEventListener("input",()=>scheduleCoinSearch("from",fromSearch.value));
-toSearch.addEventListener("input",()=>scheduleCoinSearch("to",toSearch.value));
-
-document.addEventListener("click",e=>{
- const option=e.target.closest(".coin-option[data-coin-id]");
- if(option){
-  const side=option.dataset.side;
-  const coin={
-   id:option.dataset.coinId,
-   name:option.dataset.coinName,
-   symbol:option.dataset.coinSymbol
-  };
-  if(side==="from")selectedFrom=coin;
-  else selectedTo=coin;
-  fromResults.innerHTML="";
-  toResults.innerHTML="";
-  updateSelectedLabels();
-  updateConvert();
-  return;
- }
- if(!e.target.closest(".coin-picker")){
-  fromResults.innerHTML="";
-  toResults.innerHTML="";
- }
-});
-
-async function getConvertPrices(ids){
- const unique=[...new Set(ids.filter(id=>id&&id!=="tancoin"))];
- const now=Date.now();
- const missing=unique.filter(id=>
-  !convertPriceCache[id]||now-convertPriceCache[id].time>30000
- );
-
- if(missing.length){
-  const url="https://api.coingecko.com/api/v3/simple/price?ids="+
-   encodeURIComponent(missing.join(","))+"&vs_currencies=usd";
-  const response=await fetch(url,{cache:"no-store"});
-  if(!response.ok)throw new Error("Price API unavailable ("+response.status+")");
-  const data=await response.json();
-  missing.forEach(id=>{
-   const price=data[id]?.usd;
-   if(typeof price==="number"&&price>0){
-    convertPriceCache[id]={price,time:Date.now()};
-   }else{
-    delete convertPriceCache[id];
-   }
-  });
- }
- return unique;
-}
-
+function coinMatches(q){q=q.toLowerCase().trim();let a=coinCatalog.filter(c=>c.name.toLowerCase().includes(q)||c.symbol.toLowerCase().includes(q)||c.id.toLowerCase().includes(q));a.sort((x,y)=>(x.symbol.toLowerCase()===q?-1:0)-(y.symbol.toLowerCase()===q?-1:0));return a.slice(0,30);}
+async function searchCoinAPI(q){const r=await fetch("https://api.coingecko.com/api/v3/search?query="+encodeURIComponent(q));if(!r.ok)throw new Error("Search unavailable");const d=await r.json();return(d.coins||[]).slice(0,30).map(c=>({id:c.id,name:c.name,symbol:c.symbol}));}
+function drawCoinResults(side,list){const box=side==="from"?fromResults:toResults;if(!list.length){box.innerHTML='<div class="coin-option"><small>No matching coins found.</small></div>';return;}box.innerHTML=list.map(c=>`<button type="button" class="coin-option" data-side="${side}" data-coin-id="${escapeHTML(c.id)}" data-coin-name="${escapeHTML(c.name)}" data-coin-symbol="${escapeHTML(c.symbol)}"><span><strong>${escapeHTML(c.name)}</strong><br><small>${escapeHTML(c.id)}</small></span><span class="symbol">${escapeHTML(c.symbol.toUpperCase())}</span></button>`).join("");}
+async function searchCoins(side,q){const box=side==="from"?fromResults:toResults;if(!q.trim()){box.innerHTML="";return;}if(q.trim().length<2){box.innerHTML='<div class="coin-option"><small>Type at least 2 characters.</small></div>';return;}if(!catalogLoaded&&!catalogLoading)await loadCoinCatalog();let results=coinMatches(q);if(!results.length){try{results=await searchCoinAPI(q);}catch(e){box.innerHTML='<div class="coin-option"><small>Search unavailable. Try later.</small></div>';return;}}results=[{id:"tancoin",name:"TANCOIN",symbol:"tan"},...results.filter(c=>c.id!=="tancoin")];drawCoinResults(side,results);}
+function scheduleCoinSearch(side,q){clearTimeout(searchTimers[side]);searchTimers[side]=setTimeout(()=>searchCoins(side,q),250);}
+fromSearch.addEventListener("input",()=>scheduleCoinSearch("from",fromSearch.value));toSearch.addEventListener("input",()=>scheduleCoinSearch("to",toSearch.value));
+document.addEventListener("click",e=>{const o=e.target.closest(".coin-option[data-coin-id]");if(o){const c={id:o.dataset.coinId,name:o.dataset.coinName,symbol:o.dataset.coinSymbol};if(o.dataset.side==="from")selectedFrom=c;else selectedTo=c;fromResults.innerHTML="";toResults.innerHTML="";updateSelectedLabels();updateConvert();}else if(!e.target.closest(".coin-picker")){fromResults.innerHTML="";toResults.innerHTML="";}});
+async function getConvertPrices(ids){const unique=[...new Set(ids.filter(x=>x&&x!=="tancoin"))],now=Date.now(),missing=unique.filter(id=>!convertPriceCache[id]||now-convertPriceCache[id].time>30000);if(missing.length){const r=await fetch("https://api.coingecko.com/api/v3/simple/price?ids="+encodeURIComponent(missing.join(","))+"&vs_currencies=usd",{cache:"no-store"});if(!r.ok)throw new Error("Price API unavailable ("+r.status+")");const d=await r.json();missing.forEach(id=>{const p=d[id]?.usd;if(typeof p==="number"&&p>0)convertPriceCache[id]={price:p,time:Date.now()};else delete convertPriceCache[id];});}}
 function updateConvert(){
- const amount=Number(convertAmount.value);
- const result=document.getElementById("convertResult");
- const rate=document.getElementById("convertRate");
- const message=document.getElementById("convertMessage");
- const request=++convertRequestNumber;
-
- if(!amount||amount<=0){
-  result.textContent="0.00";
-  rate.textContent="Enter an amount";
-  message.textContent="";
-  return;
- }
-
- if(isTan(selectedFrom)||isTan(selectedTo)){
-  result.textContent="Unavailable";
-  rate.textContent="TANCOIN has no verified live market price yet.";
-  message.textContent="A reliable TANCOIN price must be connected before an estimate can be calculated.";
-  return;
- }
-
- if(selectedFrom.id===selectedTo.id){
-  result.textContent=amount.toLocaleString("en-US",{maximumFractionDigits:8});
-  rate.textContent="Both selected coins are the same.";
-  message.textContent="";
-  return;
- }
-
- result.textContent="Calculating...";
- rate.textContent="Getting latest available USD prices...";
- message.textContent="";
-
- getConvertPrices([selectedFrom.id,selectedTo.id]).then(()=>{
-  if(request!==convertRequestNumber)return;
-  const fromPrice=convertPriceCache[selectedFrom.id]?.price;
-  const toPrice=convertPriceCache[selectedTo.id]?.price;
-
-  if(!fromPrice||!toPrice){
-   result.textContent="Unavailable";
-   rate.textContent="A current price was not returned for one or both coins.";
-   return;
-  }
-
-  const estimate=amount*fromPrice/toPrice;
-  result.textContent=estimate.toLocaleString("en-US",{maximumFractionDigits:10});
-  rate.textContent="1 "+selectedFrom.symbol.toUpperCase()+" ≈ "+
-   (fromPrice/toPrice).toLocaleString("en-US",{maximumFractionDigits:10})+
-   " "+selectedTo.symbol.toUpperCase()+" · Indicative rate";
- }).catch(error=>{
-  if(request!==convertRequestNumber)return;
-  result.textContent="Unavailable";
-  rate.textContent="Could not retrieve prices. Please try again.";
-  message.textContent=error.message;
- });
+ const amount=Number(convertAmount.value),result=document.getElementById("convertResult"),rate=document.getElementById("convertRate"),msg=document.getElementById("convertMessage"),request=++convertRequestNumber;
+ if(!amount||amount<=0){result.textContent="0.00";rate.textContent="Enter an amount";msg.textContent="";return;}
+ if(isTan(selectedFrom)||isTan(selectedTo)){result.textContent="Unavailable";rate.textContent="TANCOIN has no verified market price.";msg.textContent="Connect a verified TANCOIN market price before estimating.";return;}
+ if(selectedFrom.id===selectedTo.id){result.textContent=amount.toLocaleString("en-US");rate.textContent="Both selected coins are the same.";msg.textContent="";return;}
+ result.textContent="Calculating...";rate.textContent="Fetching public USD prices...";
+ getConvertPrices([selectedFrom.id,selectedTo.id]).then(()=>{if(request!==convertRequestNumber)return;const a=convertPriceCache[selectedFrom.id]?.price,b=convertPriceCache[selectedTo.id]?.price;if(!a||!b){result.textContent="Unavailable";rate.textContent="Price unavailable for one or both coins.";return;}result.textContent=(amount*a/b).toLocaleString("en-US",{maximumFractionDigits:10});rate.textContent="1 "+selectedFrom.symbol.toUpperCase()+" ≈ "+(a/b).toLocaleString("en-US",{maximumFractionDigits:10})+" "+selectedTo.symbol.toUpperCase()+" · Indicative";}).catch(e=>{if(request!==convertRequestNumber)return;result.textContent="Unavailable";rate.textContent="Could not retrieve prices.";msg.textContent=e.message;});
 }
+convertAmount.addEventListener("input",updateConvert);document.getElementById("swapCoins").addEventListener("click",()=>{[selectedFrom,selectedTo]=[selectedTo,selectedFrom];updateSelectedLabels();updateConvert();});
+document.getElementById("previewConvert").addEventListener("click",()=>{const m=document.getElementById("convertMessage"),a=Number(convertAmount.value);if(!a||a<=0)m.textContent="Enter a valid amount.";else if(isTan(selectedFrom)||isTan(selectedTo))m.textContent="Cannot estimate TANCOIN without verified market data.";else m.textContent="Price preview only. No funds have been converted or transferred.";});
+function initializeConvert(){updateSelectedLabels();loadCoinCatalog();}
 
-convertAmount.addEventListener("input",updateConvert);
+/* STOCK SECTION TABS */
+document.querySelectorAll("[data-stock]").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll("[data-stock]").forEach(x=>x.classList.remove("active"));b.classList.add("active");const td=b.dataset.stock==="tdse";document.getElementById("tdsePanel").style.display=td?"block":"none";document.getElementById("tstocksPanel").style.display=td?"none":"block";}));
+function walletMode(mode,button){document.querySelectorAll("#assets .tab").forEach(t=>t.classList.remove("active"));button.classList.add("active");document.getElementById("exchangeWallet").style.display=mode==="exchange"?"block":"none";document.getElementById("web3Wallet").style.display=mode==="web3"?"block":"none";}
 
-document.getElementById("swapCoins").addEventListener("click",()=>{
- const old=selectedFrom;
- selectedFrom=selectedTo;
- selectedTo=old;
- updateSelectedLabels();
- updateConvert();
-});
-
-document.getElementById("previewConvert").addEventListener("click",()=>{
- const amount=Number(convertAmount.value);
- const message=document.getElementById("convertMessage");
- if(!amount||amount<=0){
-  message.textContent="Enter a valid amount first.";
-  return;
- }
- if(isTan(selectedFrom)||isTan(selectedTo)){
-  message.textContent="Cannot estimate TANCOIN until a verified live price is available.";
-  return;
- }
- message.textContent="This is only a price preview. Real conversion is not enabled because a trading and liquidity provider is not connected.";
-});
-
-function initializeConvert(){
- updateSelectedLabels();
- loadCoinCatalog();
-}
-
-/* WALLET MODE */
-function walletMode(mode,button){
- document.querySelectorAll("#assets .tab").forEach(t=>t.classList.remove("active"));
- button.classList.add("active");
- document.getElementById("exchangeWallet").style.display=mode==="exchange"?"block":"none";
- document.getElementById("web3Wallet").style.display=mode==="web3"?"block":"none";
-}
-
-/* AUTH */
-const modal=document.getElementById("tcAuth");
-const form=document.getElementById("tcForm");
-const nameInput=document.getElementById("tcName");
-const emailInput=document.getElementById("tcEmail");
-const passwordInput=document.getElementById("tcPassword");
-const authMessage=document.getElementById("tcAuthMsg");
-const submit=document.getElementById("tcSubmit");
-const heading=document.getElementById("tcHeading");
-const switchButton=document.getElementById("tcSwitch");
+/* AUTHENTICATION */
+const modal=document.getElementById("tcAuth"),form=document.getElementById("tcForm"),nameInput=document.getElementById("tcName"),emailInput=document.getElementById("tcEmail"),passwordInput=document.getElementById("tcPassword"),authMessage=document.getElementById("tcAuthMsg"),submit=document.getElementById("tcSubmit"),heading=document.getElementById("tcHeading"),switchButton=document.getElementById("tcSwitch");
 let authMode="login";
+function updateAuthMode(){const signup=authMode==="signup";nameInput.style.display=signup?"block":"none";nameInput.required=signup;passwordInput.autocomplete=signup?"new-password":"current-password";heading.textContent=signup?"Create your TANCOIN account":"Login to your account";submit.textContent=signup?"CREATE ACCOUNT":"LOGIN";switchButton.textContent=signup?"Already have an account? Login":"Don't have an account? Register";}
+function openAuth(mode){authMode=mode;form.reset();authMessage.textContent="";modal.style.display="flex";updateAuthMode();}
+document.getElementById("loginButton").addEventListener("click",()=>{if(currentUser)showPage("account");else openAuth("login");});
+document.getElementById("registerButton").addEventListener("click",async()=>{if(currentUser){const {error}=await db.auth.signOut();if(error)alert(error.message);}else openAuth("signup");});
+document.getElementById("tcClose").addEventListener("click",()=>modal.style.display="none");modal.addEventListener("click",e=>{if(e.target===modal)modal.style.display="none";});
+switchButton.addEventListener("click",()=>{authMode=authMode==="login"?"signup":"login";form.reset();authMessage.textContent="";updateAuthMode();});
+form.addEventListener("submit",async e=>{e.preventDefault();submit.disabled=true;submit.textContent="PLEASE WAIT...";authMessage.textContent="Connecting...";
+ try{const email=emailInput.value.trim(),password=passwordInput.value;let result;if(authMode==="signup"){const fullName=nameInput.value.trim();if(!fullName)throw new Error("Enter your full name.");result=await db.auth.signUp({email,password,options:{data:{full_name:fullName},emailRedirectTo:"https://mtolwa14.github.io/tancoin-ecosystem/"}});if(result.error)throw result.error;if(result.data.session){authMessage.textContent="Account created. You are logged in.";modal.style.display="none";}else authMessage.textContent="Registration received. Check your email and confirm your account before logging in.";}else{result=await db.auth.signInWithPassword({email,password});if(result.error)throw result.error;modal.style.display="none";}}
+ catch(err){console.error(err);authMessage.textContent="ERROR: "+(err.message||"Authentication failed.");}finally{submit.disabled=false;updateAuthMode();}});
 
-function updateAuthMode(){
- const signup=authMode==="signup";
- nameInput.style.display=signup?"block":"none";
- nameInput.required=signup;
- passwordInput.autocomplete=signup?"new-password":"current-password";
- heading.textContent=signup?"Create your TANCOIN account":"Login to your account";
- submit.textContent=signup?"CREATE ACCOUNT":"LOGIN";
- switchButton.textContent=signup?"Already have an account? Login":"Don't have an account? Register";
-}
-function openAuth(mode){
- authMode=mode;form.reset();authMessage.textContent="";
- modal.style.display="flex";updateAuthMode();
-}
-document.getElementById("loginButton").addEventListener("click",()=>{
- if(currentUser)showPage("account");else openAuth("login");
-});
-document.getElementById("registerButton").addEventListener("click",async()=>{
- if(currentUser){
-  const {error}=await db.auth.signOut();
-  if(error)alert(error.message);
- }else openAuth("signup");
-});
-document.getElementById("tcClose").addEventListener("click",()=>modal.style.display="none");
-modal.addEventListener("click",e=>{if(e.target===modal)modal.style.display="none"});
-switchButton.addEventListener("click",()=>{
- authMode=authMode==="login"?"signup":"login";form.reset();authMessage.textContent="";updateAuthMode();
-});
-form.addEventListener("submit",async e=>{
- e.preventDefault();submit.disabled=true;submit.textContent="PLEASE WAIT...";
- authMessage.textContent="Connecting to account service...";
- try{
-  const email=emailInput.value.trim(),password=passwordInput.value;
-  let result;
-  if(authMode==="signup"){
-   const fullName=nameInput.value.trim();
-   if(!fullName)throw new Error("Enter your full name.");
-   result=await db.auth.signUp({
-    email,password,
-    options:{data:{full_name:fullName},emailRedirectTo:"https://mtolwa14.github.io/tancoin-ecosystem/"}
-   });
-   if(result.error)throw result.error;
-   if(result.data.session){
-    authMessage.textContent="Account created. You are logged in.";
-    modal.style.display="none";
-   }else{
-    authMessage.textContent="Registration received. Check your email and confirm your account before logging in.";
-   }
-  }else{
-   result=await db.auth.signInWithPassword({email,password});
-   if(result.error)throw result.error;
-   modal.style.display="none";
-  }
- }catch(err){
-  console.error(err);authMessage.textContent="ERROR: "+(err.message||"Authentication failed.");
- }finally{
-  submit.disabled=false;updateAuthMode();
- }
-});
-
-/* ACCOUNT / REFERRAL PROFILE */
+/* PROFILE, ACCOUNT AND REFERRALS */
 async function loadAccountData(){
- if(!currentUser){
-  document.getElementById("accountMessage").textContent="Please log in to view account details.";
-  document.getElementById("referralMessage").textContent="Please log in to view your referral information.";
-  document.getElementById("kycStatus").textContent="Login required";
-  return;
- }
- const {data,error}=await db.from("profiles")
-  .select("account_code,referral_code,full_name,referred_by")
-  .eq("id",currentUser.id).maybeSingle();
- if(error){
-  console.error("Profile load error",error);
-  document.getElementById("accountMessage").textContent="Could not load profile: "+error.message;
-  return;
- }
- currentProfile=data||{};
- document.getElementById("accountCode").value=currentProfile.account_code||"Not generated";
- document.getElementById("accountName").textContent=currentProfile.full_name||currentUser.user_metadata?.full_name||"--";
- document.getElementById("accountEmail").textContent=currentUser.email||"--";
- document.getElementById("emailStatus").textContent=currentUser.email_confirmed_at?"Confirmed":"Waiting for confirmation";
- const code=currentProfile.referral_code||"";
- document.getElementById("myReferralCode").value=code||"Referral code not generated";
- document.getElementById("myReferralLink").value=code?location.origin+location.pathname+"?ref="+encodeURIComponent(code):"";
- if(currentProfile.referred_by){
-  document.getElementById("referralMessage").textContent="A referral code has already been linked to your account.";
- }
- await loadKycStatus();
+ if(!currentUser){document.getElementById("accountMessage").textContent="Please log in to view account details.";document.getElementById("referralMessage").textContent="Please log in to view referral information.";document.getElementById("kycStatus").textContent="Login required";return;}
+ const {data,error}=await db.from("profiles").select("account_code,referral_code,full_name,referred_by").eq("id",currentUser.id).maybeSingle();
+ if(error){console.error("Profile load error",error);document.getElementById("accountMessage").textContent="Could not load profile: "+error.message;return;}
+ currentProfile=data||{};document.getElementById("accountCode").value=currentProfile.account_code||"Not generated";document.getElementById("accountName").textContent=currentProfile.full_name||currentUser.user_metadata?.full_name||"--";document.getElementById("accountEmail").textContent=currentUser.email||"--";document.getElementById("emailStatus").textContent=currentUser.email_confirmed_at?"Confirmed":"Waiting for confirmation";
+ const code=currentProfile.referral_code||"";document.getElementById("myReferralCode").value=code||"Referral code not generated";document.getElementById("myReferralLink").value=code?location.origin+location.pathname+"?ref="+encodeURIComponent(code):"";if(currentProfile.referred_by)document.getElementById("referralMessage").textContent="A referral code has already been linked to your account.";await loadKycStatus();
 }
-document.getElementById("copyAccount").addEventListener("click",async()=>{
- const v=document.getElementById("accountCode").value;
- if(v&&v!=="Not generated"){await navigator.clipboard.writeText(v);document.getElementById("accountMessage").textContent="Account ID copied."}
-});
-document.getElementById("copyReferral").addEventListener("click",async()=>{
- const v=document.getElementById("myReferralCode").value;
- if(v&&v!=="Referral code not generated"){await navigator.clipboard.writeText(v);document.getElementById("referralMessage").textContent="Referral code copied."}
-});
-document.getElementById("shareReferral").addEventListener("click",async()=>{
- const link=document.getElementById("myReferralLink").value;
- if(!link||link==="")return;
- const shareData={title:"Join TANCOIN EXCHANGE",text:"Join TANCOIN EXCHANGE using my referral link:",url:link};
- if(navigator.share){
-  try{await navigator.share(shareData)}catch(e){}
- }else{
-  try{await navigator.clipboard.writeText(link);document.getElementById("referralMessage").textContent="Referral link copied. Share it with your friends."}
-  catch(e){document.getElementById("referralMessage").textContent="Copy this link manually: "+link}
- }
-});
-document.getElementById("applyReferral").addEventListener("click",async()=>{
- const out=document.getElementById("referralMessage");
- if(!currentUser){out.textContent="Please log in first.";return}
- const code=document.getElementById("enterReferralCode").value.trim();
- if(!code){out.textContent="Enter a referral code.";return}
- out.textContent="Applying referral code...";
- const {data,error}=await db.rpc("bind_referral_code",{p_code:code});
- if(error){out.textContent="Unable to apply code: "+error.message;return}
- out.textContent=typeof data==="string"?data:"Referral request processed. Refresh your account to check the result.";
- await loadAccountData();
-});
+async function copyField(id,messageId,message){const v=document.getElementById(id).value;if(!v||v==="Not generated"||v==="Referral code not generated")return;try{await navigator.clipboard.writeText(v);document.getElementById(messageId).textContent=message;}catch(e){document.getElementById(messageId).textContent="Clipboard access unavailable. Copy manually.";}}
+document.getElementById("copyAccount").addEventListener("click",()=>copyField("accountCode","accountMessage","Account ID copied."));
+document.getElementById("copyReferral").addEventListener("click",()=>copyField("myReferralCode","referralMessage","Referral code copied."));
+document.getElementById("shareReferral").addEventListener("click",async()=>{const link=document.getElementById("myReferralLink").value;if(!link)return;const data={title:"Join TANCOIN EXCHANGE",text:"Join TANCOIN EXCHANGE using my referral link:",url:link};if(navigator.share){try{await navigator.share(data);}catch(e){}}else copyField("myReferralLink","referralMessage","Referral link copied.");});
+document.getElementById("applyReferral").addEventListener("click",async()=>{const out=document.getElementById("referralMessage");if(!currentUser){out.textContent="Please log in first.";return;}const code=document.getElementById("enterReferralCode").value.trim();if(!code){out.textContent="Enter a referral code.";return;}out.textContent="Applying referral code...";const {data,error}=await db.rpc("bind_referral_code",{p_code:code});if(error){out.textContent="Unable to apply code: "+error.message;return;}out.textContent=typeof data==="string"?data:"Referral request processed. Refresh to check the result.";await loadAccountData();});
 
-/* KYC */
-async function loadKycStatus(){
- if(!currentUser)return;
- const {data,error}=await db.from("kyc_submissions")
-  .select("status,rejection_reason,created_at")
-  .eq("user_id",currentUser.id)
-  .order("created_at",{ascending:false}).limit(1);
- if(error){console.error(error);return}
- if(data&&data.length){
-  document.getElementById("kycStatus").textContent=data[0].status.toUpperCase();
-  document.getElementById("kycReason").textContent=data[0].rejection_reason||"";
- }else{
-  document.getElementById("kycStatus").textContent="Not submitted";
-  document.getElementById("kycReason").textContent="";
- }
-}
-async function uploadKycFile(file,userId,label){
- if(!file)throw new Error("Missing "+label+" image.");
- if(!file.type.startsWith("image/"))throw new Error(label+" must be an image.");
- if(file.size>5*1024*1024)throw new Error(label+" must be smaller than 5 MB.");
- const ext=(file.name.split(".").pop()||"jpg").replace(/[^a-zA-Z0-9]/g,"");
- const path=userId+"/"+label+"_"+Date.now()+"."+ext;
- const {error}=await db.storage.from("tancoin-kyc").upload(path,file,{upsert:false,contentType:file.type});
- if(error)throw error;
- return path;
-}
-document.getElementById("kycForm").addEventListener("submit",async e=>{
- e.preventDefault();
- const msg=document.getElementById("kycMessage");
- const btn=document.getElementById("submitKyc");
- if(!currentUser){msg.textContent="Please log in before submitting KYC.";return}
- btn.disabled=true;btn.textContent="UPLOADING DOCUMENTS...";
- msg.textContent="Uploading securely...";
- try{
-  const front=await uploadKycFile(document.getElementById("kycFront").files[0],currentUser.id,"front");
-  const backFile=document.getElementById("kycBack").files[0];
-  let back=null;
-  if(backFile)back=await uploadKycFile(backFile,currentUser.id,"back");
-  const selfie=await uploadKycFile(document.getElementById("kycSelfie").files[0],currentUser.id,"selfie");
-  const payload={
-   user_id:currentUser.id,
-   full_name:document.getElementById("kycName").value.trim(),
-   dob:document.getElementById("kycDob").value,
-   country:document.getElementById("kycCountry").value.trim(),
-   doc_type:document.getElementById("kycDocType").value,
-   doc_number:document.getElementById("kycDocNumber").value.trim(),
-   front_image_path:front,
-   back_image_path:back,
-   selfie_image_path:selfie,
-   status:"pending"
-  };
-  const {error}=await db.from("kyc_submissions").insert(payload);
-  if(error)throw error;
-  msg.textContent="KYC submitted successfully. Your application is pending review.";
-  msg.className="status success";
-  e.target.reset();
-  await loadKycStatus();
- }catch(err){
-  console.error("KYC error",err);
-  msg.textContent="KYC submission failed: "+err.message;
-  msg.className="status error";
- }finally{
-  btn.disabled=false;btn.textContent="Submit KYC";
- }
-});
+/* KYC — retains the existing table and private bucket field names */
+async function loadKycStatus(){if(!currentUser)return;const {data,error}=await db.from("kyc_submissions").select("status,rejection_reason,created_at").eq("user_id",currentUser.id).order("created_at",{ascending:false}).limit(1);if(error){console.error(error);return;}if(data&&data.length){document.getElementById("kycStatus").textContent=String(data[0].status).toUpperCase();document.getElementById("kycReason").textContent=data[0].rejection_reason||"";}else{document.getElementById("kycStatus").textContent="Not submitted";document.getElementById("kycReason").textContent="";}}
+async function uploadKycFile(file,userId,label){if(!file)throw new Error("Missing "+label+" image.");if(!file.type.startsWith("image/"))throw new Error(label+" must be an image.");if(file.size>5*1024*1024)throw new Error(label+" must be smaller than 5 MB.");const ext=(file.name.split(".").pop()||"jpg").replace(/[^a-zA-Z0-9]/g,"");const path=userId+"/"+label+"_"+Date.now()+"."+ext;const {error}=await db.storage.from("tancoin-kyc").upload(path,file,{upsert:false,contentType:file.type});if(error)throw error;return path;}
+document.getElementById("kycForm").addEventListener("submit",async e=>{e.preventDefault();const msg=document.getElementById("kycMessage"),btn=document.getElementById("submitKyc");if(!currentUser){msg.textContent="Please log in before submitting KYC.";return;}btn.disabled=true;btn.textContent="UPLOADING...";msg.textContent="Uploading documents securely...";
+ try{const front=await uploadKycFile(document.getElementById("kycFront").files[0],currentUser.id,"front"),backFile=document.getElementById("kycBack").files[0];let back=null;if(backFile)back=await uploadKycFile(backFile,currentUser.id,"back");const selfie=await uploadKycFile(document.getElementById("kycSelfie").files[0],currentUser.id,"selfie");
+ const payload={user_id:currentUser.id,full_name:document.getElementById("kycName").value.trim(),dob:document.getElementById("kycDob").value,country:document.getElementById("kycCountry").value.trim(),doc_type:document.getElementById("kycDocType").value,doc_number:document.getElementById("kycDocNumber").value.trim(),front_image_path:front,back_image_path:back,selfie_image_path:selfie,status:"pending"};
+ const {error}=await db.from("kyc_submissions").insert(payload);if(error)throw error;msg.textContent="KYC submitted successfully. Pending review.";msg.className="small success";e.target.reset();await loadKycStatus();
+ }catch(err){console.error("KYC error",err);msg.textContent="KYC submission failed: "+err.message;msg.className="small error";}finally{btn.disabled=false;btn.textContent="Submit KYC";}});
 
-/* AUTH SESSION */
-function updateUser(user){
- currentUser=user;
- document.getElementById("loginButton").textContent=user?"My Account":"Log In";
- document.getElementById("registerButton").textContent=user?"Log Out":"Register";
- if(user){
-  loadAccountData();
- }else{
-  currentProfile=null;
-  document.getElementById("accountCode").value="";
-  document.getElementById("myReferralCode").value="";
-  document.getElementById("myReferralLink").value="";
- }
-}
-db.auth.onAuthStateChange((event,session)=>{
- updateUser(session?.user||null);
-});
-db.auth.getSession().then(({data,error})=>{
- if(error){console.error(error);return}
- updateUser(data.session?.user||null);
-});
+/* SESSION */
+function updateUser(user){currentUser=user;document.getElementById("loginButton").textContent=user?"My Account":"Log In";document.getElementById("registerButton").textContent=user?"Log Out":"Register";if(user)loadAccountData();else{currentProfile=null;document.getElementById("accountCode").value="";document.getElementById("myReferralCode").value="";document.getElementById("myReferralLink").value="";}}
+db.auth.onAuthStateChange((event,session)=>{updateUser(session?.user||null);});
+db.auth.getSession().then(({data,error})=>{if(error){console.error(error);return;}updateUser(data.session?.user||null);});
 
-/* START */
-initializeConvert();
-loadMarket();
-setInterval(loadMarket,60000);
-
-/* AUTO READ REFERRAL PARAMETER */
-const params=new URLSearchParams(location.search);
-const invitedBy=params.get("ref");
-if(invitedBy)document.getElementById("enterReferralCode").value=invitedBy;
+/* INITIALIZE */
+initializeConvert();loadMarket();setInterval(loadMarket,60000);
+const params=new URLSearchParams(location.search),invitedBy=params.get("ref");if(invitedBy)document.getElementById("enterReferralCode").value=invitedBy;
 </script>
 </body>
 </html>
