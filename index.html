@@ -1,752 +1,169 @@
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#0b0e11">
-<title>TANCOIN EXCHANGE PRO</title>
-<style>
-:root{--bg:#0b0e11;--panel:#181a20;--panel2:#20242c;--yellow:#f0b90b;--text:#eaecef;--muted:#848e9c;--green:#0ecb81;--red:#f6465d;--border:#292d35}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}button,input,select{font:inherit}button{cursor:pointer}
-.topbar{min-height:62px;display:flex;align-items:center;justify-content:space-between;gap:15px;padding:9px 22px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--bg);z-index:50}
-.logo{font-size:20px;font-weight:800;color:var(--yellow);white-space:nowrap}.logo span{color:white}
-.toplinks,.actions{display:flex;gap:15px;align-items:center}.toplinks a{color:var(--text);text-decoration:none;font-size:13px}.toplinks a:hover,.active{color:var(--yellow)!important}
-.btn{border:0;border-radius:6px;padding:10px 15px;font-weight:700;background:var(--yellow);color:#111}.btn.dark{background:var(--panel2);color:var(--text);border:1px solid var(--border)}.btn:disabled{opacity:.5;cursor:not-allowed}
-.modebar{height:43px;display:flex;align-items:center;gap:5px;padding:4px 22px;background:#111419;border-bottom:1px solid var(--border);position:sticky;top:62px;z-index:40}
-.modebtn{height:32px;min-width:88px;border:1px solid transparent;border-radius:5px;padding:5px 13px;background:transparent;color:var(--muted);font-size:11px;letter-spacing:.5px;font-weight:800}
-.modebtn.active{background:#29251a;border-color:#66551b;color:var(--yellow)!important}
-.modehint{margin-left:auto;color:var(--muted);font-size:11px}
-.layout{display:flex;min-height:calc(100vh - 105px)}.sidebar{width:220px;padding:18px 14px;border-right:1px solid var(--border);flex-shrink:0}
-.side-title{font-size:10px;color:var(--muted);margin:18px 12px 8px}.navitem{display:block;padding:10px 12px;border-radius:6px;color:var(--muted);text-decoration:none;font-size:13px;margin-bottom:3px}.navitem:hover,.navitem.active{background:#29251a;color:var(--yellow)!important}
-main{flex:1;min-width:0;padding:24px;max-width:1600px;margin:auto;width:100%}h1{font-size:25px;margin:0 0 8px}h2{font-size:19px;margin:0}h3{font-size:15px}.sub{color:var(--muted);font-size:13px;line-height:1.5}
-.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:20px 0}.card{background:var(--panel);border:1px solid var(--border);border-radius:9px;padding:17px;margin-bottom:13px}.label{color:var(--muted);font-size:12px;margin-bottom:9px}.value{font-size:23px;font-weight:700}
-.quick{display:grid;grid-template-columns:repeat(6,1fr);gap:9px;margin:18px 0 27px}.quick button{background:var(--panel);border:1px solid var(--border);color:var(--text);padding:13px 5px;border-radius:8px;font-weight:700}.quick b{display:block;color:var(--yellow);font-size:20px;margin-bottom:6px}
-.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:23px 0 13px;flex-wrap:wrap}
-.tabs{display:flex;gap:17px;overflow:auto}.tab{background:none;border:0;color:var(--muted);padding:9px 0;white-space:nowrap}.tab.active{color:var(--yellow);border-bottom:2px solid var(--yellow)}
-.search,.field{background:var(--bg);border:1px solid var(--border);color:var(--text);padding:12px;border-radius:6px;width:100%;outline:none}.field:focus,.search:focus{border-color:var(--yellow)}.field-label{display:block;color:var(--muted);font-size:12px;margin:13px 0 6px}
-.table-wrap{overflow-x:auto;background:var(--panel);border:1px solid var(--border);border-radius:8px}table{width:100%;border-collapse:collapse;min-width:650px}th,td{text-align:right;padding:12px 14px;border-bottom:1px solid var(--border);font-size:12px;white-space:nowrap}th{color:var(--muted);font-weight:500}th:first-child,td:first-child{text-align:left}
-.coin{display:flex;align-items:center;gap:9px}.coin img{width:27px;height:27px;border-radius:50%}.coin strong{font-size:13px}.coin small{color:var(--muted);margin-left:5px}.up{color:var(--green)}.down{color:var(--red)}
-.page{display:none}.page.active{display:block}.market-summary{display:flex;gap:24px;flex-wrap:wrap;margin:17px 0}.market-summary div{font-size:12px;color:var(--muted)}.market-summary strong{display:block;color:var(--text);font-size:15px;margin-top:6px}
-.placeholder{padding:25px 18px;text-align:center;color:var(--muted);background:var(--panel);border:1px solid var(--border);border-radius:8px}.notice{padding:11px;border:1px solid #51431c;background:#29251a;color:#e8c75b;border-radius:6px;font-size:12px;line-height:1.5;margin:12px 0}.success{color:var(--green)}.error{color:var(--red)}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.row>*{flex:1;min-width:0}
-.tan-logo{width:34px;height:34px;border-radius:50%;background:linear-gradient(145deg,#ffe58a,#d69b00);display:inline-flex;align-items:center;justify-content:center;color:#17120a;font-weight:900;border:2px solid #f9d45c}.tan-coin{display:flex;align-items:center;gap:10px}.copyline{display:flex;gap:8px;align-items:center}.copyline input{min-width:0}.small{font-size:11px;color:var(--muted);line-height:1.5}
-#tcAuth{display:none;position:fixed;inset:0;background:#000c;z-index:9999;align-items:center;justify-content:center;padding:15px}.authbox{background:var(--panel);border:1px solid #333;border-radius:12px;padding:25px;width:100%;max-width:420px;max-height:92vh;overflow:auto}.authbox input{display:block;width:100%;padding:13px;margin:10px 0;background:var(--bg);border:1px solid #333;color:white;border-radius:6px}.authbtn{width:100%;padding:13px;background:var(--yellow);color:#111;border:0;border-radius:6px;font-weight:bold;margin-top:10px}.switch{background:none;border:0;color:var(--yellow);margin-top:15px}.close{float:right;background:none;border:0;color:white;font-size:24px}#tcAuthMsg{font-size:13px;color:var(--yellow);line-height:1.5;margin-top:12px;overflow-wrap:anywhere}
-.coin-picker{position:relative;width:100%;min-width:0}.coin-results{position:absolute;top:calc(100% + 5px);left:0;right:0;max-height:290px;overflow-y:auto;background:#20242c;border:1px solid #444;border-radius:7px;z-index:100;box-shadow:0 8px 25px #0009}.coin-option{width:100%;display:flex;justify-content:space-between;align-items:center;gap:10px;text-align:left;padding:11px;border:0;border-bottom:1px solid #343943;background:transparent;color:white}.coin-option:hover{background:#343943}.coin-option small{color:var(--muted)}.coin-option .symbol{color:var(--yellow);font-weight:bold}.coin-results:empty{display:none}.convert-pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}.selected-coin{font-size:12px;color:var(--muted);margin-top:7px}
-.stock-tabs{display:flex;gap:7px;margin:18px 0;flex-wrap:wrap}.stock-tabs button{background:var(--panel2);border:1px solid var(--border);padding:8px 16px;color:#eaecef;border-radius:5px;font-size:12px;font-weight:700;min-width:75px}.stock-tabs button.active{background:#29251a;border:1px solid #806819;color:var(--yellow)!important}
-.stock-search{max-width:300px}.commission-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.commission-card{background:#111419;border:1px solid var(--border);border-radius:8px;padding:15px}.commission-card strong{display:block;color:var(--yellow);font-size:25px;margin:9px 0}
-.mode-info{color:var(--muted);font-size:11px}.bottomnav{display:none}
-@media(max-width:900px){.sidebar{display:none}.grid{grid-template-columns:repeat(2,1fr)}main{padding:18px 14px 90px}.toplinks{display:none}.bottomnav{display:flex;position:fixed;bottom:0;left:0;right:0;background:#181a20;border-top:1px solid var(--border);justify-content:space-around;padding:8px 3px;z-index:60}.bottomnav a{color:var(--muted);text-decoration:none;font-size:10px;text-align:center}.bottomnav span{display:block;font-size:18px;margin-bottom:4px}.modebar{top:60px;padding:4px 12px}.modehint{display:none}}
-@media(max-width:480px){.topbar{padding:0 10px;min-height:60px}.logo{font-size:16px}.actions{gap:5px}.actions .btn{padding:9px 8px;font-size:11px}.grid{gap:8px}.card{padding:13px}.value{font-size:19px}.quick{grid-template-columns:repeat(3,1fr);gap:6px}.quick button{font-size:11px;padding:11px 2px}.quick b{font-size:17px}.convert-pair{grid-template-columns:1fr}.modebtn{min-width:78px;padding:5px 10px}.commission-grid{grid-template-columns:1fr}}
-</style>
-</head>
-<body>
-<header class="topbar">
- <div class="logo">TANCOIN <span>EXCHANGE</span></div>
- <nav class="toplinks">
-  <a href="#" data-page="home" class="active">Home</a><a href="#" data-page="markets">Markets</a><a href="#" data-page="convert">Convert</a><a href="#" data-page="trade">Trade</a><a href="#" data-page="assets">Assets</a>
- </nav>
- <div class="actions"><button class="btn dark" id="loginButton">Log In</button><button class="btn" id="registerButton">Register</button></div>
-</header>
+/* TANCOIN PROFESSIONAL KYC — CAMERA + OCR */
+(()=>{
+const form=document.getElementById("kycForm");
+if(!form)return;
 
-<div class="modebar">
- <button class="modebtn active" id="exchangeMode" type="button" onclick="setMainMode('exchange')">EXCHANGE</button>
- <button class="modebtn" id="walletModeTop" type="button" onclick="setMainMode('wallet')">WALLET</button>
- <span class="modehint">TANCOIN EXCHANGE PRO</span>
+const style=document.createElement("style");
+style.textContent=`
+.kyc-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.kyc-scan{background:#20242c;border:1px solid #393f49;border-radius:12px;padding:16px;text-align:center}
+.kyc-scan button{width:100%;margin-top:10px}
+.kyc-preview{width:100%;max-height:110px;object-fit:contain;margin-top:8px}
+.kyc-camera{position:fixed;inset:0;background:#080a0dcc;z-index:10000;display:none;align-items:center;justify-content:center;padding:15px}
+.kyc-camera-box{background:#181a20;padding:15px;border-radius:14px;width:100%;max-width:480px}
+.kyc-camera video{width:100%;border-radius:10px;background:#000}
+@media(max-width:480px){.kyc-grid{grid-template-columns:1fr}}
+`;
+document.head.appendChild(style);
+
+form.innerHTML=`
+<h2>Identity Verification</h2>
+<p class="sub">Scan your ID and verify the information before submitting.</p>
+<label class="field-label">Full legal name</label>
+<input class="field" id="kycName" required>
+<label class="field-label">Date of birth</label>
+<input class="field" id="kycDob" type="date" required>
+<label class="field-label">Country</label>
+<input class="field" id="kycCountry" value="Tanzania" required>
+<label class="field-label">Document type</label>
+<select class="field" id="kycDocType" required>
+<option value="">Select document</option>
+<option>National ID</option><option>Passport</option>
+<option>Driving Licence</option></select>
+<label class="field-label">Document number</label>
+<input class="field" id="kycDocNumber" required>
+<div class="kyc-grid">
+<div class="kyc-scan"><b>Front of ID</b><div id="frontStatus" class="small">Not captured</div><button type="button" class="btn" data-camera="front">Scan Front</button><img id="frontPreview" class="kyc-preview"></div>
+<div class="kyc-scan"><b>Back of ID</b><div id="backStatus" class="small">Optional</div><button type="button" class="btn dark" data-camera="back">Scan Back</button><img id="backPreview" class="kyc-preview"></div>
+<div class="kyc-scan" style="grid-column:1/-1"><b>Selfie Verification</b><div id="selfieStatus" class="small">Not captured</div><button type="button" class="btn" data-camera="selfie">Take Selfie</button><img id="selfiePreview" class="kyc-preview"></div>
 </div>
+<div id="ocrStatus" class="notice">OCR will read the front of your ID. Check and correct the details yourself.</div>
+<button class="btn" id="submitKyc" type="submit" style="width:100%;margin-top:15px">Submit Verification</button>
+<div id="kycMessage" class="small" style="margin-top:12px"></div>
+`;
 
-<div class="layout">
-<aside class="sidebar">
- <div class="side-title">EXCHANGE</div>
- <a class="navitem active" href="#" data-page="home">⌂ &nbsp; Dashboard</a>
- <a class="navitem" href="#" data-page="markets">▥ &nbsp; Crypto Markets</a>
- <a class="navitem" href="#" data-page="convert">⇄ &nbsp; Convert</a>
- <a class="navitem" href="#" data-page="trade">⇅ &nbsp; Spot Trade</a>
- <a class="navitem" href="#" data-page="futures">⌁ &nbsp; Futures</a>
- <a class="navitem" href="#" data-page="stocks">▤ &nbsp; TDSE / TSTOCKS</a>
- <div class="side-title">ACCOUNT</div>
- <a class="navitem" href="#" data-page="assets">▣ &nbsp; Assets & Wallet</a>
- <a class="navitem" href="#" data-page="account">♙ &nbsp; My Account</a>
- <a class="navitem" href="#" data-page="kyc">◈ &nbsp; Identity Verification</a>
- <div class="side-title">EARN & REWARDS</div>
- <a class="navitem" href="#" data-page="earn">◉ &nbsp; Earn</a>
- <a class="navitem" href="#" data-page="referral">♧ &nbsp; Referral</a>
- <a class="navitem" href="#" data-page="security">⚿ &nbsp; Security Centre</a>
-</aside>
+const shots={front:null,back:null,selfie:null};
+const modal=document.createElement("div");
+modal.className="kyc-camera";
+modal.innerHTML=`<div class="kyc-camera-box">
+<h3 id="cameraTitle">Capture document</h3>
+<video id="kycVideo" autoplay playsinline></video>
+<button class="btn" id="capturePhoto" type="button" style="width:100%;margin-top:12px">Capture Photo</button>
+<button class="btn dark" id="closeCamera" type="button" style="width:100%;margin-top:8px">Cancel</button>
+</div>`;
+document.body.appendChild(modal);
 
-<main>
-<section class="page active" id="home">
- <h1>Overview</h1><div class="sub">Welcome to TANCOIN EXCHANGE PRO</div>
- <div class="market-summary">
-  <div>BTC Price<strong id="btcTicker">Loading...</strong></div>
-  <div>ETH Price<strong id="ethTicker">Loading...</strong></div>
-  <div>Market Coins<strong id="coinCount">Loading...</strong></div>
-  <div>Market Update<strong id="lastUpdate">--</strong></div>
- </div>
- <div class="grid">
-  <div class="card"><div class="label">Estimated Balance</div><div class="value">$0.00</div><div class="sub">Account balance</div></div>
-  <div class="card"><div class="label">Today's PNL</div><div class="value">$0.00</div><div class="sub">Awaiting trading ledger</div></div>
-  <div class="card"><div class="label">Total Assets</div><div class="value">0.00</div><div class="sub">Wallet assets</div></div>
-  <div class="card"><div class="label">Market Status</div><div class="value" style="font-size:18px">LIVE DATA</div><div class="sub">Public market feed</div></div>
- </div>
- <div class="quick">
-  <button onclick="showPage('assets')"><b>＋</b>Deposit</button><button onclick="showPage('assets')"><b>⇧</b>Withdraw</button><button onclick="showPage('trade')"><b>⇄</b>Trade</button><button onclick="showPage('convert')"><b>⇅</b>Convert</button><button onclick="showPage('earn')"><b>◉</b>Earn</button><button onclick="showPage('referral')"><b>♧</b>Referral</button>
- </div>
- <div class="section-head"><h2>Market Overview</h2><button class="btn dark" onclick="showPage('markets')">More Markets →</button></div>
- <div class="tabs"><button class="tab active" data-home-filter="trending">Trending</button><button class="tab" data-home-filter="gainers">Top Gainers</button><button class="tab" data-home-filter="losers">Top Losers</button></div>
- <div class="table-wrap"><table><thead><tr><th>Name</th><th>Price</th><th>24h Change</th><th>Market Cap</th></tr></thead><tbody id="homeRows"><tr><td colspan="4">Loading market...</td></tr></tbody></table></div>
-</section>
+let stream=null,target="";
+const video=modal.querySelector("video");
 
-<section class="page" id="markets">
- <h1>Crypto Markets</h1><div class="sub">Cryptocurrency market prices, volume and market capitalization.</div>
- <div class="market-summary"><div>Coins<strong id="marketCount">--</strong></div><div>Currency<strong>USD</strong></div><div>Refresh<strong>60 seconds</strong></div></div>
- <div class="section-head"><div class="tabs"><button class="tab active" data-filter="all">All</button><button class="tab" data-filter="gainers">Gainers</button><button class="tab" data-filter="losers">Losers</button></div><input id="search" class="search" style="max-width:260px" placeholder="Search coin or symbol"></div>
- <div class="table-wrap"><table><thead><tr><th>Name</th><th>Price</th><th>24h Change</th><th>24h Volume</th><th>Market Cap</th></tr></thead><tbody id="marketRows"><tr><td colspan="5">Loading market...</td></tr></tbody></table><div id="marketMessage" class="small" style="padding:12px">Connecting...</div></div>
- <div class="card" style="margin-top:15px"><div class="tan-coin"><span class="tan-logo">T</span><div><b>TANCOIN</b><div class="small">TAN · Native exchange asset</div></div></div><div class="notice">TANCOIN price will appear when a verified public market price or trading pair is available.</div></div>
-</section>
-
-<section class="page" id="convert">
- <h1>Convert</h1><div class="sub">Choose from the available cryptocurrency catalogue. Popular coins appear automatically.</div>
- <div class="card" style="max-width:760px;margin-top:20px">
-  <div class="label">From</div>
-  <div class="convert-pair">
-   <div class="coin-picker">
-    <input id="fromSearch" class="field" autocomplete="off" placeholder="Search or select coin">
-    <div id="fromResults" class="coin-results"></div>
-    <div class="selected-coin" id="fromSelected">Bitcoin (BTC)</div>
-   </div>
-   <input id="convertAmount" class="field" type="number" min="0" step="any" placeholder="Amount">
-  </div>
-  <div style="text-align:center;margin:14px 0"><button class="btn dark" id="swapCoins" type="button">↓ ↑ Swap coins</button></div>
-  <div class="label">To</div>
-  <div class="coin-picker">
-   <input id="toSearch" class="field" autocomplete="off" placeholder="Search or select coin">
-   <div id="toResults" class="coin-results"></div>
-   <div class="selected-coin" id="toSelected">Tether (USDT)</div>
-  </div>
-  <div class="card" style="margin-top:18px;background:var(--bg)">
-   <div class="label">Estimated receive amount</div><div class="value" id="convertResult">0.00</div><div class="sub" id="convertRate">Enter amount to calculate</div>
-  </div>
-  <div class="notice">Conversion preview uses indicative public market prices. It does not execute a trade or transfer funds. TANCOIN requires a verified market price before conversion estimates can be shown.</div>
-  <div class="small" id="coinCatalogStatus">Loading coin catalogue...</div>
-  <button class="btn" id="previewConvert" style="width:100%;margin-top:15px" type="button">Preview Conversion</button>
-  <div id="convertMessage" class="small" style="margin-top:12px"></div>
- </div>
-</section>
-
-<section class="page" id="trade"><h1>Spot Trading</h1><div class="sub">Spot market terminal</div><div class="placeholder" style="margin-top:22px"><h2>Trading activation</h2><p>Real orders require a matching engine, liquidity provider, custody/ledger controls, risk management and compliance integration.</p><button class="btn" onclick="showPage('markets')">View Markets</button></div></section>
-<section class="page" id="futures"><h1>Futures</h1><div class="sub">Derivatives trading</div><div class="placeholder" style="margin-top:22px"><h2>Futures activation</h2><p>Futures orders require margin, liquidation, funding, risk and matching systems.</p></div></section>
-
-<section class="page" id="stocks">
- <h1>Stock Markets</h1><div class="sub">Tanzania listed companies and international exchange-listed stock instruments.</div>
- <div class="stock-tabs"><button class="active" data-stock="tdse">TDSE</button><button data-stock="tstocks">TSTOCKS</button></div>
- <div id="tdsePanel">
-  <div class="section-head"><div><h2>TDSE — Tanzania Stock Market</h2><div class="small">All 28 listed companies · Prices in TZS</div></div><input id="tdseSearch" class="search stock-search" placeholder="Search company or symbol"></div>
-  <div class="market-summary"><div>Listed companies<strong>28</strong></div><div>Currency<strong>TZS</strong></div><div>Price source<strong>DSE official market</strong></div><div>Price date<strong>22 Nov 2026 snapshot</strong></div></div>
-  <div class="table-wrap"><table><thead><tr><th>Company</th><th>Symbol</th><th>Last Price (TZS)</th><th>24H Change</th><th>Market</th></tr></thead><tbody id="tdseRows"></tbody></table></div>
-  <p class="small">Prices are the latest figures visible in the DSE published market information used for this snapshot. A dash means a current quote was not available in that snapshot. Check the DSE source for updates: <a href="https://www.dse.co.tz/" target="_blank" rel="noopener" style="color:var(--yellow)">Official DSE Market</a>.</p>
- </div>
- <div id="tstocksPanel" style="display:none">
-  <div class="section-head"><div><h2>TSTOCKS — Global Stock Markets</h2><div class="small">Available stock-related markets discovered from public exchange endpoints</div></div><input id="tstocksSearch" class="search stock-search" placeholder="Search company or symbol"></div>
-  <div class="stock-tabs" id="venueTabs">
-   <button class="active" data-venue="all">All Exchanges</button>
-   <button data-venue="Binance">Binance</button>
-   <button data-venue="Bybit">Bybit</button>
-   <button data-venue="OKX">OKX</button>
-  </div>
-  <div class="market-summary"><div>Markets found<strong id="stockCount">--</strong></div><div>Quote currency<strong>USDT / USDC</strong></div><div>Data<strong id="stockUpdate">Loading...</strong></div></div>
-  <div class="table-wrap"><table><thead><tr><th>Company / Instrument</th><th>Symbol</th><th>Price</th><th>24H Change</th><th>Exchange</th><th>Contract</th></tr></thead><tbody id="tstocksRows"><tr><td colspan="6">Loading exchange markets...</td></tr></tbody></table></div>
-  <div class="small" id="tstocksMessage" style="padding:12px">Checking public exchange market endpoints. Only instruments returned by the exchange APIs will be displayed.</div>
-  <p class="small">Tokenized stocks and stock perpetual contracts are different products. A perpetual contract does not represent ownership of the underlying company shares. Regional eligibility and product access depend on each provider.</p>
- </div>
-</section>
-
-<section class="page" id="assets">
- <h1>Assets Overview</h1><div class="sub">Your account asset overview</div>
- <div class="card" style="margin-top:18px">
-  <div class="label">Estimated Total Balance</div><div class="value">$0.00</div>
-  <div class="row" style="margin-top:17px">
-   <button class="btn" onclick="alert('Deposit service needs verified network and wallet address integration.')">Deposit</button>
-   <button class="btn dark" onclick="alert('Withdrawal service needs secure wallet and approval integration.')">Withdraw</button>
-   <button class="btn dark" onclick="showPage('markets')">Buy Crypto</button>
-  </div>
- </div>
- <div class="section-head"><h2>My Assets</h2><span class="small">Exchange wallet ledger</span></div>
- <div class="table-wrap"><table><thead><tr><th>Asset</th><th>Balance</th><th>Available</th><th>Value</th></tr></thead><tbody>
-  <tr><td><div class="tan-coin"><span class="tan-logo">T</span><b>TANCOIN</b><small>TAN</small></div></td><td>--</td><td>--</td><td>--</td></tr>
-  <tr><td>USDT</td><td>--</td><td>--</td><td>--</td></tr>
-  <tr><td>BTC</td><td>--</td><td>--</td><td>--</td></tr>
-  <tr><td>ETH</td><td>--</td><td>--</td><td>--</td></tr>
- </tbody></table></div>
- <div class="card" style="margin-top:15px"><h2>Web3 Wallet</h2><p class="sub">Non-custodial wallet access will be added with secure key generation, recovery backup and transaction signing. Never enter your recovery phrase into an unverified website.</p><button class="btn dark" disabled>Web3 Wallet — Secure integration required</button></div>
- <div class="card"><h2>Transaction History</h2><p class="small">Your deposit, withdrawal and transfer history will appear here after the secure wallet ledger is connected.</p></div>
-</section>
-
-<section class="page" id="account"><h1>My Account</h1><div class="sub">Your TANCOIN account information</div><div class="card" style="margin-top:20px">
- <div class="label">Account ID</div><div class="copyline"><input class="field" id="accountCode" readonly placeholder="Login to view Account ID"><button class="btn dark" id="copyAccount">Copy</button></div>
- <div class="label" style="margin-top:18px">Full Name</div><div id="accountName">--</div><div class="label" style="margin-top:15px">Email</div><div id="accountEmail">--</div><div class="label" style="margin-top:15px">Email status</div><div id="emailStatus">--</div>
- <div style="margin-top:20px"><button class="btn dark" onclick="showPage('referral')">My Referral</button> <button class="btn dark" onclick="showPage('kyc')">KYC Verification</button></div><div id="accountMessage" class="small" style="margin-top:12px"></div>
-</div></section>
-
-<section class="page" id="referral">
- <h1>Referral Programme</h1><div class="sub">Invite friends and earn a share of eligible trading fees.</div>
- <div class="card" style="margin-top:18px">
-  <div class="label">Your Referral Code</div>
-  <div class="copyline"><input class="field" id="myReferralCode" readonly placeholder="Login to load referral code"><button class="btn dark" id="copyReferral">Copy</button></div>
-  <div class="label" style="margin-top:18px">Your Referral Link</div>
-  <div class="copyline"><input class="field" id="myReferralLink" readonly placeholder="Your referral link"><button class="btn" id="shareReferral">Share</button></div>
-  <div class="small" style="margin-top:8px">Share your link with friends through WhatsApp, Telegram or other apps.</div>
- </div>
- <div class="card">
-  <h2>Referral Commission Structure</h2>
-  <p class="sub">Illustrative TANCOIN programme tiers. Final rates and eligibility are controlled by the exchange administrator.</p>
-  <div class="commission-grid">
-   <div class="commission-card"><div class="small">STANDARD</div><strong>40%</strong><div class="small">Eligible trading fee share</div></div>
-   <div class="commission-card"><div class="small">VIP</div><strong>50%</strong><div class="small">Eligible trading fee share</div></div>
-   <div class="commission-card"><div class="small">SUPER</div><strong>60%</strong><div class="small">Eligible trading fee share</div></div>
-  </div>
-  <div class="notice">These are proposed TANCOIN commission tiers, not official Binance rates. Commission is calculated from eligible trading fees actually collected, not from total trading volume. No commission is earned until the referral commission backend is connected and activated.</div>
- </div>
- <div class="grid">
-  <div class="card"><div class="label">Total Referrals</div><div class="value" id="referralCount">--</div></div>
-  <div class="card"><div class="label">Commission Earned</div><div class="value" id="commissionEarned">$0.00</div></div>
-  <div class="card"><div class="label">Pending Commission</div><div class="value" id="commissionPending">$0.00</div></div>
-  <div class="card"><div class="label">Available Rewards</div><div class="value" id="commissionAvailable">$0.00</div></div>
- </div>
- <div class="card"><h2>Enter Referral Code</h2><p class="sub">If someone invited you, enter their referral code. This can only be linked once.</p><input id="enterReferralCode" class="field" placeholder="Referral code" style="margin:10px 0"><button class="btn" id="applyReferral">Apply Referral Code</button><div id="referralMessage" class="small" style="margin-top:12px"></div></div>
- <div class="card"><h2>Referral Commission History</h2><div class="small">Commission transactions will appear here when the referral ledger and payout process are connected.</div></div>
-</section>
-
-<section class="page" id="earn"><h1>Earn</h1><div class="sub">Earn products</div><div class="grid">
- <div class="card"><h3>Simple Earn</h3><p class="small">Flexible and fixed earn products.</p><button class="btn dark" disabled>Coming soon</button></div>
- <div class="card"><h3>Staking</h3><p class="small">Stake supported digital assets.</p><button class="btn dark" disabled>Coming soon</button></div>
- <div class="card"><h3>Rewards Hub</h3><p class="small">Campaigns and user rewards.</p><button class="btn dark" disabled>Coming soon</button></div>
- <div class="card"><h3>Launchpad</h3><p class="small">New project launches.</p><button class="btn dark" disabled>Coming soon</button></div>
-</div></section>
-
-<section class="page" id="security"><h1>Security Centre</h1><div class="sub">Protect your TANCOIN account</div><div class="card" style="margin-top:18px"><h3>Account Security</h3><p class="small">Use a strong unique password, verify your email and never share your password or recovery phrase.</p><div class="notice">Two-factor authentication, device management and withdrawal allowlisting require secure backend implementation before activation.</div></div></section>
-
-<section class="page" id="kyc"><h1>Identity Verification (KYC)</h1><div class="sub">Submit identity documents for review</div>
- <div class="card" style="margin-top:20px;max-width:740px"><div class="row"><div><b>Verification status</b><div class="small">Latest KYC application</div></div><div id="kycStatus" style="text-align:right">Not submitted</div></div><div id="kycReason" class="small" style="margin-top:8px"></div>
- <div class="notice">Submit genuine documents only. Files are uploaded to the private tancoin-kyc bucket. Restrict access with Supabase Storage policies and reviewer authorization.</div>
- <form id="kycForm">
-  <label class="field-label">Full legal name</label><input class="field" id="kycName" required autocomplete="name">
-  <label class="field-label">Date of birth</label><input class="field" id="kycDob" type="date" required>
-  <label class="field-label">Country of residence</label><input class="field" id="kycCountry" value="Tanzania" required>
-  <label class="field-label">Document type</label><select class="field" id="kycDocType" required><option value="">Select document</option><option>National ID</option><option>Passport</option><option>Driving Licence</option></select>
-  <label class="field-label">Document number</label><input class="field" id="kycDocNumber" required>
-  <label class="field-label">Document front photo</label><input class="field" id="kycFront" type="file" accept="image/*" required>
-  <label class="field-label">Document back photo (if applicable)</label><input class="field" id="kycBack" type="file" accept="image/*">
-  <label class="field-label">Selfie photo</label><input class="field" id="kycSelfie" type="file" accept="image/*" required>
-  <button class="btn" id="submitKyc" type="submit" style="width:100%;margin-top:18px">Submit KYC</button><div id="kycMessage" class="small" style="margin-top:12px"></div>
- </form></div>
-</section>
-</main></div>
-
-<nav class="bottomnav"><a href="#" data-page="home" class="active"><span>⌂</span>Home</a><a href="#" data-page="markets"><span>▥</span>Markets</a><a href="#" data-page="convert"><span>⇅</span>Convert</a><a href="#" data-page="stocks"><span>▤</span>Stocks</a><a href="#" data-page="assets"><span>▣</span>Wallet</a></nav>
-
-<div id="tcAuth"><div class="authbox">
- <button class="close" id="tcClose">×</button><h2 style="color:#f0b90b">TANCOIN EXCHANGE</h2><p class="sub" id="tcHeading">Login to your account</p>
- <form id="tcForm">
-  <input id="tcName" type="text" placeholder="Full name" autocomplete="name" style="display:none">
-  <input id="tcEmail" type="email" placeholder="Email address" autocomplete="email" required>
-  <input id="tcPassword" type="password" placeholder="Password" autocomplete="current-password" minlength="6" required>
-  <div id="signupReferralWrap" style="display:none">
-   <label class="field-label">Referral Code (optional)</label>
-   <input id="signupReferralCode" type="text" placeholder="Enter referral code">
-   <div class="small">Enter the referral code of the person who invited you.</div>
-  </div>
-  <button class="authbtn" id="tcSubmit" type="submit">LOGIN</button>
- </form>
- <button class="switch" id="tcSwitch" type="button">Don't have an account? Register</button>
- <div id="tcAuthMsg" role="status" aria-live="polite"></div>
-</div></div>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-/* SUPABASE CONFIG: public publishable key only */
-const SUPABASE_URL="https://eqszxaghmljdaegbemaf.supabase.co";
-const SUPABASE_KEY="sb_publishable_mCNmthY2ZGgmPa6Lz_5S4g_wl8wVwHh";
-const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-
-let coins=[],activeFilter="all",homeFilter="trending",currentUser=null,currentProfile=null;
-function showPage(page){
- const target=document.getElementById(page);if(!target)return;
- document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));target.classList.add("active");
- document.querySelectorAll("[data-page]").forEach(a=>a.classList.toggle("active",a.dataset.page===page));
- window.scrollTo(0,0);
- if(["account","referral","kyc"].includes(page))loadAccountData();
- if(page==="convert"){loadCoinCatalog();showPopularCoins("from");showPopularCoins("to");}
- if(page==="stocks")loadTstocks();
-}
-document.querySelectorAll("[data-page]").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();showPage(a.dataset.page)}));
-function setMainMode(mode){
- document.getElementById("exchangeMode").classList.toggle("active",mode==="exchange");
- document.getElementById("walletModeTop").classList.toggle("active",mode==="wallet");
- if(mode==="wallet")showPage("assets");else showPage("home");
-}
-function escapeHTML(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
-function money(v){if(v==null||!Number.isFinite(Number(v)))return "--";v=Number(v);if(v>=1000)return "$"+v.toLocaleString("en-US",{maximumFractionDigits:2});if(v>=1)return "$"+v.toLocaleString("en-US",{maximumFractionDigits:4});return "$"+v.toLocaleString("en-US",{maximumFractionDigits:8});}
-function compact(v){if(v==null)return "--";return "$"+Intl.NumberFormat("en-US",{notation:"compact",maximumFractionDigits:2}).format(v);}
-function coinHTML(c,home=false){const change=Number(c.price_change_percentage_24h||0);return `<tr><td><div class="coin"><img src="${escapeHTML(c.image)}" alt=""><div><strong>${escapeHTML(c.name)}</strong><small>${escapeHTML(c.symbol.toUpperCase())}</small></div></div></td><td>${money(c.current_price)}</td><td class="${change>=0?"up":"down"}">${change>=0?"+":""}${change.toFixed(2)}%</td>${home?"":`<td>${compact(c.total_volume)}</td>`}<td>${compact(c.market_cap)}</td></tr>`;}
-function renderMarkets(){
- const q=document.getElementById("search").value.toLowerCase().trim();let list=[...coins];
- if(activeFilter==="gainers")list=list.filter(c=>(c.price_change_percentage_24h||0)>0);
- if(activeFilter==="losers")list=list.filter(c=>(c.price_change_percentage_24h||0)<0);
- if(q)list=list.filter(c=>c.name.toLowerCase().includes(q)||c.symbol.toLowerCase().includes(q));
- document.getElementById("marketRows").innerHTML=list.length?list.map(c=>coinHTML(c)).join(""):'<tr><td colspan="5">No matching coins.</td></tr>';
- let home=[...coins];
- if(homeFilter==="gainers")home.sort((a,b)=>(b.price_change_percentage_24h||0)-(a.price_change_percentage_24h||0));
- else if(homeFilter==="losers")home.sort((a,b)=>(a.price_change_percentage_24h||0)-(b.price_change_percentage_24h||0));
- document.getElementById("homeRows").innerHTML=home.length?home.slice(0,10).map(c=>coinHTML(c,true)).join(""):'<tr><td colspan="4">No market data.</td></tr>';
- document.getElementById("coinCount").textContent=coins.length;document.getElementById("marketCount").textContent=coins.length;
- const btc=coins.find(c=>c.symbol==="btc"),eth=coins.find(c=>c.symbol==="eth");
- if(btc)document.getElementById("btcTicker").textContent=money(btc.current_price);
- if(eth)document.getElementById("ethTicker").textContent=money(eth.current_price);
-}
-async function loadMarket(){
- const msg=document.getElementById("marketMessage");msg.textContent="Updating public market data...";
- try{
-  const url="https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=24h";
-  const r=await fetch(url,{cache:"no-store"});if(!r.ok)throw new Error("Market API error "+r.status);
-  const data=await r.json();if(!Array.isArray(data)||!data.length)throw new Error("No market data");
-  coins=data;renderMarkets();document.getElementById("lastUpdate").textContent=new Date().toLocaleTimeString();msg.textContent="Public market data updated. Provider rate limits may apply.";
- }catch(e){msg.textContent="Market data unavailable: "+e.message;if(!coins.length){document.getElementById("marketRows").innerHTML='<tr><td colspan="5">Market data unavailable.</td></tr>';document.getElementById("homeRows").innerHTML='<tr><td colspan="4">Market data unavailable.</td></tr>';}}
-}
-document.getElementById("search").addEventListener("input",renderMarkets);
-document.querySelectorAll("[data-filter]").forEach(t=>t.addEventListener("click",()=>{document.querySelectorAll("[data-filter]").forEach(x=>x.classList.remove("active"));t.classList.add("active");activeFilter=t.dataset.filter;renderMarkets();}));
-document.querySelectorAll("[data-home-filter]").forEach(t=>t.addEventListener("click",()=>{document.querySelectorAll("[data-home-filter]").forEach(x=>x.classList.remove("active"));t.classList.add("active");homeFilter=t.dataset.homeFilter;renderMarkets();}));
-
-/* CONVERT: popular coins shown automatically; search entire CoinGecko catalogue */
-const fromSearch=document.getElementById("fromSearch"),toSearch=document.getElementById("toSearch"),fromResults=document.getElementById("fromResults"),toResults=document.getElementById("toResults"),convertAmount=document.getElementById("convertAmount");
-const popularCoins=[
- {id:"bitcoin",name:"Bitcoin",symbol:"btc"},{id:"ethereum",name:"Ethereum",symbol:"eth"},
- {id:"tether",name:"Tether",symbol:"usdt"},{id:"binancecoin",name:"BNB",symbol:"bnb"},
- {id:"solana",name:"Solana",symbol:"sol"},{id:"ripple",name:"XRP",symbol:"xrp"},
- {id:"usd-coin",name:"USDC",symbol:"usdc"},{id:"dogecoin",name:"Dogecoin",symbol:"doge"},
- {id:"tron",name:"TRON",symbol:"trx"},{id:"cardano",name:"Cardano",symbol:"ada"},
- {id:"avalanche-2",name:"Avalanche",symbol:"avax"},{id:"the-open-network",name:"Toncoin",symbol:"ton"},
- {id:"chainlink",name:"Chainlink",symbol:"link"},{id:"polkadot",name:"Polkadot",symbol:"dot"},
- {id:"litecoin",name:"Litecoin",symbol:"ltc"},{id:"bitcoin-cash",name:"Bitcoin Cash",symbol:"bch"},
- {id:"stellar",name:"Stellar",symbol:"xlm"},{id:"shiba-inu",name:"Shiba Inu",symbol:"shib"},
- {id:"sui",name:"Sui",symbol:"sui"},{id:"pepe",name:"Pepe",symbol:"pepe"},
- {id:"tancoin",name:"TANCOIN",symbol:"tan"}
-];
-let coinCatalog=[],catalogLoaded=false,catalogLoading=false;
-let selectedFrom={id:"bitcoin",name:"Bitcoin",symbol:"btc"},selectedTo={id:"tether",name:"Tether",symbol:"usdt"};
-let convertPriceCache={},convertRequestNumber=0,searchTimers={from:null,to:null};
-function isTan(c){return c&&c.id==="tancoin";}
-function updateSelectedLabels(){
- document.getElementById("fromSelected").textContent=selectedFrom.name+" ("+selectedFrom.symbol.toUpperCase()+")";
- document.getElementById("toSelected").textContent=selectedTo.name+" ("+selectedTo.symbol.toUpperCase()+")";
- fromSearch.value=selectedFrom.name+" ("+selectedFrom.symbol.toUpperCase()+")";
- toSearch.value=selectedTo.name+" ("+selectedTo.symbol.toUpperCase()+")";
-}
-function drawCoinResults(side,list){
- const box=side==="from"?fromResults:toResults;
- if(!list.length){box.innerHTML='<div class="coin-option"><small>No matching coins found.</small></div>';return;}
- box.innerHTML=list.map(c=>`<button type="button" class="coin-option" data-side="${side}" data-coin-id="${escapeHTML(c.id)}" data-coin-name="${escapeHTML(c.name)}" data-coin-symbol="${escapeHTML(c.symbol)}"><span><strong>${escapeHTML(c.name)}</strong><br><small>${escapeHTML(c.id)}</small></span><span class="symbol">${escapeHTML(c.symbol.toUpperCase())}</span></button>`).join("");
-}
-function showPopularCoins(side){drawCoinResults(side,popularCoins);}
-async function loadCoinCatalog(){
- if(catalogLoaded||catalogLoading)return;catalogLoading=true;
- const status=document.getElementById("coinCatalogStatus");status.textContent="Loading global coin catalogue...";
- try{
-  const r=await fetch("https://api.coingecko.com/api/v3/coins/list?include_platform=false",{cache:"force-cache"});
-  if(!r.ok)throw new Error("Catalogue API returned "+r.status);
-  const d=await r.json();if(!Array.isArray(d)||!d.length)throw new Error("Empty catalogue");
-  coinCatalog=d.filter(c=>c.id&&c.name&&c.symbol);catalogLoaded=true;
-  status.textContent=coinCatalog.length.toLocaleString()+" cryptocurrency listings loaded. Popular coins are shown automatically.";
- }catch(e){status.textContent="Full catalogue could not load. Popular coins are still available; try searching again later.";}
- finally{catalogLoading=false;}
-}
-function coinMatches(q){
- q=q.toLowerCase().trim();
- let a=coinCatalog.filter(c=>c.name.toLowerCase().includes(q)||c.symbol.toLowerCase().includes(q)||c.id.toLowerCase().includes(q));
- a.sort((x,y)=>(x.symbol.toLowerCase()===q?-1:0)-(y.symbol.toLowerCase()===q?-1:0));
- return a.slice(0,40);
-}
-async function searchCoinAPI(q){
- const r=await fetch("https://api.coingecko.com/api/v3/search?query="+encodeURIComponent(q));
- if(!r.ok)throw new Error("Search unavailable");
- const d=await r.json();return(d.coins||[]).slice(0,40).map(c=>({id:c.id,name:c.name,symbol:c.symbol}));
-}
-async function searchCoins(side,q){
- const box=side==="from"?fromResults:toResults;
- if(!q.trim()){showPopularCoins(side);return;}
- if(q.trim().length<2){box.innerHTML='<div class="coin-option"><small>Type at least 2 characters.</small></div>';return;}
- if(!catalogLoaded&&!catalogLoading)await loadCoinCatalog();
- let results=coinMatches(q);
- if(!results.length){try{results=await searchCoinAPI(q);}catch(e){box.innerHTML='<div class="coin-option"><small>Search unavailable. Try again later.</small></div>';return;}}
- results=[{id:"tancoin",name:"TANCOIN",symbol:"tan"},...results.filter(c=>c.id!=="tancoin")];
- drawCoinResults(side,results);
-}
-function scheduleCoinSearch(side,q){clearTimeout(searchTimers[side]);searchTimers[side]=setTimeout(()=>searchCoins(side,q),220);}
-fromSearch.addEventListener("focus",()=>showPopularCoins("from"));
-toSearch.addEventListener("focus",()=>showPopularCoins("to"));
-fromSearch.addEventListener("input",()=>scheduleCoinSearch("from",fromSearch.value));
-toSearch.addEventListener("input",()=>scheduleCoinSearch("to",toSearch.value));
-document.addEventListener("click",e=>{
- const o=e.target.closest(".coin-option[data-coin-id]");
- if(o){
-  const c={id:o.dataset.coinId,name:o.dataset.coinName,symbol:o.dataset.coinSymbol};
-  if(o.dataset.side==="from")selectedFrom=c;else selectedTo=c;
-  fromResults.innerHTML="";toResults.innerHTML="";updateSelectedLabels();updateConvert();
- }else if(!e.target.closest(".coin-picker")){fromResults.innerHTML="";toResults.innerHTML="";}
+async function openCamera(which){
+target=which;
+modal.style.display="flex";
+modal.querySelector("#cameraTitle").textContent=
+which==="selfie"?"Take a selfie":"Scan document";
+try{
+stream=await navigator.mediaDevices.getUserMedia({
+video:{facingMode:which==="selfie"?"user":"environment"},
+audio:false
 });
-async function getConvertPrices(ids){
- const unique=[...new Set(ids.filter(x=>x&&x!=="tancoin"))],now=Date.now();
- const missing=unique.filter(id=>!convertPriceCache[id]||now-convertPriceCache[id].time>30000);
- if(missing.length){
-  const r=await fetch("https://api.coingecko.com/api/v3/simple/price?ids="+encodeURIComponent(missing.join(","))+"&vs_currencies=usd",{cache:"no-store"});
-  if(!r.ok)throw new Error("Price API unavailable ("+r.status+")");
-  const d=await r.json();
-  missing.forEach(id=>{const p=d[id]?.usd;if(typeof p==="number"&&p>0)convertPriceCache[id]={price:p,time:Date.now()};else delete convertPriceCache[id];});
- }
+video.srcObject=stream;
+}catch(e){
+modal.style.display="none";
+document.getElementById("kycMessage").textContent=
+"Camera unavailable. Allow camera permission and try again.";
 }
-function updateConvert(){
- const amount=Number(convertAmount.value),result=document.getElementById("convertResult"),rate=document.getElementById("convertRate"),msg=document.getElementById("convertMessage"),request=++convertRequestNumber;
- if(!amount||amount<=0){result.textContent="0.00";rate.textContent="Enter an amount";msg.textContent="";return;}
- if(isTan(selectedFrom)||isTan(selectedTo)){result.textContent="Unavailable";rate.textContent="TANCOIN has no verified market price.";msg.textContent="A verified TANCOIN market price is required.";return;}
- if(selectedFrom.id===selectedTo.id){result.textContent=amount.toLocaleString("en-US");rate.textContent="Both selected coins are the same.";msg.textContent="";return;}
- result.textContent="Calculating...";rate.textContent="Fetching public USD prices...";
- getConvertPrices([selectedFrom.id,selectedTo.id]).then(()=>{
-  if(request!==convertRequestNumber)return;
-  const a=convertPriceCache[selectedFrom.id]?.price,b=convertPriceCache[selectedTo.id]?.price;
-  if(!a||!b){result.textContent="Unavailable";rate.textContent="Price unavailable for one or both coins.";return;}
-  result.textContent=(amount*a/b).toLocaleString("en-US",{maximumFractionDigits:10});
-  rate.textContent="1 "+selectedFrom.symbol.toUpperCase()+" ≈ "+(a/b).toLocaleString("en-US",{maximumFractionDigits:10})+" "+selectedTo.symbol.toUpperCase()+" · Indicative";
- }).catch(e=>{if(request!==convertRequestNumber)return;result.textContent="Unavailable";rate.textContent="Could not retrieve prices.";msg.textContent=e.message;});
 }
-convertAmount.addEventListener("input",updateConvert);
-document.getElementById("swapCoins").addEventListener("click",()=>{[selectedFrom,selectedTo]=[selectedTo,selectedFrom];updateSelectedLabels();updateConvert();});
-document.getElementById("previewConvert").addEventListener("click",()=>{
- const m=document.getElementById("convertMessage"),a=Number(convertAmount.value);
- if(!a||a<=0)m.textContent="Enter a valid amount.";
- else if(isTan(selectedFrom)||isTan(selectedTo))m.textContent="Cannot estimate TANCOIN without verified market data.";
- else m.textContent="Preview calculated from public prices only. No funds have been converted or transferred.";
+function closeCamera(){
+if(stream)stream.getTracks().forEach(t=>t.stop());
+stream=null;video.srcObject=null;modal.style.display="none";
+}
+document.querySelectorAll("[data-camera]").forEach(b=>
+b.addEventListener("click",()=>openCamera(b.dataset.camera)));
+modal.querySelector("#closeCamera").onclick=closeCamera;
+
+async function readID(file){
+const status=document.getElementById("ocrStatus");
+status.textContent="Reading ID with OCR...";
+try{
+if(!window.Tesseract){
+await new Promise((resolve,reject)=>{
+const s=document.createElement("script");
+s.src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js";
+s.onload=resolve;s.onerror=reject;document.head.appendChild(s);
 });
-function initializeConvert(){updateSelectedLabels();loadCoinCatalog();}
-
-/* TDSE — 28 listed DSE companies. Snapshot quotes only where DSE published a quote. */
-const tdseCompanies=[
- ["AFRIPRISE","Afriprise Limited",675,1.46],
- ["CRDB","CRDB Bank Plc",2790,0.36],
- ["DCB","DCB Commercial Bank Plc",360,2.70],
- ["DSE","Dar es Salaam Stock Exchange Plc",6500,5.52],
- ["EABL","East African Breweries Limited",5760,-0.52],
- ["JHL","Jubilee Holdings Limited",null,null],
- ["KA","Kenya Airways",null,null],
- ["KCB","KCB Group Plc",2010,0.50],
- ["MBP","Maendeleo Bank Plc",1960,-0.51],
- ["MCB","Mkombozi Commercial Bank Plc",320,-1.54],
- ["MKCB","Mwalimu Commercial Bank Plc",3360,-3.72],
- ["MUCOBA","MUCOBA Bank Plc",380,-3.80],
- ["NICO","National Insurance Corporation",3470,4.20],
- ["NMB","NMB Bank Plc",1800,0],
- ["NMG","Nation Media Group",280,-3.45],
- ["PAL","Precision Air",null,null],
- ["SWALA","Swala Oil and Gas",null,null],
- ["SWIS","Swissport Tanzania",2380,-0.83],
- ["TBL","Tanzania Breweries Limited",9850,0.20],
- ["TCC","Tanzania Cigarette Company",14150,0],
- ["TCCL","Tanga Cement Company Limited",4450,1.83],
- ["TOL","TOL Gases Limited",1025,12.02],
- ["TTP","TATEPA Plc",340,0],
- ["USL","Uchumi Supermarkets",null,null],
- ["VODA","Vodacom Tanzania Plc",1380,-0.72],
- ["YETU","Yetu Microfinance Bank",null,null],
- ["JATU","JATU Plc",175,0],
- ["TPCC","Tanzania Portland Cement Company",5510,-0.18]
-];
-function renderTDSE(){
- const q=(document.getElementById("tdseSearch").value||"").toLowerCase().trim();
- const rows=tdseCompanies.filter(x=>x[0].toLowerCase().includes(q)||x[1].toLowerCase().includes(q));
- document.getElementById("tdseRows").innerHTML=rows.map(x=>`<tr><td>${escapeHTML(x[1])}</td><td><b>${escapeHTML(x[0])}</b></td><td>${x[2]==null?"—":"TZS "+Number(x[2]).toLocaleString("en-US")}</td><td class="${x[3]==null?"":x[3]>=0?"up":"down"}">${x[3]==null?"—":(x[3]>=0?"+":"")+x[3].toFixed(2)+"%"}</td><td>DSE</td></tr>`).join("")||'<tr><td colspan="5">No matching company.</td></tr>';
 }
-document.getElementById("tdseSearch").addEventListener("input",renderTDSE);
-renderTDSE();
+const result=await Tesseract.recognize(file,"eng");
+const lines=result.data.text.split(/\n/).map(x=>x.trim()).filter(Boolean);
+const name=lines.find(x=>
+/^[A-Z][A-Z ]{5,45}$/.test(x)&&
+!/REPUBLIC|TANZANIA|NATIONAL|IDENTITY|UNITED|DATE|NUMBER/.test(x));
+if(name&&!document.getElementById("kycName").value)
+document.getElementById("kycName").value=name;
+const dob= result.data.text.match(/\b(19|20)\d{2}[\/.-](0?[1-9]|1[0-2])[\/.-](0?[1-9]|[12]\d|3[01])\b/);
+if(dob&&!document.getElementById("kycDob").value)
+document.getElementById("kycDob").value=dob[0].replace(/[/.]/g,"-");
+const idline=lines.find(x=>/^[A-Z0-9-]{8,20}$/.test(x));
+if(idline&&!document.getElementById("kycDocNumber").value)
+document.getElementById("kycDocNumber").value=idline;
+status.textContent="OCR finished. Review and correct all details before submitting.";
+}catch(e){
+status.textContent="OCR could not read this document. Enter the details manually.";
+}
+}
 
-/* TSTOCKS — discover real stock-related instruments from public exchange market APIs.
-   This section only displays products actually returned by an exchange endpoint. */
-const STOCK_NAMES={
- AAPL:"Apple",NVDA:"NVIDIA",TSLA:"Tesla",MSFT:"Microsoft",AMZN:"Amazon",GOOGL:"Alphabet",GOOG:"Alphabet",
- META:"Meta Platforms",NFLX:"Netflix",AMD:"Advanced Micro Devices",INTC:"Intel",COIN:"Coinbase",
- MSTR:"Strategy",HOOD:"Robinhood",CRCL:"Circle",SPY:"SPDR S&P 500 ETF",QQQ:"Invesco QQQ ETF",
- ORCL:"Oracle",CRM:"Salesforce",PLTR:"Palantir",AVGO:"Broadcom",QCOM:"Qualcomm",MU:"Micron",
- TSM:"Taiwan Semiconductor",BABA:"Alibaba",PDD:"PDD Holdings",JD:"JD.com",NKE:"Nike",
- DIS:"Walt Disney",WMT:"Walmart",COST:"Costco",JPM:"JPMorgan Chase",BAC:"Bank of America",
- GS:"Goldman Sachs",V:"Visa",MA:"Mastercard",KO:"Coca-Cola",PEP:"PepsiCo",MCD:"McDonald's",
- XOM:"Exxon Mobil",CVX:"Chevron",UBER:"Uber",ABNB:"Airbnb",ADBE:"Adobe",PYPL:"PayPal",
- IBM:"IBM",CSCO:"Cisco",GE:"GE Aerospace",BA:"Boeing",CAT:"Caterpillar",T:"AT&T",
- F:"Ford",GM:"General Motors",RIVN:"Rivian",SNAP:"Snap",SHOP:"Shopify",ARM:"Arm Holdings",
- LLY:"Eli Lilly",PFE:"Pfizer",MRNA:"Moderna",UNH:"UnitedHealth",JNJ:"Johnson & Johnson",
- ABBV:"AbbVie",BIDU:"Baidu",TME:"Tencent Music",SONY:"Sony",SAP:"SAP",C:"Citigroup",
- WFC:"Wells Fargo",MS:"Morgan Stanley",TGT:"Target",HD:"Home Depot",LOW:"Lowe's",
- SBUX:"Starbucks",CVS:"CVS Health",DELL:"Dell",HPE:"Hewlett Packard Enterprise",
- RBLX:"Roblox",U:"Unity",CRWD:"CrowdStrike",PANW:"Palo Alto Networks",SNOW:"Snowflake",
- NOW:"ServiceNow",ANET:"Arista Networks",LULU:"Lululemon",DASH:"DoorDash",DKNG:"DraftKings"
+modal.querySelector("#capturePhoto").onclick=async()=>{
+if(!video.videoWidth)return;
+const canvas=document.createElement("canvas");
+const scale=Math.min(1,1600/video.videoWidth);
+canvas.width=video.videoWidth*scale;
+canvas.height=video.videoHeight*scale;
+canvas.getContext("2d").drawImage(video,0,0,canvas.width,canvas.height);
+const blob=await new Promise(r=>canvas.toBlob(r,"image/jpeg",.85));
+const file=new File([blob],target+".jpg",{type:"image/jpeg"});
+shots[target]=file;
+document.getElementById(target+"Preview").src=URL.createObjectURL(file);
+document.getElementById(target+"Status").textContent="Photo captured";
+closeCamera();
+if(target==="front")readID(file);
 };
-let tstockMarkets=[],stockVenue="all";
-function stockBaseSymbol(s){
- s=String(s||"").toUpperCase().replace(/[-_]/g,"");
- const suffixes=["USDT","USDC","USD","USDTM","USDCM"];
- for(const suffix of suffixes)if(s.endsWith(suffix)){s=s.slice(0,-suffix.length);break;}
- return s;
-}
-function addStockMarket(item){
- const base=stockBaseSymbol(item.symbol);
- if(!STOCK_NAMES[base])return;
- tstockMarkets.push({...item,base,name:STOCK_NAMES[base]});
-}
-async function fetchBinanceStocks(){
- const [infoRes,tickRes]=await Promise.all([
-  fetch("https://fapi.binance.com/fapi/v1/exchangeInfo"),
-  fetch("https://fapi.binance.com/fapi/v1/ticker/24hr")
- ]);
- if(!infoRes.ok||!tickRes.ok)throw new Error("Binance market API unavailable");
- const info=await infoRes.json(),ticks=await tickRes.json(),map=new Map(ticks.map(x=>[x.symbol,x]));
- info.symbols.filter(x=>x.status==="TRADING"&&["USDT","USDC"].includes(x.quoteAsset)).forEach(x=>{
-  const t=map.get(x.symbol);if(t)addStockMarket({symbol:x.symbol,price:Number(t.lastPrice),change:Number(t.priceChangePercent),venue:"Binance",contract:x.contractType||"Perpetual"});
- });
-}
-async function fetchBybitStocks(){
- const r=await fetch("https://api.bybit.com/v5/market/tickers?category=linear");
- if(!r.ok)throw new Error("Bybit API unavailable");
- const d=await r.json();(d.result?.list||[]).forEach(x=>{
-  if(x.symbol&&x.lastPrice)addStockMarket({symbol:x.symbol,price:Number(x.lastPrice),change:Number(x.price24hPcnt)*100,venue:"Bybit",contract:"Linear perpetual"});
- });
-}
-async function fetchOKXStocks(){
- const r=await fetch("https://www.okx.com/api/v5/market/tickers?instType=SWAP");
- if(!r.ok)throw new Error("OKX API unavailable");
- const d=await r.json();(d.data||[]).forEach(x=>{
-  if(x.instId&&x.last)addStockMarket({symbol:x.instId,price:Number(x.last),change:x.open24h?((Number(x.last)-Number(x.open24h))/Number(x.open24h))*100:null,venue:"OKX",contract:"Swap"});
- });
-}
-function renderTstocks(){
- const q=(document.getElementById("tstocksSearch").value||"").toLowerCase().trim();
- let rows=tstockMarkets.filter(x=>(stockVenue==="all"||x.venue===stockVenue)&&(!q||x.base.toLowerCase().includes(q)||x.name.toLowerCase().includes(q)));
- rows.sort((a,b)=>a.base.localeCompare(b.base));
- document.getElementById("stockCount").textContent=rows.length;
- document.getElementById("tstocksRows").innerHTML=rows.map(x=>`<tr><td>${escapeHTML(x.name)}</td><td><b>${escapeHTML(x.symbol)}</b></td><td>${Number.isFinite(x.price)?x.price.toLocaleString("en-US",{maximumFractionDigits:8}):"—"}</td><td class="${x.change==null?"":x.change>=0?"up":"down"}">${x.change==null?"—":(x.change>=0?"+":"")+x.change.toFixed(2)+"%"}</td><td>${escapeHTML(x.venue)}</td><td>${escapeHTML(x.contract)}</td></tr>`).join("")||'<tr><td colspan="6">No matching stock markets were returned by the selected exchange API.</td></tr>';
-}
-let tstockLoading=false;
-async function loadTstocks(){
- if(tstockLoading)return;tstockLoading=true;
- const msg=document.getElementById("tstocksMessage");msg.textContent="Loading stock-related markets from public exchange APIs...";
- tstockMarkets=[];
- const results=await Promise.allSettled([fetchBinanceStocks(),fetchBybitStocks(),fetchOKXStocks()]);
- const successful=results.filter(x=>x.status==="fulfilled").length;
- renderTstocks();
- document.getElementById("stockUpdate").textContent=new Date().toLocaleTimeString();
- msg.textContent=successful
-  ? "Market results received from "+successful+" of 3 exchange APIs. Instruments appear only when returned by those exchanges. Some providers may block browser requests or apply rate limits."
-  : "Exchange market APIs could not be reached from this browser. Check the network and try again.";
- tstockLoading=false;
-}
-document.getElementById("tstocksSearch").addEventListener("input",renderTstocks);
-document.querySelectorAll("[data-venue]").forEach(b=>b.addEventListener("click",()=>{
- document.querySelectorAll("[data-venue]").forEach(x=>x.classList.remove("active"));b.classList.add("active");stockVenue=b.dataset.venue;renderTstocks();
-}));
-document.querySelectorAll("[data-stock]").forEach(b=>b.addEventListener("click",()=>{
- document.querySelectorAll("[data-stock]").forEach(x=>x.classList.remove("active"));b.classList.add("active");
- const td=b.dataset.stock==="tdse";document.getElementById("tdsePanel").style.display=td?"block":"none";document.getElementById("tstocksPanel").style.display=td?"none":"block";
- if(!td)loadTstocks();
-}));
 
-/* AUTHENTICATION */
-const modal=document.getElementById("tcAuth"),form=document.getElementById("tcForm"),nameInput=document.getElementById("tcName"),emailInput=document.getElementById("tcEmail"),passwordInput=document.getElementById("tcPassword"),authMessage=document.getElementById("tcAuthMsg"),submit=document.getElementById("tcSubmit"),heading=document.getElementById("tcHeading"),switchButton=document.getElementById("tcSwitch");
-const signupReferralCode=document.getElementById("signupReferralCode");
-let authMode="login";
-function updateAuthMode(){
- const signup=authMode==="signup";
- nameInput.style.display=signup?"block":"none";nameInput.required=signup;
- document.getElementById("signupReferralWrap").style.display=signup?"block":"none";
- passwordInput.autocomplete=signup?"new-password":"current-password";
- heading.textContent=signup?"Create your TANCOIN account":"Login to your account";
- submit.textContent=signup?"CREATE ACCOUNT":"LOGIN";
- switchButton.textContent=signup?"Already have an account? Login":"Don't have an account? Register";
-}
-function openAuth(mode){
- authMode=mode;form.reset();authMessage.textContent="";
- const urlCode=new URLSearchParams(location.search).get("ref");
- signupReferralCode.value=urlCode||"";
- modal.style.display="flex";updateAuthMode();
-}
-document.getElementById("loginButton").addEventListener("click",()=>{if(currentUser)showPage("account");else openAuth("login");});
-document.getElementById("registerButton").addEventListener("click",async()=>{
- if(currentUser){const {error}=await db.auth.signOut();if(error)alert(error.message);}
- else openAuth("signup");
-});
-document.getElementById("tcClose").addEventListener("click",()=>modal.style.display="none");
-modal.addEventListener("click",e=>{if(e.target===modal)modal.style.display="none";});
-switchButton.addEventListener("click",()=>{
- authMode=authMode==="login"?"signup":"login";form.reset();authMessage.textContent="";
- const urlCode=new URLSearchParams(location.search).get("ref");signupReferralCode.value=urlCode||"";updateAuthMode();
-});
 form.addEventListener("submit",async e=>{
- e.preventDefault();submit.disabled=true;submit.textContent="PLEASE WAIT...";authMessage.textContent="Connecting...";
- try{
-  const email=emailInput.value.trim(),password=passwordInput.value;let result;
-  if(authMode==="signup"){
-   const fullName=nameInput.value.trim(),refCode=signupReferralCode.value.trim();
-   if(!fullName)throw new Error("Enter your full name.");
-   result=await db.auth.signUp({
-    email,password,
-    options:{data:{full_name:fullName},emailRedirectTo:"https://mtolwa14.github.io/tancoin-ecosystem/"}
-   });
-   if(result.error)throw result.error;
-   if(refCode){
-    try{sessionStorage.setItem("tancoin_pending_referral",refCode);}catch(e){}
-   }
-   if(result.data.session){
-    modal.style.display="none";
-    if(refCode)await bindPendingReferral(refCode);
-    authMessage.textContent="Account created.";
-   }else{
-    authMessage.textContent="Registration received. Confirm your email, then log in. Your referral code will be applied after login.";
-   }
-  }else{
-   result=await db.auth.signInWithPassword({email,password});
-   if(result.error)throw result.error;
-   modal.style.display="none";
-  }
- }catch(err){console.error(err);authMessage.textContent="ERROR: "+(err.message||"Authentication failed.");}
- finally{submit.disabled=false;updateAuthMode();}
-});
-
-/* PROFILE, ACCOUNT AND REFERRALS */
-async function bindPendingReferral(code){
- if(!currentUser||!code)return;
- const {data,error}=await db.rpc("bind_referral_code",{p_code:code});
- if(error){console.error("Referral binding error:",error);document.getElementById("referralMessage").textContent="Account created. Referral code could not be linked: "+error.message;return;}
- try{sessionStorage.removeItem("tancoin_pending_referral");}catch(e){}
- document.getElementById("referralMessage").textContent=typeof data==="string"?data:"Referral code submitted.";
+e.preventDefault();
+e.stopImmediatePropagation();
+const msg=document.getElementById("kycMessage");
+const btn=document.getElementById("submitKyc");
+if(!currentUser){msg.textContent="Please login first.";return;}
+if(!shots.front||!shots.selfie){
+msg.textContent="Capture the front of your ID and your selfie first.";return;
 }
-async function loadAccountData(){
- if(!currentUser){
-  document.getElementById("accountMessage").textContent="Please log in to view account details.";
-  document.getElementById("referralMessage").textContent="Please log in to view referral information.";
-  document.getElementById("kycStatus").textContent="Login required";return;
- }
- const {data,error}=await db.from("profiles").select("account_code,referral_code,full_name,referred_by").eq("id",currentUser.id).maybeSingle();
- if(error){console.error("Profile load error",error);document.getElementById("accountMessage").textContent="Could not load profile: "+error.message;return;}
- currentProfile=data||{};
- document.getElementById("accountCode").value=currentProfile.account_code||"Not generated";
- document.getElementById("accountName").textContent=currentProfile.full_name||currentUser.user_metadata?.full_name||"--";
- document.getElementById("accountEmail").textContent=currentUser.email||"--";
- document.getElementById("emailStatus").textContent=currentUser.email_confirmed_at?"Confirmed":"Waiting for confirmation";
- const code=currentProfile.referral_code||"";
- document.getElementById("myReferralCode").value=code||"Referral code not generated";
- document.getElementById("myReferralLink").value=code?location.origin+location.pathname+"?ref="+encodeURIComponent(code):"";
- if(currentProfile.referred_by)document.getElementById("referralMessage").textContent="A referral code has already been linked to your account.";
- try{
-  const pending=sessionStorage.getItem("tancoin_pending_referral");
-  if(pending&&!currentProfile.referred_by)await bindPendingReferral(pending);
- }catch(e){}
- await loadKycStatus();
+btn.disabled=true;btn.textContent="UPLOADING...";
+try{
+const front=await uploadKycFile(shots.front,currentUser.id,"front");
+const back=shots.back?await uploadKycFile(shots.back,currentUser.id,"back"):null;
+const selfie=await uploadKycFile(shots.selfie,currentUser.id,"selfie");
+const payload={
+user_id:currentUser.id,
+full_name:document.getElementById("kycName").value.trim(),
+dob:document.getElementById("kycDob").value,
+country:document.getElementById("kycCountry").value.trim(),
+doc_type:document.getElementById("kycDocType").value,
+doc_number:document.getElementById("kycDocNumber").value.trim(),
+front_image_path:front,
+back_image_path:back,
+selfie_image_path:selfie,
+status:"pending"
+};
+const {error}=await db.from("kyc_submissions").insert(payload);
+if(error)throw error;
+msg.textContent="KYC submitted. Waiting for manual review.";
+msg.className="small success";
+await loadKycStatus();
+}catch(err){
+msg.textContent="Submission failed: "+err.message;
+msg.className="small error";
+}finally{
+btn.disabled=false;btn.textContent="Submit Verification";
 }
-async function copyField(id,messageId,message){
- const v=document.getElementById(id).value;
- if(!v||v==="Not generated"||v==="Referral code not generated")return;
- try{await navigator.clipboard.writeText(v);document.getElementById(messageId).textContent=message;}
- catch(e){document.getElementById(messageId).textContent="Clipboard access unavailable. Copy manually.";}
-}
-document.getElementById("copyAccount").addEventListener("click",()=>copyField("accountCode","accountMessage","Account ID copied."));
-document.getElementById("copyReferral").addEventListener("click",()=>copyField("myReferralCode","referralMessage","Referral code copied."));
-document.getElementById("shareReferral").addEventListener("click",async()=>{
- const link=document.getElementById("myReferralLink").value;if(!link){document.getElementById("referralMessage").textContent="Log in to load your referral link.";return;}
- const data={title:"Join TANCOIN EXCHANGE",text:"Join TANCOIN EXCHANGE using my referral link:",url:link};
- if(navigator.share){try{await navigator.share(data);}catch(e){if(e.name!=="AbortError")document.getElementById("referralMessage").textContent="Sharing was not completed.";}}
- else{try{await navigator.clipboard.writeText(link);document.getElementById("referralMessage").textContent="Referral link copied. Share it with your friends.";}catch(e){document.getElementById("referralMessage").textContent="Copy this link manually.";}}
-});
-document.getElementById("applyReferral").addEventListener("click",async()=>{
- const out=document.getElementById("referralMessage");
- if(!currentUser){out.textContent="Please log in first.";return;}
- const code=document.getElementById("enterReferralCode").value.trim();
- if(!code){out.textContent="Enter a referral code.";return;}
- out.textContent="Applying referral code...";
- const {data,error}=await db.rpc("bind_referral_code",{p_code:code});
- if(error){out.textContent="Unable to apply code: "+error.message;return;}
- out.textContent=typeof data==="string"?data:"Referral request processed. Refresh to check the result.";
- await loadAccountData();
-});
-
-/* KYC — existing table and bucket names retained */
-async function loadKycStatus(){
- if(!currentUser)return;
- const {data,error}=await db.from("kyc_submissions").select("status,rejection_reason,created_at").eq("user_id",currentUser.id).order("created_at",{ascending:false}).limit(1);
- if(error){console.error(error);return;}
- if(data&&data.length){document.getElementById("kycStatus").textContent=String(data[0].status).toUpperCase();document.getElementById("kycReason").textContent=data[0].rejection_reason||"";}
- else{document.getElementById("kycStatus").textContent="Not submitted";document.getElementById("kycReason").textContent="";}
-}
-async function uploadKycFile(file,userId,label){
- if(!file)throw new Error("Missing "+label+" image.");
- if(!file.type.startsWith("image/"))throw new Error(label+" must be an image.");
- if(file.size>5*1024*1024)throw new Error(label+" must be smaller than 5 MB.");
- const ext=(file.name.split(".").pop()||"jpg").replace(/[^a-zA-Z0-9]/g,"");
- const path=userId+"/"+label+"_"+Date.now()+"."+ext;
- const {error}=await db.storage.from("tancoin-kyc").upload(path,file,{upsert:false,contentType:file.type});
- if(error)throw error;return path;
-}
-document.getElementById("kycForm").addEventListener("submit",async e=>{
- e.preventDefault();const msg=document.getElementById("kycMessage"),btn=document.getElementById("submitKyc");
- if(!currentUser){msg.textContent="Please log in before submitting KYC.";return;}
- btn.disabled=true;btn.textContent="UPLOADING...";msg.textContent="Uploading documents securely...";
- try{
-  const front=await uploadKycFile(document.getElementById("kycFront").files[0],currentUser.id,"front");
-  const backFile=document.getElementById("kycBack").files[0];let back=null;
-  if(backFile)back=await uploadKycFile(backFile,currentUser.id,"back");
-  const selfie=await uploadKycFile(document.getElementById("kycSelfie").files[0],currentUser.id,"selfie");
-  const payload={
-   user_id:currentUser.id,
-   full_name:document.getElementById("kycName").value.trim(),
-   dob:document.getElementById("kycDob").value,
-   country:document.getElementById("kycCountry").value.trim(),
-   doc_type:document.getElementById("kycDocType").value,
-   doc_number:document.getElementById("kycDocNumber").value.trim(),
-   front_image_path:front,back_image_path:back,selfie_image_path:selfie,status:"pending"
-  };
-  const {error}=await db.from("kyc_submissions").insert(payload);
-  if(error)throw error;
-  msg.textContent="KYC submitted successfully. Pending review.";msg.className="small success";e.target.reset();await loadKycStatus();
- }catch(err){console.error("KYC error",err);msg.textContent="KYC submission failed: "+err.message;msg.className="small error";}
- finally{btn.disabled=false;btn.textContent="Submit KYC";}
-});
-
-/* SESSION */
-function updateUser(user){
- currentUser=user;
- document.getElementById("loginButton").textContent=user?"My Account":"Log In";
- document.getElementById("registerButton").textContent=user?"Log Out":"Register";
- if(user)loadAccountData();
- else{
-  currentProfile=null;
-  document.getElementById("accountCode").value="";
-  document.getElementById("myReferralCode").value="";
-  document.getElementById("myReferralLink").value="";
- }
-}
-db.auth.onAuthStateChange((event,session)=>{
- updateUser(session?.user||null);
- if(session?.user&&event==="SIGNED_IN"){
-  setTimeout(async()=>{
-   try{const pending=sessionStorage.getItem("tancoin_pending_referral");if(pending)await bindPendingReferral(pending);}catch(e){}
-   loadAccountData();
-  },500);
- }
-});
-db.auth.getSession().then(({data,error})=>{if(error){console.error(error);return;}updateUser(data.session?.user||null);});
-
-/* INITIALIZE */
-initializeConvert();
-loadMarket();
-setInterval(loadMarket,60000);
-const params=new URLSearchParams(location.search),invitedBy=params.get("ref");
-if(invitedBy){
- document.getElementById("enterReferralCode").value=invitedBy;
- document.getElementById("signupReferralCode").value=invitedBy;
-}
-</script>
-</body>
-</html>
+},true);
+})();
