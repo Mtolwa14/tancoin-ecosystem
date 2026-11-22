@@ -83,6 +83,31 @@ th:first-child,td:first-child{text-align:left}
 .close{float:right;background:none;border:0;color:white;font-size:24px}
 #tcAuthMsg{font-size:13px;color:var(--yellow);line-height:1.5;margin-top:12px;overflow-wrap:anywhere}
 .bottomnav{display:none}
+
+/* GLOBAL COIN SEARCH */
+.coin-picker{position:relative;width:100%;min-width:0}
+.coin-picker input{width:100%}
+.coin-results{
+ position:absolute;top:calc(100% + 5px);left:0;right:0;
+ max-height:280px;overflow-y:auto;background:#20242c;
+ border:1px solid #444;border-radius:7px;z-index:100;
+ box-shadow:0 8px 25px #0009
+}
+.coin-option{
+ width:100%;display:flex;justify-content:space-between;align-items:center;
+ gap:10px;text-align:left;padding:12px;border:0;
+ border-bottom:1px solid #343943;background:transparent;color:white
+}
+.coin-option:hover{background:#343943}
+.coin-option strong{font-size:13px}
+.coin-option small{color:var(--muted);font-size:11px}
+.coin-option .symbol{color:var(--yellow);font-weight:bold}
+.coin-results:empty{display:none}
+.convert-pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.convert-search-label{font-size:12px;color:var(--muted);margin:8px 0}
+.selected-coin{display:flex;align-items:center;gap:8px;margin-top:7px;font-size:12px;color:var(--muted)}
+.selected-coin .tan-logo{width:25px;height:25px;font-size:12px}
+
 @media(max-width:900px){
 .sidebar{display:none}.grid{grid-template-columns:repeat(2,1fr)}
 main{padding:20px 14px 90px}.toplinks{display:none}
@@ -96,6 +121,7 @@ main{padding:20px 14px 90px}.toplinks{display:none}
 .grid{gap:9px}.card{padding:14px}.value{font-size:19px}
 .quick{gap:6px}.quick button{font-size:10px;padding:12px 3px}
 .quick b{font-size:17px}
+.convert-pair{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -186,26 +212,45 @@ main{padding:20px 14px 90px}.toplinks{display:none}
  </div>
 </section>
 
+<!-- UPDATED GLOBAL CONVERT -->
 <section class="page" id="convert">
- <h1>Convert</h1><div class="sub">Convert one cryptocurrency into another</div>
- <div class="card" style="max-width:620px;margin-top:22px">
+ <h1>Convert</h1>
+ <div class="sub">Search and estimate conversions between CoinGecko-listed cryptocurrencies</div>
+
+ <div class="card" style="max-width:700px;margin-top:22px">
   <div class="label">From</div>
-  <div class="row">
-   <select id="fromCoin" class="field"></select>
+  <div class="convert-pair">
+   <div class="coin-picker">
+    <input id="fromSearch" class="field" autocomplete="off" placeholder="Search any coin e.g. Bitcoin, BTC">
+    <div id="fromResults" class="coin-results"></div>
+    <div class="selected-coin" id="fromSelected">Selected: Bitcoin (BTC)</div>
+   </div>
    <input id="convertAmount" class="field" type="number" min="0" step="any" placeholder="Amount">
   </div>
-  <div class="row" style="justify-content:center;margin:15px 0">
+
+  <div style="text-align:center;margin:18px 0">
    <button class="btn dark" id="swapCoins" type="button">↓ ↑ Swap coins</button>
   </div>
+
   <div class="label">To</div>
-  <select id="toCoin" class="field"></select>
+  <div class="coin-picker">
+   <input id="toSearch" class="field" autocomplete="off" placeholder="Search any coin e.g. Ethereum, ETH">
+   <div id="toResults" class="coin-results"></div>
+   <div class="selected-coin" id="toSelected">Selected: Tether (USDT)</div>
+  </div>
+
   <div class="card" style="margin-top:18px;background:var(--bg)">
    <div class="label">Estimated receive amount</div>
    <div class="value" id="convertResult">0.00</div>
-   <div class="sub" id="convertRate">Select coins and enter amount</div>
+   <div class="sub" id="convertRate">Enter an amount to calculate</div>
   </div>
-  <div class="notice">This is an indicative estimate based on public market prices. No conversion or transfer is executed. TAN has no displayed price until verified market data is available.</div>
-  <button class="btn" id="previewConvert" style="width:100%" type="button">Preview Conversion</button>
+
+  <div class="notice">
+   Search the CoinGecko coin catalogue by name or symbol. Prices are indicative public market estimates only. TANCOIN does not yet have a verified live market price. No actual conversion or transfer is executed.
+  </div>
+
+  <div class="small" id="coinCatalogStatus">Coin catalogue has not loaded yet.</div>
+  <button class="btn" id="previewConvert" style="width:100%;margin-top:15px" type="button">Preview Conversion</button>
   <div id="convertMessage" class="status" style="margin-top:12px"></div>
  </div>
 </section>
@@ -292,7 +337,7 @@ main{padding:20px 14px 90px}.toplinks{display:none}
    <label class="field-label">Date of birth</label>
    <input class="field" id="kycDob" type="date" required>
    <label class="field-label">Country of residence</label>
-   <input class="field" id="kycCountry" class="field" value="Tanzania" required>
+   <input class="field" id="kycCountry" value="Tanzania" required>
    <label class="field-label">Document type</label>
    <select class="field" id="kycDocType" required>
     <option value="">Select document</option>
@@ -361,13 +406,17 @@ function showPage(page){
  target.classList.add("active");
  document.querySelectorAll("[data-page]").forEach(a=>a.classList.toggle("active",a.dataset.page===page));
  window.scrollTo(0,0);
- if(page==="account"||page==="referral"||page==="kyc") loadAccountData();
+ if(page==="account"||page==="referral"||page==="kyc")loadAccountData();
+ if(page==="convert")loadCoinCatalog();
 }
 document.querySelectorAll("[data-page]").forEach(link=>{
  link.addEventListener("click",e=>{e.preventDefault();showPage(link.dataset.page)});
 });
 
-/* MARKET DATA */
+/* GENERAL HELPERS */
+function escapeHTML(value){
+ return String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
 function money(v){
  if(v===null||v===undefined)return "--";
  if(v>=1000)return "$"+v.toLocaleString("en-US",{maximumFractionDigits:2});
@@ -378,14 +427,13 @@ function compact(v){
  if(v===null||v===undefined)return "--";
  return "$"+Intl.NumberFormat("en-US",{notation:"compact",maximumFractionDigits:2}).format(v);
 }
+
+/* MARKET DATA */
 function coinHTML(c,home=false){
  const change=Number(c.price_change_percentage_24h||0);
- return `<tr><td><div class="coin"><img src="${c.image}" alt=""><div><strong>${escapeHTML(c.name)}</strong><small>${escapeHTML(c.symbol.toUpperCase())}</small></div></div></td>
+ return `<tr><td><div class="coin"><img src="${escapeHTML(c.image)}" alt=""><div><strong>${escapeHTML(c.name)}</strong><small>${escapeHTML(c.symbol.toUpperCase())}</small></div></div></td>
  <td>${money(c.current_price)}</td><td class="${change>=0?"up":"down"}">${change>=0?"+":""}${change.toFixed(2)}%</td>
  ${home?"":`<td>${compact(c.total_volume)}</td>`}<td>${compact(c.market_cap)}</td></tr>`;
-}
-function escapeHTML(value){
- return String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 }
 function renderMarkets(){
  const q=document.getElementById("search").value.toLowerCase().trim();
@@ -410,7 +458,6 @@ async function loadMarket(){
   coins=data;renderMarkets();
   document.getElementById("lastUpdate").textContent=new Date().toLocaleTimeString();
   msg.textContent="Live public market data loaded.";
-  updateConvert();
  }catch(e){
   msg.textContent="Market data unavailable. "+e.message;
   if(!coins.length){
@@ -425,43 +472,276 @@ document.querySelectorAll("[data-filter]").forEach(t=>t.addEventListener("click"
  t.classList.add("active");activeFilter=t.dataset.filter;renderMarkets();
 }));
 
-/* CONVERT ESTIMATE ONLY */
-const fromCoin=document.getElementById("fromCoin");
-const toCoin=document.getElementById("toCoin");
+/* GLOBAL COIN CATALOGUE AND CONVERT */
+const fromSearch=document.getElementById("fromSearch");
+const toSearch=document.getElementById("toSearch");
+const fromResults=document.getElementById("fromResults");
+const toResults=document.getElementById("toResults");
 const convertAmount=document.getElementById("convertAmount");
-function fillConvertOptions(){
- const options=[...coins].map(c=>({id:c.id,symbol:c.symbol.toUpperCase(),name:c.name}));
- options.unshift({id:"tancoin",symbol:"TAN",name:"TANCOIN"});
- const html=options.map(c=>`<option value="${escapeHTML(c.id)}">${escapeHTML(c.symbol)} - ${escapeHTML(c.name)}</option>`).join("");
- fromCoin.innerHTML=html;toCoin.innerHTML=html;
- fromCoin.value="bitcoin";toCoin.value="tether";
+
+let coinCatalog=[];
+let catalogLoaded=false;
+let catalogLoading=false;
+let selectedFrom={id:"bitcoin",name:"Bitcoin",symbol:"BTC"};
+let selectedTo={id:"tether",name:"Tether",symbol:"USDT"};
+let convertPriceCache={};
+let convertRequestNumber=0;
+let searchTimers={from:null,to:null};
+
+function isTan(c){return c&&c.id==="tancoin"}
+
+function updateSelectedLabels(){
+ document.getElementById("fromSelected").textContent=
+  "Selected: "+selectedFrom.name+" ("+selectedFrom.symbol.toUpperCase()+")";
+ document.getElementById("toSelected").textContent=
+  "Selected: "+selectedTo.name+" ("+selectedTo.symbol.toUpperCase()+")";
+ fromSearch.value=selectedFrom.name+" ("+selectedFrom.symbol.toUpperCase()+")";
+ toSearch.value=selectedTo.name+" ("+selectedTo.symbol.toUpperCase()+")";
 }
-function findCoin(id){return coins.find(c=>c.id===id)}
+
+async function loadCoinCatalog(){
+ if(catalogLoaded||catalogLoading)return;
+ catalogLoading=true;
+ const status=document.getElementById("coinCatalogStatus");
+ status.textContent="Loading the CoinGecko global coin catalogue...";
+ try{
+  const response=await fetch(
+   "https://api.coingecko.com/api/v3/coins/list?include_platform=false",
+   {cache:"force-cache"}
+  );
+  if(!response.ok)throw new Error("Coin catalogue API returned "+response.status);
+  const data=await response.json();
+  if(!Array.isArray(data)||!data.length)throw new Error("Empty coin catalogue");
+
+  coinCatalog=data.filter(c=>c.id&&c.name&&c.symbol);
+  catalogLoaded=true;
+  status.textContent=coinCatalog.length.toLocaleString()+" CoinGecko-listed coins loaded. Search by name, symbol or ID.";
+ }catch(error){
+  console.error("Coin catalogue error:",error);
+  status.textContent="Full catalogue could not load. Search will try CoinGecko search API.";
+ }finally{
+  catalogLoading=false;
+ }
+}
+
+function addTanOption(list){
+ const tan={id:"tancoin",name:"TANCOIN",symbol:"tan"};
+ return [tan,...list.filter(c=>c.id!=="tancoin")];
+}
+
+function coinMatches(query){
+ const q=query.toLowerCase().trim();
+ if(!q)return [];
+ const matches=coinCatalog.filter(c=>
+  c.name.toLowerCase().includes(q)||
+  c.symbol.toLowerCase()===q||
+  c.symbol.toLowerCase().includes(q)||
+  c.id.toLowerCase().includes(q)
+ );
+ matches.sort((a,b)=>{
+  const as=a.symbol.toLowerCase()===q?0:1;
+  const bs=b.symbol.toLowerCase()===q?0:1;
+  if(as!==bs)return as-bs;
+  const an=a.name.toLowerCase()===q?0:1;
+  const bn=b.name.toLowerCase()===q?0:1;
+  return an-bn;
+ });
+ return matches.slice(0,30);
+}
+
+async function searchCoinAPI(query){
+ const response=await fetch(
+  "https://api.coingecko.com/api/v3/search?query="+encodeURIComponent(query),
+  {cache:"no-store"}
+ );
+ if(!response.ok)throw new Error("Coin search unavailable");
+ const data=await response.json();
+ return (data.coins||[]).slice(0,30).map(c=>({
+  id:c.id,name:c.name,symbol:c.symbol
+ }));
+}
+
+function drawCoinResults(side,list){
+ const box=side==="from"?fromResults:toResults;
+ if(!list.length){
+  box.innerHTML='<div class="coin-option"><small>No matching coins found.</small></div>';
+  return;
+ }
+ box.innerHTML=list.map(c=>`
+  <button type="button" class="coin-option" data-side="${side}" data-coin-id="${escapeHTML(c.id)}" data-coin-name="${escapeHTML(c.name)}" data-coin-symbol="${escapeHTML(c.symbol)}">
+   <span><strong>${escapeHTML(c.name)}</strong><br><small>${escapeHTML(c.id)}</small></span>
+   <span class="symbol">${escapeHTML(c.symbol.toUpperCase())}</span>
+  </button>
+ `).join("");
+}
+
+async function searchCoins(side,query){
+ const box=side==="from"?fromResults:toResults;
+ if(!query.trim()){
+  box.innerHTML="";
+  return;
+ }
+ if(query.trim().length<2){
+  box.innerHTML='<div class="coin-option"><small>Type at least 2 characters.</small></div>';
+  return;
+ }
+
+ if(!catalogLoaded&&!catalogLoading)await loadCoinCatalog();
+
+ let results=coinMatches(query);
+ if(results.length){
+  drawCoinResults(side,addTanOption(results));
+  return;
+ }
+
+ try{
+  results=await searchCoinAPI(query);
+  drawCoinResults(side,addTanOption(results));
+ }catch(error){
+  box.innerHTML='<div class="coin-option"><small>Search temporarily unavailable. Try again later.</small></div>';
+ }
+}
+
+function scheduleCoinSearch(side,query){
+ clearTimeout(searchTimers[side]);
+ searchTimers[side]=setTimeout(()=>searchCoins(side,query),250);
+}
+
+fromSearch.addEventListener("input",()=>scheduleCoinSearch("from",fromSearch.value));
+toSearch.addEventListener("input",()=>scheduleCoinSearch("to",toSearch.value));
+
+document.addEventListener("click",e=>{
+ const option=e.target.closest(".coin-option[data-coin-id]");
+ if(option){
+  const side=option.dataset.side;
+  const coin={
+   id:option.dataset.coinId,
+   name:option.dataset.coinName,
+   symbol:option.dataset.coinSymbol
+  };
+  if(side==="from")selectedFrom=coin;
+  else selectedTo=coin;
+  fromResults.innerHTML="";
+  toResults.innerHTML="";
+  updateSelectedLabels();
+  updateConvert();
+  return;
+ }
+ if(!e.target.closest(".coin-picker")){
+  fromResults.innerHTML="";
+  toResults.innerHTML="";
+ }
+});
+
+async function getConvertPrices(ids){
+ const unique=[...new Set(ids.filter(id=>id&&id!=="tancoin"))];
+ const now=Date.now();
+ const missing=unique.filter(id=>
+  !convertPriceCache[id]||now-convertPriceCache[id].time>30000
+ );
+
+ if(missing.length){
+  const url="https://api.coingecko.com/api/v3/simple/price?ids="+
+   encodeURIComponent(missing.join(","))+"&vs_currencies=usd";
+  const response=await fetch(url,{cache:"no-store"});
+  if(!response.ok)throw new Error("Price API unavailable ("+response.status+")");
+  const data=await response.json();
+  missing.forEach(id=>{
+   const price=data[id]?.usd;
+   if(typeof price==="number"&&price>0){
+    convertPriceCache[id]={price,time:Date.now()};
+   }else{
+    delete convertPriceCache[id];
+   }
+  });
+ }
+ return unique;
+}
+
 function updateConvert(){
- if(!fromCoin.options.length)fillConvertOptions();
  const amount=Number(convertAmount.value);
- const a=fromCoin.value,b=toCoin.value;
  const result=document.getElementById("convertResult");
  const rate=document.getElementById("convertRate");
- if(!amount||amount<=0){result.textContent="0.00";rate.textContent="Enter an amount";return}
- const ca=findCoin(a),cb=findCoin(b);
- if(a==="tancoin"||b==="tancoin"||!ca||!cb){
-  result.textContent="Unavailable";rate.textContent="TANCOIN live market price is not connected.";return;
+ const message=document.getElementById("convertMessage");
+ const request=++convertRequestNumber;
+
+ if(!amount||amount<=0){
+  result.textContent="0.00";
+  rate.textContent="Enter an amount";
+  message.textContent="";
+  return;
  }
- const estimate=amount*ca.current_price/cb.current_price;
- result.textContent=estimate.toLocaleString("en-US",{maximumFractionDigits:8});
- rate.textContent=`1 ${ca.symbol.toUpperCase()} ≈ ${(ca.current_price/cb.current_price).toFixed(8)} ${cb.symbol.toUpperCase()} · Indicative rate`;
+
+ if(isTan(selectedFrom)||isTan(selectedTo)){
+  result.textContent="Unavailable";
+  rate.textContent="TANCOIN has no verified live market price yet.";
+  message.textContent="A reliable TANCOIN price must be connected before an estimate can be calculated.";
+  return;
+ }
+
+ if(selectedFrom.id===selectedTo.id){
+  result.textContent=amount.toLocaleString("en-US",{maximumFractionDigits:8});
+  rate.textContent="Both selected coins are the same.";
+  message.textContent="";
+  return;
+ }
+
+ result.textContent="Calculating...";
+ rate.textContent="Getting latest available USD prices...";
+ message.textContent="";
+
+ getConvertPrices([selectedFrom.id,selectedTo.id]).then(()=>{
+  if(request!==convertRequestNumber)return;
+  const fromPrice=convertPriceCache[selectedFrom.id]?.price;
+  const toPrice=convertPriceCache[selectedTo.id]?.price;
+
+  if(!fromPrice||!toPrice){
+   result.textContent="Unavailable";
+   rate.textContent="A current price was not returned for one or both coins.";
+   return;
+  }
+
+  const estimate=amount*fromPrice/toPrice;
+  result.textContent=estimate.toLocaleString("en-US",{maximumFractionDigits:10});
+  rate.textContent="1 "+selectedFrom.symbol.toUpperCase()+" ≈ "+
+   (fromPrice/toPrice).toLocaleString("en-US",{maximumFractionDigits:10})+
+   " "+selectedTo.symbol.toUpperCase()+" · Indicative rate";
+ }).catch(error=>{
+  if(request!==convertRequestNumber)return;
+  result.textContent="Unavailable";
+  rate.textContent="Could not retrieve prices. Please try again.";
+  message.textContent=error.message;
+ });
 }
+
 convertAmount.addEventListener("input",updateConvert);
-fromCoin.addEventListener("change",updateConvert);
-toCoin.addEventListener("change",updateConvert);
+
 document.getElementById("swapCoins").addEventListener("click",()=>{
- const old=fromCoin.value;fromCoin.value=toCoin.value;toCoin.value=old;updateConvert();
+ const old=selectedFrom;
+ selectedFrom=selectedTo;
+ selectedTo=old;
+ updateSelectedLabels();
+ updateConvert();
 });
+
 document.getElementById("previewConvert").addEventListener("click",()=>{
- document.getElementById("convertMessage").textContent="Preview only. Real conversion is not enabled because no trading/liquidity provider is connected.";
+ const amount=Number(convertAmount.value);
+ const message=document.getElementById("convertMessage");
+ if(!amount||amount<=0){
+  message.textContent="Enter a valid amount first.";
+  return;
+ }
+ if(isTan(selectedFrom)||isTan(selectedTo)){
+  message.textContent="Cannot estimate TANCOIN until a verified live price is available.";
+  return;
+ }
+ message.textContent="This is only a price preview. Real conversion is not enabled because a trading and liquidity provider is not connected.";
 });
-document.getElementById("convertMessage").className="status";
+
+function initializeConvert(){
+ updateSelectedLabels();
+ loadCoinCatalog();
+}
 
 /* WALLET MODE */
 function walletMode(mode,button){
@@ -635,22 +915,19 @@ document.getElementById("kycForm").addEventListener("submit",async e=>{
  if(!currentUser){msg.textContent="Please log in before submitting KYC.";return}
  btn.disabled=true;btn.textContent="UPLOADING DOCUMENTS...";
  msg.textContent="Uploading securely...";
- let paths=[];
  try{
   const front=await uploadKycFile(document.getElementById("kycFront").files[0],currentUser.id,"front");
-  paths.push(front);
   const backFile=document.getElementById("kycBack").files[0];
   let back=null;
-  if(backFile){back=await uploadKycFile(backFile,currentUser.id,"back");paths.push(back)}
+  if(backFile)back=await uploadKycFile(backFile,currentUser.id,"back");
   const selfie=await uploadKycFile(document.getElementById("kycSelfie").files[0],currentUser.id,"selfie");
-  paths.push(selfie);
   const payload={
    user_id:currentUser.id,
    full_name:document.getElementById("kycName").value.trim(),
-   date_of_birth:document.getElementById("kycDob").value,
+   dob:document.getElementById("kycDob").value,
    country:document.getElementById("kycCountry").value.trim(),
-   document_type:document.getElementById("kycDocType").value,
-   document_number:document.getElementById("kycDocNumber").value.trim(),
+   doc_type:document.getElementById("kycDocType").value,
+   doc_number:document.getElementById("kycDocNumber").value.trim(),
    front_image_path:front,
    back_image_path:back,
    selfie_image_path:selfie,
@@ -694,7 +971,7 @@ db.auth.getSession().then(({data,error})=>{
 });
 
 /* START */
-fillConvertOptions();
+initializeConvert();
 loadMarket();
 setInterval(loadMarket,60000);
 
