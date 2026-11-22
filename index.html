@@ -3,252 +3,272 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0b0e11">
 <title>TANCOIN EXCHANGE</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root{--bg:#0b0e11;--panel:#181a20;--panel2:#20242c;--yellow:#f0b90b;--text:#eaecef;--muted:#848e9c;--green:#0ecb81;--red:#f6465d;--border:#292d35}
+:root{--bg:#0b0e11;--card:#181a20;--card2:#20242c;--line:#292d35;--yellow:#f0b90b;--white:#eaecef;--muted:#848e9c;--green:#0ecb81;--red:#f6465d}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif}
-button,input{font:inherit}button{cursor:pointer}
-.topbar{height:62px;background:#111318;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 18px;position:sticky;top:0;z-index:10}
-.logo{font-size:21px;font-weight:bold;color:var(--yellow)}.logo span{color:white}
+body{margin:0;background:var(--bg);color:var(--white);font-family:Arial,sans-serif}
+button,input{font:inherit}
+button{cursor:pointer}
+.top{height:60px;padding:0 17px;display:flex;align-items:center;justify-content:space-between;background:#111318;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}
+.logo{font-size:20px;font-weight:800;color:var(--yellow)}.logo span{color:white}
+.top-actions{display:flex;gap:8px}
 .btn{background:var(--yellow);color:#111;border:0;border-radius:6px;padding:11px 15px;font-weight:bold}
-.btn.dark{background:var(--panel2);color:white}.btn.red{background:var(--red);color:white}
-button:disabled{opacity:.5;cursor:not-allowed}
-.layout{display:flex;min-height:calc(100vh - 62px)}
-.sidebar{width:215px;background:#111318;border-right:1px solid var(--border);padding:16px 10px;flex-shrink:0}
-.nav-title{color:var(--muted);font-size:11px;margin:16px 10px 7px}
-.nav{display:block;width:100%;text-align:left;padding:12px;border:0;background:transparent;color:#b7bdc6;border-radius:7px;margin:2px 0}
+.btn.dark{background:var(--card2);color:white}
+.btn:disabled{opacity:.45}
+.app{display:none;min-height:100vh}
+.layout{display:flex;min-height:calc(100vh - 60px)}
+.sidebar{width:205px;flex-shrink:0;background:#111318;border-right:1px solid var(--line);padding:15px 9px}
+.nav{display:block;width:100%;text-align:left;background:none;border:0;color:#b7bdc6;padding:13px 12px;border-radius:7px;margin:2px 0}
 .nav.active,.nav:hover{background:#29251a;color:var(--yellow)}
-main{flex:1;min-width:0;padding:24px;max-width:1500px;margin:auto;width:100%}
+.navlabel{font-size:11px;color:var(--muted);padding:15px 12px 5px}
+main{width:100%;max-width:1450px;min-width:0;margin:auto;padding:23px}
 .page{display:none}.page.active{display:block}
-h1{font-size:25px;margin:0 0 8px}h2{font-size:18px;margin:0 0 15px}
-.subtitle{color:var(--muted);font-size:13px;margin-bottom:22px}
-.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px;margin-bottom:18px}
-.card{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:17px;min-width:0}
-.card small,.muted{color:var(--muted)}
+h1{font-size:25px;margin:0 0 8px}h2{font-size:18px;margin:0 0 14px}
+.sub{color:var(--muted);font-size:13px;margin-bottom:22px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:15px 0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;min-width:0}
+.muted,small{color:var(--muted)}
 .value{font-size:22px;font-weight:bold;margin-top:10px;overflow-wrap:anywhere}
-.yellow{color:var(--yellow)}.green{color:var(--green)}.redtext{color:var(--red)}
-.table-wrap{overflow-x:auto;background:var(--panel);border-radius:9px}
-table{width:100%;border-collapse:collapse;min-width:530px}
-th,td{padding:14px;text-align:left;border-bottom:1px solid var(--border);font-size:13px}
+.yellow{color:var(--yellow)}.green{color:var(--green)}
+.section{margin:24px 0 13px}
+table{width:100%;border-collapse:collapse;min-width:490px}
+th,td{padding:14px 12px;border-bottom:1px solid var(--line);text-align:left;font-size:13px}
 th{color:var(--muted);font-weight:normal}
-.field{margin-bottom:14px}.field label{display:block;font-size:13px;color:var(--muted);margin-bottom:7px}
-.field input,input{background:#0b0e11;border:1px solid var(--border);color:white;border-radius:6px;padding:12px;outline:none}
-.field input{width:100%}input:focus{border-color:var(--yellow)}
-.form-box{max-width:440px;margin:auto;background:var(--panel);padding:23px;border-radius:12px;border:1px solid var(--border)}
-.auth-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:18px}
-.auth-logo{text-align:center;margin-bottom:22px}.auth-logo .logo{font-size:29px}
-.tabs{display:flex;gap:9px;margin-bottom:20px}.tabs button{flex:1}
-.full{width:100%}.message{font-size:13px;margin:12px 0;line-height:1.5;overflow-wrap:anywhere}
-.notice{background:#282313;border:1px solid #594813;padding:13px;border-radius:7px;color:#e9d58d;font-size:13px;line-height:1.6;margin:14px 0}
-.copy-row{display:flex;gap:8px}.copy-row input{flex:1;min-width:0}
-.section-head{margin:22px 0 13px}.bottom-nav{display:none}
+.tablewrap{overflow-x:auto;background:var(--card);border-radius:9px}
+.field{margin-bottom:15px}.field label{display:block;font-size:13px;color:var(--muted);margin-bottom:7px}
+input{background:#0b0e11;color:white;border:1px solid var(--line);padding:12px;border-radius:6px;width:100%;outline:none}
+input:focus{border-color:var(--yellow)}
+.auth{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:18px}
+.authbox{width:100%;max-width:430px;background:var(--card);padding:23px;border:1px solid var(--line);border-radius:12px}
+.authlogo{text-align:center;margin-bottom:20px}
+.tabs{display:flex;gap:8px;margin-bottom:20px}
+.tabs button{flex:1}
+.notice{background:#292414;border:1px solid #514318;color:#e8d48e;padding:13px;border-radius:7px;font-size:13px;line-height:1.6;margin:13px 0}
+.message{font-size:13px;line-height:1.5;margin-top:12px;overflow-wrap:anywhere}
+.full{width:100%}
+.copyrow{display:flex;gap:8px}.copyrow input{flex:1;min-width:0}
+.asset-switch{display:flex;gap:24px;border-bottom:1px solid var(--line);margin:12px 0 22px}
+.asset-switch button{border:0;background:none;color:var(--muted);padding:14px 4px;font-size:16px;font-weight:bold;border-bottom:3px solid transparent}
+.asset-switch button.active{color:var(--yellow);border-bottom-color:var(--yellow)}
+.asset-panel{display:none}.asset-panel.active{display:block}
+.coinicon{display:inline-flex;align-items:center;justify-content:center;width:33px;height:33px;background:#29251a;color:var(--yellow);border-radius:50%;font-weight:bold;margin-right:8px}
+.asset-actions{display:flex;gap:9px;flex-wrap:wrap;margin:18px 0}
+.asset-actions button{min-width:90px}
+.bottom{display:none}
 footer{text-align:center;color:var(--muted);font-size:12px;padding:30px}
-@media(max-width:850px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.sidebar{width:175px}main{padding:17px}}
+@media(max-width:800px){.sidebar{width:165px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}main{padding:16px}}
 @media(max-width:600px){
-.sidebar{display:none}main{padding:15px 12px 90px}
-.topbar{height:57px;padding:0 10px}.logo{font-size:17px}
-.top-right .username{display:none}
-.grid{gap:9px}.card{padding:13px}.value{font-size:18px}h1{font-size:22px}
-.bottom-nav{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:20;background:#111318;border-top:1px solid var(--border);overflow-x:auto;padding:6px 2px}
-.bottom-nav button{flex:1;min-width:58px;border:0;background:transparent;color:var(--muted);font-size:10px;padding:7px 2px}
-.bottom-nav button.active{color:var(--yellow)}.form-box{padding:17px}
+.top{height:55px;padding:0 10px}.logo{font-size:17px}.top-actions .btn{padding:9px;font-size:11px}
+.sidebar{display:none}main{padding:17px 12px 90px}
+.grid{gap:9px}.card{padding:13px}.value{font-size:19px}h1{font-size:22px}
+.bottom{display:flex;position:fixed;bottom:0;left:0;right:0;background:#111318;border-top:1px solid var(--line);z-index:20;overflow-x:auto}
+.bottom button{flex:1;min-width:60px;border:0;background:none;color:var(--muted);font-size:11px;padding:11px 3px}
+.bottom button.active{color:var(--yellow)}
 }
 </style>
 </head>
 <body>
 
-<div id="authScreen" class="auth-screen">
-<div style="width:100%;max-width:440px">
-<div class="auth-logo">
+<div id="auth" class="auth">
+<div style="width:100%;max-width:430px">
+<div class="authlogo">
 <div class="logo">TANCOIN <span>EXCHANGE</span></div>
 <p class="muted">Your digital asset platform</p>
 </div>
-<div class="form-box">
+<div class="authbox">
 <div class="tabs">
-<button type="button" class="btn" id="loginTab" onclick="setAuthMode('login')">Login</button>
-<button type="button" class="btn dark" id="signupTab" onclick="setAuthMode('signup')">Register</button>
+<button class="btn" type="button" id="loginTab" onclick="setMode('login')">Log In</button>
+<button class="btn dark" type="button" id="registerTab" onclick="setMode('register')">Register</button>
 </div>
 <form id="authForm">
-<div class="field" id="nameField" style="display:none">
-<label>Full name</label><input id="fullName" placeholder="Your full name">
+<div class="field" id="nameWrap" style="display:none">
+<label>Full Name</label><input id="fullName" placeholder="Enter full name">
 </div>
-<div class="field">
-<label>Email address</label><input id="email" type="email" required placeholder="name@example.com">
+<div class="field"><label>Email</label><input type="email" id="email" required placeholder="Email address"></div>
+<div class="field"><label>Password</label><input type="password" id="password" required minlength="6" placeholder="Minimum 6 characters"></div>
+<div class="field" id="refWrap" style="display:none">
+<label>Referral Code (Optional)</label><input id="signupRef" placeholder="Enter referral code">
 </div>
-<div class="field">
-<label>Password</label><input id="password" type="password" required minlength="6" placeholder="Minimum 6 characters">
-</div>
-<div class="field" id="refField" style="display:none">
-<label>Referral code (optional)</label><input id="signupReferral" placeholder="Referral code">
-</div>
-<button class="btn full" id="authSubmit" type="submit">Login</button>
-<div id="authMessage" class="message" role="status"></div>
+<button class="btn full" id="authSubmit" type="submit">Log In</button>
+<div id="authMessage" class="message"></div>
 </form>
-<div class="notice">Never share your password or wallet recovery phrase.</div>
+<div class="notice">Protect your account. Never share your password or wallet recovery phrase.</div>
 </div>
 </div>
 </div>
 
-<div id="appScreen" style="display:none">
-<header class="topbar">
+<div id="app" class="app">
+<header class="top">
 <div class="logo">TANCOIN <span>EXCHANGE</span></div>
-<div class="top-right">
-<span class="username muted" id="topUser"></span>
-<button class="btn dark" onclick="switchMode()" id="modeButton">Web3 Mode</button>
+<div class="top-actions">
+<button class="btn dark" onclick="showPage('profile')">Account</button>
 <button class="btn dark" onclick="logout()">Logout</button>
 </div>
 </header>
 <div class="layout">
 <aside class="sidebar">
-<div class="nav-title">MAIN MENU</div>
-<button class="nav active" data-page="home" onclick="showPage('home')">⌂ Overview</button>
+<div class="navlabel">MENU</div>
+<button class="nav active" data-page="home" onclick="showPage('home')">⌂ Home</button>
 <button class="nav" data-page="markets" onclick="showPage('markets')">◈ Markets</button>
-<button class="nav" data-page="trade" onclick="showPage('trade')">⇄ Spot Trading</button>
-<button class="nav" data-page="wallet" onclick="showPage('wallet')">▣ Wallet</button>
-<button class="nav" data-page="history" onclick="showPage('history')">◷ History</button>
-<div class="nav-title">FINANCE</div>
-<button class="nav" data-page="earn" onclick="showPage('earn')">✧ Earn & Staking</button>
+<button class="nav" data-page="trade" onclick="showPage('trade')">⇄ Trade</button>
+<button class="nav" data-page="assets" onclick="showPage('assets')">▣ Assets</button>
+<button class="nav" data-page="earn" onclick="showPage('earn')">✧ Earn</button>
 <button class="nav" data-page="referral" onclick="showPage('referral')">♧ Referral</button>
-<div class="nav-title">WEB3</div>
-<button class="nav" data-page="web3" onclick="showPage('web3')">◇ Web3 Wallet</button>
-<button class="nav" data-page="profile" onclick="showPage('profile')">⚙ Account & Security</button>
+<button class="nav" data-page="web3" onclick="showPage('web3')">◇ Web3</button>
+<button class="nav" data-page="profile" onclick="showPage('profile')">⚙ Profile</button>
 </aside>
+
 <main>
-
-<section id="page-home" class="page active">
-<h1>Dashboard</h1><p class="subtitle">Welcome to TANCOIN EXCHANGE</p>
+<section class="page active" id="page-home">
+<h1>Overview</h1><p class="sub">Welcome to TANCOIN EXCHANGE</p>
 <div class="grid">
-<div class="card"><small>Asset Types</small><div class="value yellow" id="assetCount">0</div></div>
-<div class="card"><small>Wallet Accounts</small><div class="value" id="walletCount">0</div></div>
-<div class="card"><small>Referral Code</small><div class="value yellow" id="homeReferral">---</div></div>
-<div class="card"><small>Account Status</small><div class="value green">Active</div></div>
+<div class="card"><small>Listed Assets</small><div class="value yellow" id="assetCount">0</div></div>
+<div class="card"><small>Wallet Balances</small><div class="value" id="walletCount">0</div></div>
+<div class="card"><small>Your Referral</small><div class="value yellow" id="homeRef">---</div></div>
+<div class="card"><small>Account</small><div class="value green">Active</div></div>
 </div>
-<div class="section-head"><h2>Quick Access</h2></div>
+<div class="section"><h2>Markets</h2></div>
+<div class="tablewrap"><table><thead><tr><th>Asset</th><th>Network</th><th>Trading</th></tr></thead><tbody id="homeMarkets"><tr><td colspan="3">Loading...</td></tr></tbody></table></div>
+<div class="notice">TANCOIN EXCHANGE is under development. Real trading and blockchain transactions require further integrations.</div>
+</section>
+
+<section class="page" id="page-markets">
+<h1>Markets</h1><p class="sub">Explore supported digital assets</p>
+<div class="field"><input id="searchCoin" placeholder="Search cryptocurrency..." oninput="filterMarkets()"></div>
+<div class="tablewrap"><table><thead><tr><th>Asset</th><th>Network</th><th>Trading</th><th>Deposit</th><th>Withdraw</th></tr></thead><tbody id="marketRows"><tr><td colspan="5">Loading...</td></tr></tbody></table></div>
+</section>
+
+<section class="page" id="page-trade">
+<h1>Trade</h1><p class="sub">Spot trading interface</p>
+<div class="card">
+<h2>TAN / USDT</h2>
 <div class="grid">
-<div class="card"><button class="btn full" onclick="showPage('markets')">Explore Markets</button></div>
-<div class="card"><button class="btn full" onclick="showPage('wallet')">My Wallet</button></div>
-<div class="card"><button class="btn full" onclick="showPage('referral')">Invite Friends</button></div>
-<div class="card"><button class="btn full" onclick="showPage('web3')">Web3 Wallet</button></div>
+<div class="card"><small>Last Price</small><div class="value yellow">--</div></div>
+<div class="card"><small>24h Change</small><div class="value">--</div></div>
 </div>
-<div class="notice">TANCOIN EXCHANGE is under development. Real trading, deposits and withdrawals are not yet enabled.</div>
-</section>
-
-<section id="page-markets" class="page">
-<h1>Markets</h1><p class="subtitle">Digital assets available on the platform</p>
-<div class="field"><input id="marketSearch" placeholder="Search coin..." oninput="filterMarkets()"></div>
-<div class="table-wrap"><table>
-<thead><tr><th>Asset</th><th>Network</th><th>Trading</th><th>Deposit</th><th>Withdraw</th></tr></thead>
-<tbody id="marketRows"><tr><td colspan="5">Loading...</td></tr></tbody>
-</table></div>
-</section>
-
-<section id="page-trade" class="page">
-<h1>Spot Trading</h1><p class="subtitle">Trading interface</p>
-<div class="card"><h2>Buy / Sell Crypto</h2>
-<div class="notice">Spot trading is not active. A real exchange requires a secure matching engine, market prices, liquidity and backend execution.</div>
-<label class="muted">Trading Pair</label>
-<input style="width:100%;margin:8px 0 15px" value="TAN/USDT" disabled>
-<button class="btn full" disabled>Trading Coming Soon</button></div>
-</section>
-
-<section id="page-wallet" class="page">
-<h1>My Wallet</h1><p class="subtitle">Your recorded account balances</p>
-<div class="notice">Deposits and withdrawals are not enabled yet. Only database balances are displayed.</div>
+<div class="notice">Trading engine and liquidity connection are not yet active. No real orders can be placed.</div>
 <div class="grid">
-<div class="card"><small>Assets in Wallet</small><div class="value yellow" id="walletTotal">0</div></div>
+<div class="card"><h2>Buy TAN</h2><input placeholder="Amount" disabled><br><br><button class="btn full" disabled>Buy TAN</button></div>
+<div class="card"><h2>Sell TAN</h2><input placeholder="Amount" disabled><br><br><button class="btn full" disabled>Sell TAN</button></div>
+</div>
+</div>
+</section>
+
+<section class="page" id="page-assets">
+<h1>Assets</h1><p class="sub">Manage your digital assets</p>
+<div class="asset-switch">
+<button type="button" id="exchangeTab" class="active" onclick="switchAsset('exchange')">Exchange</button>
+<button type="button" id="walletTab" onclick="switchAsset('wallet')">Wallet</button>
+</div>
+
+<div class="asset-panel active" id="exchangePanel">
+<h2>Exchange Account</h2>
+<div class="grid">
+<div class="card"><small>My Assets</small><div class="value yellow" id="exchangeTotal">0</div></div>
 <div class="card"><small>Account Type</small><div class="value">Exchange</div></div>
 </div>
-<div class="section-head"><h2>Balances</h2></div>
-<div class="table-wrap"><table>
-<thead><tr><th>Asset</th><th>Available</th><th>Locked</th></tr></thead>
-<tbody id="walletRows"><tr><td colspan="3">Loading...</td></tr></tbody>
-</table></div>
-<div class="grid" style="margin-top:15px">
-<div class="card"><h2>Deposit</h2><p class="muted">Integration pending.</p><button class="btn full" disabled>Unavailable</button></div>
-<div class="card"><h2>Withdraw</h2><p class="muted">Integration pending.</p><button class="btn full" disabled>Unavailable</button></div>
+<div class="asset-actions">
+<button class="btn" disabled>Deposit</button>
+<button class="btn dark" disabled>Withdraw</button>
+<button class="btn dark" disabled>Transfer</button>
+</div>
+<div class="section"><h2>Spot Wallet</h2></div>
+<div class="tablewrap"><table><thead><tr><th>Coin</th><th>Available</th><th>In Order</th></tr></thead><tbody id="exchangeRows"><tr><td colspan="3">Loading...</td></tr></tbody></table></div>
+<div class="section"><h2>Funding Wallet</h2></div>
+<div class="card"><p class="muted">Funding wallet module is planned for the next integration.</p></div>
+<div class="section"><h2>Futures Wallet</h2></div>
+<div class="card"><p class="muted">Futures wallet module is planned for the next integration.</p></div>
+</div>
+
+<div class="asset-panel" id="walletPanel">
+<h2>Web3 Wallet</h2>
+<div class="card">
+<div class="grid">
+<div class="card"><small>Wallet Type</small><div class="value yellow">Non-custodial</div></div>
+<div class="card"><small>Networks</small><div class="value">4 Planned</div></div>
+</div>
+<div class="notice">Web3 wallet is not yet connected to a blockchain. No private keys or recovery phrases are being generated or stored here.</div>
+<div class="asset-actions">
+<button class="btn" disabled>Receive</button>
+<button class="btn dark" disabled>Send</button>
+<button class="btn dark" disabled>Connect dApp</button>
+</div>
+<div class="section"><h2>Supported Networks</h2></div>
+<table><tbody>
+<tr><td><span class="coinicon">B</span>BNB Smart Chain</td><td class="yellow">Planned</td></tr>
+<tr><td><span class="coinicon">E</span>Ethereum</td><td class="yellow">Planned</td></tr>
+<tr><td><span class="coinicon">P</span>Polygon</td><td class="yellow">Planned</td></tr>
+<tr><td><span class="coinicon">S</span>Solana</td><td class="yellow">Planned</td></tr>
+</tbody></table>
+</div>
 </div>
 </section>
 
-<section id="page-history" class="page">
-<h1>Transaction History</h1><p class="subtitle">Your recorded transactions</p>
-<div class="table-wrap"><table>
-<thead><tr><th>Asset</th><th>Type</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead>
-<tbody id="historyRows"><tr><td colspan="5">Loading...</td></tr></tbody>
-</table></div>
+<section class="page" id="page-earn">
+<h1>Earn</h1><p class="sub">Staking and rewards</p>
+<div class="card"><h2>Earn Products</h2><div class="notice">Staking and savings products are not yet enabled. A verified provider and secure backend are required.</div><button class="btn" disabled>Coming Soon</button></div>
 </section>
 
-<section id="page-earn" class="page">
-<h1>Earn & Staking</h1><p class="subtitle">Grow your digital assets</p>
-<div class="card"><h2>Earn Products</h2>
-<div class="notice">Staking, savings and rewards are not active. A real staking provider is required before accepting funds.</div>
-<button class="btn" disabled>Coming Soon</button></div>
-</section>
-
-<section id="page-referral" class="page">
-<h1>Referral Programme</h1><p class="subtitle">Invite people to TANCOIN EXCHANGE</p>
+<section class="page" id="page-referral">
+<h1>Referral Programme</h1><p class="sub">Invite friends and grow together</p>
 <div class="grid">
-<div class="card"><small>Your Referral Code</small><div class="value yellow" id="myReferral">---</div></div>
-<div class="card"><small>Total Referrals</small><div class="value" id="refCount">0</div></div>
+<div class="card"><small>Your Code</small><div class="value yellow" id="myRef">---</div></div>
+<div class="card"><small>Invited Users</small><div class="value" id="refCount">0</div></div>
 <div class="card"><small>Commission Records</small><div class="value" id="commissionCount">0</div></div>
 </div>
-<div class="card"><h2>Share Your Code</h2>
-<div class="copy-row"><input id="referralDisplay" readonly><button class="btn" onclick="copyReferral()">Copy</button></div>
-<p class="muted">Share this code with people registering.</p>
+<div class="card">
+<h2>Your Referral Link Code</h2>
+<div class="copyrow"><input id="refDisplay" readonly><button class="btn" onclick="copyRef()">Copy</button></div>
 </div>
 <div class="card" style="margin-top:15px">
-<h2>Link a Referral Code</h2>
-<p class="muted">If you registered without a code, you may link an eligible account's code.</p>
-<div class="field"><label>Referral code</label><input id="bindCode" placeholder="Enter referral code"></div>
-<button class="btn" onclick="bindReferral()">Link Referral Code</button>
+<h2>Link Another Referral Code</h2>
+<p class="muted">Existing eligible accounts may link a referral code.</p>
+<div class="field"><input id="bindInput" placeholder="Enter referral code"></div>
+<button class="btn" onclick="bindReferral()">Link Code</button>
 <div id="bindMessage" class="message"></div>
-<p class="muted">Referral linking is subject to eligibility rules and cannot be changed after linking.</p>
 </div>
-<div class="section-head"><h2>Commission Records</h2></div>
-<div class="table-wrap"><table>
-<thead><tr><th>Asset</th><th>Commission</th><th>Date</th></tr></thead>
-<tbody id="commissionRows"><tr><td colspan="3">Loading...</td></tr></tbody>
-</table></div>
+<div class="section"><h2>Commission History</h2></div>
+<div class="tablewrap"><table><thead><tr><th>Asset</th><th>Commission</th><th>Date</th></tr></thead><tbody id="commissionRows"><tr><td colspan="3">Loading...</td></tr></tbody></table></div>
 </section>
 
-<section id="page-web3" class="page">
-<h1>Web3 Wallet</h1><p class="subtitle">Non-custodial wallet area</p>
-<div class="card"><h2>Take control of your Web3 assets</h2>
-<div class="notice">This wallet is not connected to a blockchain yet. Private-key generation, encrypted recovery, transaction signing and network integration must be completed and security-tested before use.</div>
+<section class="page" id="page-web3">
+<h1>Web3</h1><p class="sub">Decentralized ecosystem</p>
+<div class="card"><h2>Web3 Wallet</h2>
+<div class="notice">Your non-custodial Web3 wallet will allow you to control your own private keys. Blockchain integration and security testing are still required.</div>
+<button class="btn" onclick="showPage('assets');switchAsset('wallet')">Open Wallet</button>
+</div>
 <div class="grid">
-<div class="card">BNB Smart Chain<br><span class="muted">Planned</span></div>
-<div class="card">Ethereum<br><span class="muted">Planned</span></div>
-<div class="card">Polygon<br><span class="muted">Planned</span></div>
-<div class="card">Solana<br><span class="muted">Planned</span></div>
+<div class="card"><h2>DeFi</h2><p class="muted">Coming soon</p></div>
+<div class="card"><h2>NFTs</h2><p class="muted">Coming soon</p></div>
+<div class="card"><h2>dApps</h2><p class="muted">Coming soon</p></div>
+<div class="card"><h2>Airdrops</h2><p class="muted">Coming soon</p></div>
 </div>
-<button class="btn" disabled>Web3 Wallet Coming Soon</button></div>
 </section>
 
-<section id="page-profile" class="page">
-<h1>Account & Security</h1><p class="subtitle">Your account information</p>
+<section class="page" id="page-profile">
+<h1>Profile</h1><p class="sub">Account and security information</p>
 <div class="card">
-<div class="field"><label>Full name</label><input id="profileName" readonly></div>
-<div class="field"><label>Email address</label><input id="profileEmail" readonly></div>
-<div class="field"><label>Referral code</label><input id="profileReferral" readonly></div>
-<div class="field"><label>Account ID</label><input id="profileID" readonly></div>
-<div class="notice">Keep your password private. Advanced security features are still pending.</div>
-<button class="btn red" onclick="logout()">Logout</button>
+<div class="field"><label>Full Name</label><input id="profileName" readonly></div>
+<div class="field"><label>Email</label><input id="profileEmail" readonly></div>
+<div class="field"><label>User ID</label><input id="profileID" readonly></div>
+<div class="field"><label>Referral Code</label><input id="profileRef" readonly></div>
+<button class="btn dark" onclick="logout()">Log Out</button>
 </div>
 </section>
-
 <footer>TANCOIN EXCHANGE · Tancoin Finance Limited</footer>
 </main>
 </div>
-<nav class="bottom-nav">
+<nav class="bottom">
 <button class="active" data-page="home" onclick="showPage('home')">⌂<br>Home</button>
 <button data-page="markets" onclick="showPage('markets')">◈<br>Markets</button>
 <button data-page="trade" onclick="showPage('trade')">⇄<br>Trade</button>
-<button data-page="wallet" onclick="showPage('wallet')">▣<br>Wallet</button>
-<button data-page="referral" onclick="showPage('referral')">♧<br>Referral</button>
-<button data-page="profile" onclick="showPage('profile')">⚙<br>Account</button>
+<button data-page="assets" onclick="showPage('assets')">▣<br>Assets</button>
+<button data-page="earn" onclick="showPage('earn')">✧<br>Earn</button>
+<button data-page="profile" onclick="showPage('profile')">⚙<br>Profile</button>
 </nav>
 </div>
 
@@ -257,296 +277,185 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:30px}
 
 const SUPABASE_URL="https://eqszxaghmljdaegbemaf.supabase.co";
 const SUPABASE_KEY="sb_publishable_mCNmthY2ZGgmPa6Lz_5S4g_wl8wVwHh";
+let db=null,currentUser=null,currentProfile=null,marketData=[],authMode="login";
 
-let db=null;
-let currentUser=null;
-let currentProfile=null;
-let marketData=[];
-let authMode="login";
-let appMode="exchange";
+const $=id=>document.getElementById(id);
+function safe(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function fmt(v){let n=Number(v||0);return Number.isFinite(n)?n.toLocaleString(undefined,{maximumFractionDigits:8}):"0";}
+function message(id,t,error=false){$(id).textContent=t;$(id).style.color=error?"var(--red)":"var(--green)";}
 
-const el=id=>document.getElementById(id);
-
-function safe(v){
- return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-}
-function money(v){
- const n=Number(v||0);
- return Number.isFinite(n)?n.toLocaleString(undefined,{maximumFractionDigits:8}):"0";
-}
-function msg(id,text,error=false){
- const node=el(id);
- if(!node)return;
- node.textContent=text;
- node.style.color=error?"var(--red)":"var(--green)";
-}
-
-function setAuthMode(mode){
+function setMode(mode){
  authMode=mode;
- const signup=mode==="signup";
- el("nameField").style.display=signup?"block":"none";
- el("refField").style.display=signup?"block":"none";
- el("fullName").required=signup;
- el("authSubmit").textContent=signup?"Create Account":"Login";
- el("loginTab").className=signup?"btn dark":"btn";
- el("signupTab").className=signup?"btn":"btn dark";
- el("authMessage").textContent="";
+ let reg=mode==="register";
+ $("nameWrap").style.display=reg?"block":"none";
+ $("refWrap").style.display=reg?"block":"none";
+ $("fullName").required=reg;
+ $("authSubmit").textContent=reg?"Create Account":"Log In";
+ $("loginTab").className=reg?"btn dark":"btn";
+ $("registerTab").className=reg?"btn":"btn dark";
+ $("authMessage").textContent="";
 }
 
-async function handleAuth(event){
- event.preventDefault();
- const submit=el("authSubmit");
- submit.disabled=true;
- submit.textContent="Please wait...";
- msg("authMessage","Connecting securely...");
+async function handleAuth(e){
+ e.preventDefault();
+ let button=$("authSubmit");
+ button.disabled=true;button.textContent="Please wait...";
+ message("authMessage","Connecting to account...");
  try{
-  const email=el("email").value.trim();
-  const password=el("password").value;
-
-  if(authMode==="signup"){
-   const fullName=el("fullName").value.trim();
-   const referralCode=el("signupReferral").value.trim().toUpperCase();
-   if(!fullName)throw new Error("Please enter your full name.");
-
-   const {data,error}=await db.auth.signUp({
-    email:email,
-    password:password,
-    options:{data:{full_name:fullName,referral_code:referralCode||null}}
+  let email=$("email").value.trim();
+  let password=$("password").value;
+  if(authMode==="register"){
+   let name=$("fullName").value.trim();
+   let ref=$("signupRef").value.trim().toUpperCase();
+   if(!name)throw Error("Please enter your full name.");
+   let {data,error}=await db.auth.signUp({
+    email,password,
+    options:{data:{full_name:name,referral_code:ref||null}}
    });
    if(error)throw error;
-
    if(data.session){
     currentUser=data.user;
-    if(referralCode){
-     const linked=await db.rpc("bind_referral_code",{p_code:referralCode});
-     if(linked.error)console.warn("Referral linking:",linked.error.message);
+    if(ref){
+     let linked=await db.rpc("bind_referral_code",{p_code:ref});
+     if(linked.error)console.warn(linked.error.message);
     }
-    await loadApplication();
-    showApp();
+    await loadApplication();showApp();
    }else{
-    msg("authMessage","Registration received. Check your email inbox and confirm your email address. Then return here and log in.");
+    message("authMessage","Registration successful. Check your email and confirm your account, then log in.");
    }
   }else{
-   const {data,error}=await db.auth.signInWithPassword({email,password});
+   let {data,error}=await db.auth.signInWithPassword({email,password});
    if(error)throw error;
    currentUser=data.user;
-
-   const savedCode=currentUser.user_metadata?.referral_code;
-   if(savedCode){
-    const linked=await db.rpc("bind_referral_code",{p_code:savedCode});
-    if(linked.error)console.warn("Referral linking:",linked.error.message);
+   let savedRef=currentUser.user_metadata?.referral_code;
+   if(savedRef){
+    let linked=await db.rpc("bind_referral_code",{p_code:savedRef});
+    if(linked.error)console.warn(linked.error.message);
    }
-   await loadApplication();
-   showApp();
+   await loadApplication();showApp();
   }
- }catch(error){
-  msg("authMessage",error.message||"Unable to complete your request.",true);
+ }catch(err){
+  message("authMessage",err.message||"Unable to continue.",true);
  }finally{
-  submit.disabled=false;
-  submit.textContent=authMode==="signup"?"Create Account":"Login";
+  button.disabled=false;button.textContent=authMode==="register"?"Create Account":"Log In";
  }
 }
 
 async function loadProfile(){
- const {data,error}=await db.from("profiles")
-  .select("*").eq("id",currentUser.id).maybeSingle();
+ let {data,error}=await db.from("profiles").select("*").eq("id",currentUser.id).maybeSingle();
  if(error)throw error;
- if(!data)throw new Error("Your profile was not created. Please contact the administrator.");
+ if(!data)throw Error("Profile not found. Please check the Supabase profile trigger.");
  currentProfile=data;
-
- const name=data.full_name||currentUser.email||"User";
- el("topUser").textContent=name;
- el("profileName").value=name;
- el("profileEmail").value=currentUser.email||"";
- el("profileReferral").value=data.referral_code||"Not assigned";
- el("profileID").value=currentUser.id;
- el("homeReferral").textContent=data.referral_code||"Pending";
- el("myReferral").textContent=data.referral_code||"Pending";
- el("referralDisplay").value=data.referral_code||"";
-}
-
-async function bindReferral(codeOverride){
- const code=(codeOverride||el("bindCode").value).trim().toUpperCase();
- if(!code){msg("bindMessage","Enter a referral code.",true);return;}
-
- const button=document.querySelector("#page-referral button[onclick='bindReferral()']");
- if(button){button.disabled=true;button.textContent="Please wait...";}
- try{
-  const {data,error}=await db.rpc("bind_referral_code",{p_code:code});
-  if(error)throw error;
-  msg("bindMessage",typeof data==="string"?data:"Referral code linked successfully.");
-  await loadProfile();
-  await loadReferral();
- }catch(error){
-  msg("bindMessage",error.message||"Unable to link referral code.",true);
- }finally{
-  if(button){button.disabled=false;button.textContent="Link Referral Code";}
- }
+ let name=data.full_name||"User";
+ $("profileName").value=name;
+ $("profileEmail").value=currentUser.email||"";
+ $("profileID").value=currentUser.id;
+ $("profileRef").value=data.referral_code||"Pending";
+ $("myRef").textContent=data.referral_code||"Pending";
+ $("homeRef").textContent=data.referral_code||"Pending";
+ $("refDisplay").value=data.referral_code||"";
 }
 
 async function loadMarkets(){
- const body=el("marketRows");
- const {data,error}=await db.from("assets")
-  .select("symbol,name,blockchain,is_active,deposits_enabled,withdrawals_enabled,trading_enabled")
-  .eq("is_active",true).order("symbol");
+ let {data,error}=await db.from("assets").select("symbol,name,blockchain,is_active,trading_enabled,deposits_enabled,withdrawals_enabled").eq("is_active",true).order("symbol");
  if(error){
-  body.innerHTML='<tr><td colspan="5">Unable to load markets: '+safe(error.message)+'</td></tr>';
+  $("marketRows").innerHTML='<tr><td colspan="5">'+safe(error.message)+'</td></tr>';
+  $("homeMarkets").innerHTML='<tr><td colspan="3">Unable to load markets.</td></tr>';
   return;
  }
  marketData=data||[];
- el("assetCount").textContent=marketData.length;
+ $("assetCount").textContent=marketData.length;
  filterMarkets();
+ $("homeMarkets").innerHTML=marketData.slice(0,8).map(a=>`<tr><td><b>${safe(a.symbol)}</b></td><td>${safe(a.blockchain||"—")}</td><td>${a.trading_enabled?"Enabled":"Disabled"}</td></tr>`).join("")||'<tr><td colspan="3">No assets listed.</td></tr>';
 }
 
 function filterMarkets(){
- const q=(el("marketSearch").value||"").toLowerCase();
- const rows=marketData.filter(a=>(a.symbol+" "+(a.name||"")).toLowerCase().includes(q));
- el("marketRows").innerHTML=rows.length?rows.map(a=>`
- <tr><td><b>${safe(a.symbol)}</b><br><small>${safe(a.name||"")}</small></td>
- <td>${safe(a.blockchain||"—")}</td>
- <td>${a.trading_enabled?"Yes":"No"}</td>
- <td>${a.deposits_enabled?"Yes":"No"}</td>
- <td>${a.withdrawals_enabled?"Yes":"No"}</td></tr>`).join(""):'<tr><td colspan="5">No assets found.</td></tr>';
+ let q=($("searchCoin").value||"").toLowerCase();
+ let rows=marketData.filter(a=>(a.symbol+" "+(a.name||"")).toLowerCase().includes(q));
+ $("marketRows").innerHTML=rows.length?rows.map(a=>`<tr><td><b>${safe(a.symbol)}</b><br><small>${safe(a.name||"")}</small></td><td>${safe(a.blockchain||"—")}</td><td>${a.trading_enabled?"Yes":"No"}</td><td>${a.deposits_enabled?"Yes":"No"}</td><td>${a.withdrawals_enabled?"Yes":"No"}</td></tr>`).join(""):'<tr><td colspan="5">No assets found.</td></tr>';
 }
 
 async function loadWallet(){
- const body=el("walletRows");
- const {data,error}=await db.from("wallets")
-  .select("asset_symbol,available_balance,locked_balance")
-  .eq("user_id",currentUser.id).order("asset_symbol");
+ let {data,error}=await db.from("wallets").select("asset_symbol,available_balance,locked_balance").eq("user_id",currentUser.id).order("asset_symbol");
  if(error){
-  body.innerHTML='<tr><td colspan="3">Unable to load wallet: '+safe(error.message)+'</td></tr>';
+  $("exchangeRows").innerHTML='<tr><td colspan="3">Unable to load balances: '+safe(error.message)+'</td></tr>';
   return;
  }
- const rows=data||[];
- el("walletCount").textContent=rows.length;
- el("walletTotal").textContent=rows.length;
- body.innerHTML=rows.length?rows.map(w=>`
- <tr><td><b>${safe(w.asset_symbol)}</b></td>
- <td>${money(w.available_balance)}</td>
- <td>${money(w.locked_balance)}</td></tr>`).join(""):'<tr><td colspan="3">No wallet balances available.</td></tr>';
-}
-
-async function loadHistory(){
- const body=el("historyRows");
- const {data,error}=await db.from("transactions")
-  .select("asset_symbol,transaction_type,amount,status,created_at")
-  .eq("user_id",currentUser.id).order("created_at",{ascending:false}).limit(50);
- if(error){
-  body.innerHTML='<tr><td colspan="5">Unable to load history: '+safe(error.message)+'</td></tr>';
-  return;
- }
- body.innerHTML=data?.length?data.map(t=>`
- <tr><td>${safe(t.asset_symbol)}</td>
- <td>${safe(t.transaction_type)}</td>
- <td>${money(t.amount)}</td>
- <td>${safe(t.status)}</td>
- <td>${t.created_at?new Date(t.created_at).toLocaleString():"—"}</td></tr>`).join(""):'<tr><td colspan="5">No transactions found.</td></tr>';
+ let rows=data||[];
+ $("walletCount").textContent=rows.length;
+ $("exchangeTotal").textContent=rows.length;
+ $("exchangeRows").innerHTML=rows.length?rows.map(w=>`<tr><td><b>${safe(w.asset_symbol)}</b></td><td>${fmt(w.available_balance)}</td><td>${fmt(w.locked_balance)}</td></tr>`).join(""):'<tr><td colspan="3">No wallet balances available.</td></tr>';
 }
 
 async function loadReferral(){
  if(!currentProfile)return;
- const code=currentProfile.referral_code;
- if(!code)return;
-
- const {count,error}=await db.from("profiles")
-  .select("id",{count:"exact",head:true}).eq("referred_by",currentUser.id);
- if(!error)el("refCount").textContent=count||0;
-
- const body=el("commissionRows");
- const result=await db.from("referral_commissions")
-  .select("asset_symbol,commission_amount,created_at")
-  .eq("referrer_id",currentUser.id).order("created_at",{ascending:false}).limit(50);
-
- if(result.error){
-  body.innerHTML='<tr><td colspan="3">Commission records unavailable.</td></tr>';
-  el("commissionCount").textContent="0";
+ let {count,error}=await db.from("profiles").select("id",{count:"exact",head:true}).eq("referred_by",currentUser.id);
+ if(!error)$("refCount").textContent=count||0;
+ let {data, error:commError}=await db.from("referral_commissions").select("asset_symbol,commission_amount,created_at").eq("referrer_id",currentUser.id).order("created_at",{ascending:false}).limit(50);
+ if(commError){
+  $("commissionRows").innerHTML='<tr><td colspan="3">Commission history unavailable.</td></tr>';
   return;
  }
- const rows=result.data||[];
- el("commissionCount").textContent=rows.length;
- body.innerHTML=rows.length?rows.map(c=>`
- <tr><td>${safe(c.asset_symbol)}</td>
- <td>${money(c.commission_amount)}</td>
- <td>${c.created_at?new Date(c.created_at).toLocaleString():"—"}</td></tr>`).join(""):'<tr><td colspan="3">No commission records yet.</td></tr>';
+ let rows=data||[];
+ $("commissionCount").textContent=rows.length;
+ $("commissionRows").innerHTML=rows.length?rows.map(c=>`<tr><td>${safe(c.asset_symbol)}</td><td>${fmt(c.commission_amount)}</td><td>${c.created_at?new Date(c.created_at).toLocaleDateString():"—"}</td></tr>`).join(""):'<tr><td colspan="3">No commissions yet.</td></tr>';
+}
+
+async function bindReferral(){
+ let code=$("bindInput").value.trim().toUpperCase();
+ if(!code){message("bindMessage","Enter a referral code.",true);return;}
+ try{
+  let {data,error}=await db.rpc("bind_referral_code",{p_code:code});
+  if(error)throw error;
+  message("bindMessage",typeof data==="string"?data:"Referral code linked.");
+  await loadProfile();await loadReferral();
+ }catch(e){message("bindMessage",e.message,true);}
 }
 
 async function loadApplication(){
  await loadProfile();
- await Promise.all([
-  loadMarkets(),
-  loadWallet(),
-  loadHistory(),
-  loadReferral()
- ]);
+ await Promise.all([loadMarkets(),loadWallet(),loadReferral()]);
 }
 
 function showApp(){
- el("authScreen").style.display="none";
- el("appScreen").style.display="block";
- showPage("home");
+ $("auth").style.display="none";$("app").style.display="block";showPage("home");
 }
-
-function showPage(page){
+function showPage(name){
  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
- const target=el("page-"+page);
- if(target)target.classList.add("active");
-
- document.querySelectorAll("[data-page]").forEach(b=>{
-  b.classList.toggle("active",b.dataset.page===page);
- });
+ $("page-"+name).classList.add("active");
+ document.querySelectorAll("[data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===name));
 }
-
+function switchAsset(which){
+ $("exchangePanel").classList.toggle("active",which==="exchange");
+ $("walletPanel").classList.toggle("active",which==="wallet");
+ $("exchangeTab").classList.toggle("active",which==="exchange");
+ $("walletTab").classList.toggle("active",which==="wallet");
+}
+async function copyRef(){
+ let code=$("refDisplay").value;
+ if(!code){alert("Referral code not available.");return;}
+ try{await navigator.clipboard.writeText(code);alert("Copied.");}
+ catch(e){$("refDisplay").select();document.execCommand("copy");alert("Copied.");}
+}
 async function logout(){
  await db.auth.signOut();
- currentUser=null;
- currentProfile=null;
- el("appScreen").style.display="none";
- el("authScreen").style.display="flex";
- el("password").value="";
- setAuthMode("login");
+ currentUser=null;currentProfile=null;
+ $("app").style.display="none";$("auth").style.display="flex";
+ $("password").value="";setMode("login");
 }
-
-async function copyReferral(){
- const code=el("referralDisplay").value;
- if(!code){alert("Referral code is not available yet.");return;}
- try{
-  await navigator.clipboard.writeText(code);
-  alert("Referral code copied.");
- }catch(e){
-  el("referralDisplay").select();
-  document.execCommand("copy");
-  alert("Referral code copied.");
- }
-}
-
-function switchMode(){
- appMode=appMode==="exchange"?"web3":"exchange";
- el("modeButton").textContent=appMode==="exchange"?"Web3 Mode":"Exchange Mode";
- showPage(appMode==="web3"?"web3":"home");
-}
-
 async function start(){
- if(!window.supabase){
-  msg("authMessage","Connection library did not load. Check your internet and reload.",true);
-  return;
- }
+ $("authForm").addEventListener("submit",handleAuth);
+ if(!window.supabase){message("authMessage","Supabase library failed to load. Check your internet.",true);return;}
  db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
- el("authForm").addEventListener("submit",handleAuth);
-
  try{
-  const {data,error}=await db.auth.getSession();
+  let {data,error}=await db.auth.getSession();
   if(error)throw error;
   if(data.session){
    currentUser=data.session.user;
-   await loadApplication();
-   showApp();
+   await loadApplication();showApp();
   }
- }catch(error){
-  msg("authMessage",error.message||"Unable to connect to your account.",true);
- }
+ }catch(e){message("authMessage",e.message,true);}
 }
-
 document.addEventListener("DOMContentLoaded",start);
 </script>
 </body>
