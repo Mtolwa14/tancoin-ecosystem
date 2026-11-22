@@ -6,484 +6,410 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#0b0e11">
 <title>TANCOIN EXCHANGE PRO</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 :root{
- --bg:#0b0e11;--panel:#181a20;--panel2:#20242b;
- --line:#2b3139;--yellow:#f0b90b;--white:#eaecef;
- --muted:#848e9c;--green:#0ecb81;--red:#f6465d;
+ --bg:#0b0e11;--panel:#181a20;--panel2:#20242c;
+ --yellow:#f0b90b;--text:#eaecef;--muted:#848e9c;
+ --green:#0ecb81;--red:#f6465d;--border:#292d35;
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--white);font-family:Arial,sans-serif}
+body{margin:0;background:var(--bg);color:var(--text);
+ font-family:Arial,Helvetica,sans-serif}
 button,input{font:inherit}
 button{cursor:pointer}
-.top{
- height:65px;display:flex;align-items:center;justify-content:space-between;
- padding:0 22px;border-bottom:1px solid var(--line);
- position:sticky;top:0;background:var(--bg);z-index:10
-}
-.brand{font-size:22px;font-weight:900;color:var(--yellow)}
-.brand span{color:white}
-.toplinks{display:flex;align-items:center;gap:23px}
-.toplinks button,.topright button{
- background:none;border:0;color:var(--white);font-size:13px
-}
-.toplinks button:hover{color:var(--yellow)}
-.topright{display:flex;gap:12px;align-items:center}
-.btn{padding:11px 17px;border:0;border-radius:6px;font-weight:bold}
-.yellow{background:var(--yellow);color:#111}
-.darkbtn{background:var(--panel2);color:white}
-.shell{display:flex;min-height:calc(100vh - 65px)}
-.sidebar{
- width:220px;flex-shrink:0;border-right:1px solid var(--line);
- padding:20px 12px
-}
-.side-title{font-size:11px;color:var(--muted);padding:12px}
-.nav{
- width:100%;border:0;background:none;color:#aeb4bc;
- text-align:left;padding:14px;border-radius:7px;margin:2px 0
-}
-.nav.active,.nav:hover{background:#292d35;color:var(--yellow)}
-main{width:100%;max-width:1500px;margin:auto;padding:25px}
-.page{display:none}
-.page.active{display:block}
-h1{font-size:25px;margin:0 0 22px}
-h2{font-size:19px;margin:0 0 18px}
-h3{font-size:15px;margin:0 0 12px}
-.muted{color:var(--muted);font-size:13px}
-.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:18px}
-.balance{font-size:28px;font-weight:bold;margin:14px 0}
-.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
-.section{margin-top:28px}
-.table-wrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse;min-width:500px}
-th,td{padding:15px 12px;border-bottom:1px solid var(--line);text-align:left;font-size:13px}
-th{color:var(--muted);font-weight:normal}
-.coin{font-weight:bold}
-.yellowtext{color:var(--yellow)}
-.market-tabs{display:flex;gap:18px;overflow:auto;margin-bottom:15px}
-.market-tabs button{background:none;border:0;color:var(--muted);padding:8px 0;white-space:nowrap}
-.market-tabs button.active{color:var(--yellow);border-bottom:2px solid var(--yellow)}
-.two{display:grid;grid-template-columns:1.5fr 1fr;gap:15px}
-.placeholder{
- min-height:260px;background:#11151b;border:1px solid var(--line);
- border-radius:8px;display:flex;align-items:center;justify-content:center;
- text-align:center;color:var(--muted);padding:20px
-}
-.switch{display:flex;gap:8px;margin:18px 0}
-.switch button{padding:12px 20px;background:var(--panel2);color:white;border:0;border-radius:6px}
-.switch button.active{background:var(--yellow);color:#111;font-weight:bold}
-.notice{background:#292516;color:#e6c75c;padding:13px;border-radius:7px;font-size:13px;line-height:1.6}
-.auth{max-width:410px;margin:9vh auto;padding:25px;background:var(--panel);border:1px solid var(--line);border-radius:10px}
-.auth h1{color:var(--yellow)}
-.auth input{display:block;width:100%;padding:14px;margin:12px 0;background:#0b0e11;color:white;border:1px solid var(--line);border-radius:6px}
-.auth button{width:100%;margin-top:10px}
-#message{font-size:13px;color:var(--yellow);line-height:1.5;margin-top:15px}
-.bottom{display:none}
+.topbar{height:65px;display:flex;align-items:center;
+ justify-content:space-between;padding:0 22px;
+ border-bottom:1px solid var(--border);position:sticky;
+ top:0;background:var(--bg);z-index:10}
+.logo{font-size:21px;font-weight:800;color:var(--yellow)}
+.logo span{color:white}
+.toplinks{display:flex;gap:24px;align-items:center}
+.toplinks a{color:var(--text);text-decoration:none;font-size:14px}
+.toplinks a:hover,.active{color:var(--yellow)!important}
+.actions{display:flex;gap:10px;align-items:center}
+.btn{border:0;border-radius:5px;padding:10px 16px;
+ font-weight:700;background:var(--yellow);color:#111}
+.btn.dark{background:var(--panel2);color:var(--text)}
+.layout{display:flex;min-height:calc(100vh - 65px)}
+.sidebar{width:220px;padding:22px 14px;border-right:1px solid var(--border)}
+.side-title{font-size:11px;color:var(--muted);margin:18px 12px 8px}
+.navitem{display:block;padding:13px 12px;border-radius:6px;
+ color:var(--muted);text-decoration:none;font-size:14px;margin-bottom:3px}
+.navitem:hover,.navitem.active{background:#29251a;color:var(--yellow)!important}
+main{flex:1;min-width:0;padding:25px;max-width:1500px;margin:auto;width:100%}
+h1{font-size:25px;margin:0 0 8px}
+h2{font-size:19px;margin:0}
+.sub{color:var(--muted);font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:24px 0}
+.card{background:var(--panel);border:1px solid var(--border);
+ border-radius:9px;padding:19px}
+.card .label{color:var(--muted);font-size:13px;margin-bottom:12px}
+.card .value{font-size:23px;font-weight:700}
+.quick{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:20px 0 28px}
+.quick button{background:var(--panel);border:1px solid var(--border);
+ color:var(--text);padding:17px 8px;border-radius:8px;font-weight:700}
+.quick button b{display:block;color:var(--yellow);font-size:20px;margin-bottom:8px}
+.section-head{display:flex;justify-content:space-between;align-items:center;
+ gap:12px;margin:28px 0 16px;flex-wrap:wrap}
+.tabs{display:flex;gap:18px;overflow:auto}
+.tab{background:none;border:0;color:var(--muted);padding:8px 0;white-space:nowrap}
+.tab.active{color:var(--yellow);border-bottom:2px solid var(--yellow)}
+.search{background:var(--panel);border:1px solid var(--border);
+ color:var(--text);padding:11px 13px;border-radius:6px;width:230px;max-width:100%}
+.table-wrap{overflow-x:auto;background:var(--panel);
+ border:1px solid var(--border);border-radius:8px}
+table{width:100%;border-collapse:collapse;min-width:720px}
+th,td{text-align:right;padding:15px 17px;border-bottom:1px solid var(--border);font-size:13px}
+th{color:var(--muted);font-weight:500}
+th:first-child,td:first-child{text-align:left}
+.coin{display:flex;align-items:center;gap:11px}
+.coin img{width:27px;height:27px;border-radius:50%}
+.coin strong{font-size:14px}
+.coin small{color:var(--muted);margin-left:5px}
+.up{color:var(--green)}.down{color:var(--red)}
+.trade-btn{background:#183c32;color:var(--green);border:0;
+ padding:8px 13px;border-radius:4px}
+.status{color:var(--muted);font-size:12px}
+#message{padding:12px;color:var(--muted);font-size:13px}
+.bottomnav{display:none}
+.page{display:none}.page.active{display:block}
+.market-summary{display:flex;gap:22px;flex-wrap:wrap;margin:20px 0}
+.market-summary div{font-size:13px;color:var(--muted)}
+.market-summary strong{display:block;color:var(--text);font-size:16px;margin-top:7px}
+.placeholder{padding:35px 20px;text-align:center;color:var(--muted);
+ background:var(--panel);border:1px solid var(--border);border-radius:8px}
 @media(max-width:900px){
- .toplinks{display:none}.sidebar{width:180px}.grid{grid-template-columns:repeat(2,1fr)}
- .two{grid-template-columns:1fr}
+ .sidebar{display:none}.grid{grid-template-columns:repeat(2,1fr)}
+ main{padding:20px 14px 90px}.toplinks{display:none}
+ .bottomnav{display:flex;position:fixed;bottom:0;left:0;right:0;
+ background:#181a20;border-top:1px solid var(--border);
+ justify-content:space-around;padding:10px 3px;z-index:20}
+ .bottomnav a{color:var(--muted);text-decoration:none;
+ font-size:11px;text-align:center}
+ .bottomnav a.active{color:var(--yellow)}
+ .bottomnav span{display:block;font-size:18px;margin-bottom:4px}
 }
-@media(max-width:650px){
- .top{height:58px;padding:0 13px}.brand{font-size:18px}
- .sidebar{display:none}
- main{padding:20px 12px 90px}
- .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
- .card{padding:13px}.balance{font-size:21px}
- .bottom{
-  display:flex;position:fixed;bottom:0;left:0;right:0;
-  background:#181a20;border-top:1px solid var(--line);
-  justify-content:space-around;padding:8px 2px;z-index:20
- }
- .bottom button{background:none;border:0;color:var(--muted);font-size:11px;padding:5px}
- .bottom button.active{color:var(--yellow)}
+@media(max-width:480px){
+ .topbar{padding:0 12px}.logo{font-size:17px}
+ .actions .btn{padding:9px 10px;font-size:12px}
+ .grid{gap:9px}.card{padding:14px}.card .value{font-size:19px}
+ .quick{gap:7px}.quick button{font-size:11px;padding:13px 4px}
+ .quick button b{font-size:18px}
 }
 </style>
 </head>
 
 <body>
 
-<header class="top">
- <div class="brand">TANCOIN <span>EXCHANGE</span></div>
+<header class="topbar">
+ <div class="logo">TANCOIN <span>EXCHANGE</span></div>
  <nav class="toplinks">
-  <button data-page="home">Home</button>
-  <button data-page="markets">Markets</button>
-  <button data-page="trade">Trade</button>
-  <button data-page="assets">Assets</button>
+  <a href="#" data-page="home" class="active">Home</a>
+  <a href="#" data-page="markets">Markets</a>
+  <a href="#" data-page="trade">Trade</a>
+  <a href="#" data-page="futures">Futures</a>
+  <a href="#" data-page="assets">Assets</a>
  </nav>
- <div class="topright">
-  <span id="userLabel" class="muted"></span>
-  <button id="logout" class="darkbtn" style="display:none">Log out</button>
+ <div class="actions">
+  <button class="btn dark" onclick="showPage('assets')">Log In</button>
+  <button class="btn" onclick="showPage('assets')">Register</button>
  </div>
 </header>
 
-<section id="auth" class="auth">
- <h1>TANCOIN PRO</h1>
- <p class="muted">Access your exchange account</p>
- <input id="fullName" placeholder="Full name" autocomplete="name">
- <input id="email" type="email" placeholder="Email address" autocomplete="email">
- <input id="password" type="password" placeholder="Password" autocomplete="current-password">
- <button class="btn yellow" id="login">LOG IN</button>
- <button class="btn darkbtn" id="register">CREATE ACCOUNT</button>
- <div id="message"></div>
-</section>
-
-<div id="loading" class="muted" style="display:none;padding:25px">Loading account...</div>
-
-<div id="app" style="display:none">
-<div class="shell">
-
+<div class="layout">
 <aside class="sidebar">
- <div class="side-title">MAIN MENU</div>
- <button class="nav active" data-page="home">⌂ &nbsp; Overview</button>
- <button class="nav" data-page="markets">▤ &nbsp; Markets</button>
- <button class="nav" data-page="trade">⇄ &nbsp; Spot Trading</button>
- <button class="nav" data-page="assets">◈ &nbsp; Assets</button>
+ <div class="side-title">MENU</div>
+ <a class="navitem active" href="#" data-page="home">⌂ &nbsp; Dashboard</a>
+ <a class="navitem" href="#" data-page="markets">▥ &nbsp; Markets</a>
+ <a class="navitem" href="#" data-page="trade">⇄ &nbsp; Trade</a>
+ <a class="navitem" href="#" data-page="futures">⌁ &nbsp; Futures</a>
  <div class="side-title">ACCOUNT</div>
- <button class="nav" data-page="orders">▣ &nbsp; Orders</button>
- <button class="nav" data-page="referral">♧ &nbsp; Referral</button>
- <button class="nav" data-page="profile">☻ &nbsp; Profile</button>
+ <a class="navitem" href="#" data-page="assets">▣ &nbsp; Assets</a>
+ <a class="navitem" href="#" data-page="assets">⇧ &nbsp; Deposit</a>
+ <a class="navitem" href="#" data-page="assets">⇩ &nbsp; Withdraw</a>
+ <a class="navitem" href="#" data-page="assets">♙ &nbsp; Account</a>
+ <div class="side-title">REWARDS</div>
+ <a class="navitem" href="#" data-page="assets">♧ &nbsp; Referral</a>
+ <a class="navitem" href="#" data-page="assets">◈ &nbsp; Earn</a>
 </aside>
 
 <main>
 
+<!-- HOME -->
 <section class="page active" id="home">
- <h1>Dashboard</h1>
+ <h1>Overview</h1>
+ <div class="sub">Welcome to TANCOIN EXCHANGE PRO</div>
 
  <div class="grid">
   <div class="card">
-   <div class="muted">Estimated Total Balance</div>
-   <div class="balance">--</div>
-   <div class="muted">USDT equivalent</div>
+   <div class="label">Estimated Balance</div>
+   <div class="value">$0.00</div>
+   <div class="sub">Account balance</div>
   </div>
   <div class="card">
-   <div class="muted">Exchange Wallet</div>
-   <div class="balance" id="walletCount">0</div>
-   <div class="muted">Wallet records</div>
+   <div class="label">Today's PNL</div>
+   <div class="value">$0.00</div>
+   <div class="sub">Not connected to trading</div>
   </div>
   <div class="card">
-   <div class="muted">Account Status</div>
-   <div class="balance" style="font-size:20px">Active</div>
-   <div class="muted">Signed in</div>
+   <div class="label">Total Assets</div>
+   <div class="value">0.00</div>
+   <div class="sub">Your wallet assets</div>
   </div>
   <div class="card">
-   <div class="muted">VIP Level</div>
-   <div class="balance" style="font-size:20px">VIP 0</div>
-   <div class="muted">Standard account</div>
+   <div class="label">Market Status</div>
+   <div class="value up">LIVE</div>
+   <div class="sub">Public market data</div>
   </div>
  </div>
 
- <div class="actions">
-  <button class="btn yellow" data-go="assets">Assets</button>
-  <button class="btn darkbtn" data-go="markets">Markets</button>
-  <button class="btn darkbtn" data-go="profile">Account</button>
+ <div class="quick">
+  <button onclick="showPage('assets')"><b>＋</b>Deposit</button>
+  <button onclick="showPage('assets')"><b>⇧</b>Withdraw</button>
+  <button onclick="showPage('trade')"><b>⇄</b>Trade</button>
+  <button onclick="showPage('assets')"><b>♧</b>Referral</button>
  </div>
 
- <div class="section">
-  <h2>My Assets</h2>
-  <div class="card table-wrap">
-   <table>
-    <thead><tr><th>Coin</th><th>Available</th><th>Locked</th></tr></thead>
-    <tbody id="homeWallets"><tr><td colspan="3">Loading...</td></tr></tbody>
-   </table>
-  </div>
+ <div class="section-head">
+  <h2>Market Overview</h2>
+  <button class="btn dark" onclick="showPage('markets')">More Markets →</button>
  </div>
-
- <div class="section">
-  <h2>Market Watch</h2>
-  <div class="card table-wrap">
-   <table>
-    <thead><tr><th>Asset</th><th>Name</th><th>Network</th><th>Price</th></tr></thead>
-    <tbody id="homeMarkets"><tr><td colspan="4">Loading...</td></tr></tbody>
-   </table>
-  </div>
+ <div class="market-summary">
+  <div>Coins loaded<strong id="coinCount">Loading...</strong></div>
+  <div>Data source<strong>CoinGecko</strong></div>
+  <div>Last updated<strong id="lastUpdate">--</strong></div>
  </div>
-</section>
-
-<section class="page" id="markets">
- <h1>Markets</h1>
- <div class="market-tabs">
-  <button class="active">Favorites</button>
-  <button>Hot</button>
-  <button>Gainers</button>
-  <button>Losers</button>
-  <button>New Listings</button>
- </div>
- <div class="card table-wrap">
+ <div class="table-wrap">
   <table>
-   <thead><tr><th>Asset</th><th>Name</th><th>Network</th><th>Price</th><th>24h Change</th></tr></thead>
-   <tbody id="marketRows"><tr><td colspan="5">Loading...</td></tr></tbody>
+   <thead><tr><th>Name</th><th>Price</th><th>24h Change</th><th>Market Cap</th></tr></thead>
+   <tbody id="homeRows"><tr><td colspan="4">Loading live market...</td></tr></tbody>
   </table>
  </div>
 </section>
 
-<section class="page" id="trade">
- <h1>Spot Trading</h1>
- <div class="card" style="margin-bottom:15px">
-  <h2>TAN / USDT</h2>
-  <span class="muted">Trading pair</span>
+<!-- MARKETS -->
+<section class="page" id="markets">
+ <h1>Markets</h1>
+ <div class="sub">Explore cryptocurrency prices and market movements</div>
+
+ <div class="market-summary">
+  <div>Coins<strong id="marketCount">--</strong></div>
+  <div>Currency<strong>USD</strong></div>
+  <div>Auto refresh<strong>60 seconds</strong></div>
  </div>
- <div class="two">
-  <div class="card">
-   <h3>TradingView Chart</h3>
-   <div class="placeholder">
-    Live market chart will appear after connecting a verified market data provider.
-   </div>
+
+ <div class="section-head">
+  <div class="tabs">
+   <button class="tab active" data-filter="all">All</button>
+   <button class="tab" data-filter="gainers">Gainers</button>
+   <button class="tab" data-filter="losers">Losers</button>
   </div>
-  <div class="card">
-   <h3>Order Book</h3>
-   <div class="placeholder" style="min-height:190px">
-    Live order book requires the trading engine.
-   </div>
-   <h3 style="margin-top:20px">Buy / Sell</h3>
-   <div class="notice">Order execution is not enabled until a real liquidity provider and trading engine are connected.</div>
-  </div>
+  <input id="search" class="search" placeholder="Search coin name or symbol...">
+ </div>
+
+ <div class="table-wrap">
+  <table>
+   <thead>
+    <tr><th>Name</th><th>Price</th><th>24h Change</th>
+    <th>24h Volume</th><th>Market Cap</th><th>Trade</th></tr>
+   </thead>
+   <tbody id="marketRows">
+    <tr><td colspan="6">Loading live market data...</td></tr>
+   </tbody>
+  </table>
+  <div id="message">Connecting to live market...</div>
  </div>
 </section>
 
+<!-- TRADE -->
+<section class="page" id="trade">
+ <h1>Trade</h1>
+ <div class="sub">Spot trading interface</div>
+ <div class="placeholder" style="margin-top:25px">
+  <h2>Spot Trading</h2>
+  <p>Live market prices are available in the Markets section.</p>
+  <p>Trading requires a connected matching engine, liquidity and secure backend.</p>
+  <button class="btn" onclick="showPage('markets')">View Markets</button>
+ </div>
+</section>
+
+<!-- FUTURES -->
+<section class="page" id="futures">
+ <h1>Futures</h1>
+ <div class="sub">TANCOIN Futures Trading</div>
+ <div class="placeholder" style="margin-top:25px">
+  <h2>Futures Trading</h2>
+  <p>Futures trading is not activated yet.</p>
+  <p>It must be connected to a real trading engine before orders can be placed.</p>
+ </div>
+</section>
+
+<!-- ASSETS -->
 <section class="page" id="assets">
  <h1>Assets</h1>
- <div class="switch">
-  <button id="exchangeTab" class="active">Exchange</button>
-  <button id="web3Tab">Web3 Wallet</button>
+ <div class="sub">Manage your Exchange and Web3 wallets</div>
+
+ <div class="tabs" style="margin:25px 0">
+  <button class="tab active" onclick="walletMode('exchange',this)">Exchange Wallet</button>
+  <button class="tab" onclick="walletMode('web3',this)">Web3 Wallet</button>
  </div>
 
- <div id="exchangePanel">
-  <div class="card">
-   <div class="muted">Exchange Wallet Balance</div>
-   <div class="balance">--</div>
-   <div class="muted">USDT equivalent</div>
-  </div>
-  <div class="card table-wrap section">
-   <table>
-    <thead><tr><th>Coin</th><th>Available</th><th>Locked</th></tr></thead>
-    <tbody id="assetRows"><tr><td colspan="3">Loading...</td></tr></tbody>
-   </table>
-  </div>
+ <div class="card" id="exchangeWallet">
+  <div class="label">Estimated Total Balance</div>
+  <div class="value">$0.00</div>
+  <p class="sub">Wallet connection required to display your actual balance.</p>
+  <button class="btn" onclick="alert('Deposit service is not connected yet.')">Deposit</button>
+  <button class="btn dark" onclick="alert('Withdrawal service is not connected yet.')">Withdraw</button>
  </div>
 
- <div id="web3Panel" style="display:none">
-  <div class="card">
-   <h2>Web3 Wallet</h2>
-   <p class="muted">Non-custodial wallet</p>
-   <div class="notice">Web3 wallet creation and blockchain signing will be added with a secure wallet integration. Never enter your recovery phrase into this website.</div>
-  </div>
- </div>
-</section>
-
-<section class="page" id="orders">
- <h1>Orders</h1>
- <div class="card">
-  <p class="muted">Your trading orders will appear here when the trading engine is connected.</p>
- </div>
-</section>
-
-<section class="page" id="referral">
- <h1>Referral Programme</h1>
- <div class="card">
-  <h2>Invite Friends</h2>
-  <p class="muted">Referral code and commission records will be connected to your referral database.</p>
- </div>
-</section>
-
-<section class="page" id="profile">
- <h1>Account Profile</h1>
- <div class="card">
-  <p class="muted">Full Name</p>
-  <h3 id="profileName">--</h3>
-  <p class="muted">Email</p>
-  <p id="profileEmail">--</p>
-  <p class="muted">User ID</p>
-  <p id="profileId" style="word-break:break-all">--</p>
+ <div class="card" id="web3Wallet" style="display:none">
+  <h2>Web3 Wallet</h2>
+  <p class="sub">Non-custodial wallet interface.</p>
+  <p>Your private keys and recovery phrase must remain under your control.</p>
+  <button class="btn" onclick="alert('Secure Web3 wallet creation is not connected yet.')">Create Wallet</button>
  </div>
 </section>
 
 </main>
 </div>
 
-<nav class="bottom">
- <button class="active" data-page="home">⌂<br>Home</button>
- <button data-page="markets">▤<br>Markets</button>
- <button data-page="trade">⇄<br>Trade</button>
- <button data-page="assets">◈<br>Assets</button>
- <button data-page="profile">☻<br>Profile</button>
+<nav class="bottomnav">
+ <a href="#" data-page="home" class="active"><span>⌂</span>Home</a>
+ <a href="#" data-page="markets"><span>▥</span>Markets</a>
+ <a href="#" data-page="trade"><span>⇄</span>Trade</a>
+ <a href="#" data-page="futures"><span>⌁</span>Futures</a>
+ <a href="#" data-page="assets"><span>▣</span>Assets</a>
 </nav>
-</div>
 
 <script>
-const SUPABASE_URL="https://eqszxaghmljdaegbemaf.supabase.co";
-const SUPABASE_KEY="sb_publishable_mCNmthY2ZGgmPa6Lz_5S4g_wl8wVwHh";
-const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+let coins = [];
+let activeFilter = "all";
 
-const $=id=>document.getElementById(id);
-let activeUser=null;
-let authReady=false;
-
-function message(t){$("message").textContent=t}
-function safe(v){
- return String(v??"").replace(/[&<>"']/g,c=>({
- "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
- })[c]);
-}
-function number(v){
- const n=Number(v);
- return Number.isFinite(n)?n.toLocaleString("en-US",{maximumFractionDigits:8}):"0";
-}
-
-function page(name){
+function showPage(page){
  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
- $(name)?.classList.add("active");
- document.querySelectorAll("[data-page]").forEach(b=>{
-  b.classList.toggle("active",b.dataset.page===name);
+ document.getElementById(page).classList.add("active");
+
+ document.querySelectorAll("[data-page]").forEach(a=>{
+  a.classList.toggle("active",a.dataset.page===page);
  });
+ window.scrollTo(0,0);
 }
 
-document.querySelectorAll("[data-page]").forEach(b=>{
- b.addEventListener("click",()=>page(b.dataset.page));
-});
-document.querySelectorAll("[data-go]").forEach(b=>{
- b.addEventListener("click",()=>page(b.dataset.go));
+document.querySelectorAll("[data-page]").forEach(link=>{
+ link.addEventListener("click",e=>{
+  e.preventDefault();
+  showPage(link.dataset.page);
+ });
 });
 
-$("login").onclick=async()=>{
- const email=$("email").value.trim();
- const password=$("password").value;
- if(!email||!password){message("Enter email and password.");return}
- message("Signing in...");
- const {error}=await db.auth.signInWithPassword({email,password});
- if(error)message(error.message);
-};
+function money(value){
+ if(value===null||value===undefined)return "--";
+ if(value>=1000)return "$"+value.toLocaleString("en-US",{maximumFractionDigits:2});
+ if(value>=1)return "$"+value.toLocaleString("en-US",{maximumFractionDigits:4});
+ return "$"+value.toLocaleString("en-US",{maximumFractionDigits:8});
+}
 
-$("register").onclick=async()=>{
- const name=$("fullName").value.trim();
- const email=$("email").value.trim();
- const password=$("password").value;
- if(!name||!email||!password){message("Complete all fields.");return}
- if(password.length<8){message("Password must be at least 8 characters.");return}
- message("Creating account...");
- const {data,error}=await db.auth.signUp({
-  email,password,
-  options:{
-   data:{full_name:name},
-   emailRedirectTo:"https://mtolwa14.github.io/tancoin-ecosystem/"
+function compact(value){
+ if(value===null||value===undefined)return "--";
+ return "$"+Intl.NumberFormat("en-US",{notation:"compact",maximumFractionDigits:2}).format(value);
+}
+
+function coinHTML(c,home=false){
+ const change=Number(c.price_change_percentage_24h||0);
+ const color=change>=0?"up":"down";
+ return `<tr>
+ <td><div class="coin">
+ <img src="${c.image}" alt="" loading="lazy">
+ <div><strong>${c.name}</strong><small>${c.symbol.toUpperCase()}</small></div>
+ </div></td>
+ <td>${money(c.current_price)}</td>
+ <td class="${color}">${change>=0?"+":""}${change.toFixed(2)}%</td>
+ ${home?"":`<td>${compact(c.total_volume)}</td>`}
+ <td>${compact(c.market_cap)}</td>
+ ${home?"":`<td><button class="trade-btn" onclick="showPage('trade')">Trade</button></td>`}
+ </tr>`;
+}
+
+function renderMarkets(){
+ const query=document.getElementById("search").value.toLowerCase().trim();
+ let list=[...coins];
+
+ if(activeFilter==="gainers")list=list.filter(c=>(c.price_change_percentage_24h||0)>0);
+ if(activeFilter==="losers")list=list.filter(c=>(c.price_change_percentage_24h||0)<0);
+
+ if(query){
+  list=list.filter(c=>c.name.toLowerCase().includes(query)||
+  c.symbol.toLowerCase().includes(query));
+ }
+
+ document.getElementById("marketRows").innerHTML=list.length
+ ?list.map(c=>coinHTML(c)).join("")
+ :'<tr><td colspan="6">No matching coins found.</td></tr>';
+
+ document.getElementById("homeRows").innerHTML=coins.slice(0,10)
+ .map(c=>coinHTML(c,true)).join("");
+
+ document.getElementById("coinCount").textContent=coins.length;
+ document.getElementById("marketCount").textContent=coins.length;
+}
+
+async function loadMarket(){
+ const message=document.getElementById("message");
+ message.textContent="Updating live market data...";
+
+ try{
+  const url="https://api.coingecko.com/api/v3/coins/markets"+
+  "?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false"+
+  "&price_change_percentage=24h";
+
+  const response=await fetch(url,{cache:"no-store"});
+  if(!response.ok)throw new Error("Market API response: "+response.status);
+
+  const data=await response.json();
+  if(!Array.isArray(data)||data.length===0)throw new Error("No market data received");
+
+  coins=data;
+  renderMarkets();
+
+  const now=new Date();
+  document.getElementById("lastUpdate").textContent=
+   now.toLocaleTimeString();
+  message.textContent="Live market data loaded. Updates every 60 seconds.";
+ }catch(error){
+  message.textContent="Unable to update market. Please try again later. "+error.message;
+  if(coins.length===0){
+   document.getElementById("marketRows").innerHTML=
+   '<tr><td colspan="6">Market data unavailable. Check your internet connection and try again.</td></tr>';
+   document.getElementById("homeRows").innerHTML=
+   '<tr><td colspan="4">Market data unavailable.</td></tr>';
   }
+ }
+}
+
+document.getElementById("search").addEventListener("input",renderMarkets);
+
+document.querySelectorAll("[data-filter]").forEach(tab=>{
+ tab.addEventListener("click",()=>{
+  document.querySelectorAll("[data-filter]").forEach(t=>t.classList.remove("active"));
+  tab.classList.add("active");
+  activeFilter=tab.dataset.filter;
+  renderMarkets();
  });
- if(error){message(error.message);return}
- if(!data.session){
-  message("Account created. Confirm your email, then log in.");
- }else{
-  message("Account created.");
- }
-};
-
-async function loadWallets(userId){
- const {data,error}=await db.from("wallets")
-  .select("asset_symbol,available_balance,locked_balance")
-  .eq("user_id",userId).order("asset_symbol");
-
- if(error){
-  const e=safe(error.message);
-  $("homeWallets").innerHTML=`<tr><td colspan="3">${e}</td></tr>`;
-  $("assetRows").innerHTML=`<tr><td colspan="3">${e}</td></tr>`;
-  return;
- }
- const rows=(data||[]).map(w=>`
-  <tr>
-   <td class="coin">${safe(w.asset_symbol)}</td>
-   <td>${number(w.available_balance)}</td>
-   <td>${number(w.locked_balance)}</td>
-  </tr>`).join("");
- const empty="<tr><td colspan='3'>No wallet records found.</td></tr>";
- $("homeWallets").innerHTML=rows||empty;
- $("assetRows").innerHTML=rows||empty;
- $("walletCount").textContent=(data||[]).length;
-}
-
-async function loadMarkets(){
- const {data,error}=await db.from("assets")
-  .select("symbol,name,blockchain")
-  .eq("is_active",true).order("symbol");
-
- if(error){
-  const e=safe(error.message);
-  $("marketRows").innerHTML=`<tr><td colspan="5">${e}</td></tr>`;
-  $("homeMarkets").innerHTML=`<tr><td colspan="4">${e}</td></tr>`;
-  return;
- }
- const rows=(data||[]).map(a=>`
-  <tr>
-   <td class="coin">${safe(a.symbol)}</td>
-   <td>${safe(a.name)}</td>
-   <td>${safe(a.blockchain||"--")}</td>
-   <td>--</td>
-   <td>--</td>
-  </tr>`).join("");
- $("marketRows").innerHTML=rows||"<tr><td colspan='5'>No active assets.</td></tr>";
- $("homeMarkets").innerHTML=rows||"<tr><td colspan='4'>No active assets.</td></tr>";
-}
-
-async function showAccount(user){
- if(activeUser?.id===user.id)return;
- activeUser=user;
- $("auth").style.display="none";
- $("loading").style.display="block";
- $("app").style.display="none";
- $("logout").style.display="block";
- $("userLabel").textContent=user.email||"Account";
-
- $("profileEmail").textContent=user.email||"--";
- $("profileId").textContent=user.id;
-
- const {data:profile}=await db.from("profiles")
-  .select("full_name").eq("id",user.id).maybeSingle();
-
- $("profileName").textContent=
-  profile?.full_name||user.user_metadata?.full_name||"User";
-
- await Promise.all([loadWallets(user.id),loadMarkets()]);
-
- $("loading").style.display="none";
- $("app").style.display="block";
- page("home");
-}
-
-$("logout").onclick=async()=>{
- await db.auth.signOut();
- location.reload();
-};
-
-$("exchangeTab").onclick=()=>{
- $("exchangeTab").classList.add("active");
- $("web3Tab").classList.remove("active");
- $("exchangePanel").style.display="block";
- $("web3Panel").style.display="none";
-};
-$("web3Tab").onclick=()=>{
- $("web3Tab").classList.add("active");
- $("exchangeTab").classList.remove("active");
- $("exchangePanel").style.display="none";
- $("web3Panel").style.display="block";
-};
-
-db.auth.onAuthStateChange((event,session)=>{
- if(session?.user){
-  setTimeout(()=>showAccount(session.user),0);
- }else if(authReady){
-  activeUser=null;
-  $("app").style.display="none";
-  $("auth").style.display="block";
-  $("logout").style.display="none";
- }
 });
 
-(async()=>{
- const {data,error}=await db.auth.getSession();
- authReady=true;
- if(error){message(error.message);return}
- if(data.session?.user)await showAccount(data.session.user);
-})();
+function walletMode(mode,button){
+ document.querySelectorAll("#assets .tab").forEach(t=>t.classList.remove("active"));
+ button.classList.add("active");
+ document.getElementById("exchangeWallet").style.display=
+  mode==="exchange"?"block":"none";
+ document.getElementById("web3Wallet").style.display=
+  mode==="web3"?"block":"none";
+}
+
+loadMarket();
+setInterval(loadMarket,60000);
 </script>
+
 </body>
 </html>
