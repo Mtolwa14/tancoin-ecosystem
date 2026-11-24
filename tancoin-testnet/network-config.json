@@ -1,0 +1,31 @@
+
+{
+  "name": "TANCOIN PUBLIC TESTNET",
+  "chainId": 202611,
+  "networkId": 202611,
+  "currency": {
+    "name": "TANCOIN",
+    "symbol": "TAN",
+    "decimals": 18
+  },
+  "consensus": {
+    "type": "QBFT",
+    "validators": 4,
+    "blockPeriodSeconds": 5,
+    "epochLength": 30000
+  },
+  "evm": {
+    "compatible": true,
+    "hardfork": "cancun"
+  },
+  "explorer": {
+    "name": "TANCOIN BLOCK EXPLORER",
+    "enabled": true
+  },
+  "faucet": {
+    "enabled": true,
+    "currency": "TAN"
+  },
+  "status": "CONFIGURATION_ONLY",
+  "productionReady": false
+}
